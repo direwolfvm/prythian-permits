@@ -1,0 +1,210 @@
+import introJs from "intro.js"
+import "intro.js/introjs.css"
+import { useCallback, useEffect } from "react"
+import { Link } from "react-router-dom"
+
+import { ImageMapCanvas } from "./components/ImageMapCanvas"
+
+const TOUR_STORAGE_KEY = "homeSiteTourComplete"
+
+type FeaturePanel =
+  | {
+      kind: "internal"
+      title: string
+      description: string
+      to: string
+      linkLabel: string
+    }
+  | {
+      kind: "external"
+      title: string
+      description: string
+      href: string
+      linkLabel: string
+    }
+
+const cards = [
+  {
+    title: "Petitions overview",
+    description:
+      "Browse active decree applications, review their status and milestone progress at a glance, and jump into the supporting details for each petition.",
+    to: "/projects",
+    linkLabel: "View petitions"
+  },
+  {
+    title: "Start a new petition",
+    description:
+      "Work with the copilot to start your petition and initiate an augury process to kick off permitting (simulated, of course).",
+    to: "/portal",
+    linkLabel: "Open the portal"
+  },
+  {
+    title: "Augury check",
+    description:
+      "Quickly assess how a petition footprint might impact natural resources and evaluate the impact on Weave Review and permitting before you submit an application.",
+    to: "/resource-check",
+    linkLabel: "Run a check"
+  }
+]
+
+const featurePanels: FeaturePanel[] = [
+  {
+    kind: "internal",
+    title: "About Prythian Permits",
+    description:
+      "Learn about the ideas behind this demo and how these tools can support more efficient permitting and Weave compliance across the Courts of Prythian.",
+    to: "/about",
+    linkLabel: "Read about the petition"
+  },
+  {
+    kind: "external",
+    title: "ReviewWorks — Court Registry",
+    description:
+      "Visit the ReviewWorks Court Registry to see the integrated case-management experience that exchanges petition and case data with Prythian Permits.",
+    href: "https://reviewworks.app.cloud.gov/",
+    linkLabel: "Open ReviewWorks"
+  },
+  {
+    kind: "external",
+    title: "PermitFlow — Weave Review Board",
+    description:
+      "Visit the PermitFlow Weave Review Board to explore its case-management workflows and shared data integration with Prythian Permits.",
+    href: "https://permitflow.app.cloud.gov/",
+    linkLabel: "Open PermitFlow"
+  },
+  {
+    kind: "internal",
+    title: "Developer tools",
+    description:
+      "Explore the developer console to see how the CopilotKit integrations power AI-assisted workflows across the Prythian Permits experience.",
+    to: "/developer-tools",
+    linkLabel: "Open developer tools"
+  }
+]
+
+function noopGeometryChange() {
+  // The home page only preloads the ArcGIS resources.
+}
+
+export default function HomePage() {
+  const startTour = useCallback(() => {
+    const navLinks = Array.from(
+      document.querySelectorAll<HTMLElement>("[data-tour='nav-link']")
+    ).filter((element) => element.dataset.tourIntro)
+
+    if (!navLinks.length) {
+      return null
+    }
+
+    const intro = introJs()
+
+    intro.setOptions({
+      steps: navLinks.map((element) => ({
+        element,
+        title: element.dataset.tourTitle,
+        intro: element.dataset.tourIntro ?? ""
+      })),
+      showProgress: true,
+      showBullets: false,
+      disableInteraction: true,
+      exitOnOverlayClick: true,
+      nextLabel: "Next",
+      prevLabel: "Back",
+      doneLabel: "Finish",
+      tooltipClass: "site-tour__tooltip",
+      highlightClass: "site-tour__highlight"
+    })
+
+    const markTourComplete = () => {
+      localStorage.setItem(TOUR_STORAGE_KEY, "true")
+    }
+
+    intro.oncomplete(markTourComplete)
+    intro.onexit(markTourComplete)
+
+    intro.start()
+
+    return intro
+  }, [])
+
+  useEffect(() => {
+    if (typeof window === "undefined") {
+      return
+    }
+
+    if (localStorage.getItem(TOUR_STORAGE_KEY) === "true") {
+      return
+    }
+
+    const intro = startTour()
+
+    return () => {
+      intro?.exit()
+    }
+  }, [startTour])
+
+  return (
+    <div className="home">
+      <section className="home__hero" aria-labelledby="home-hero-heading">
+        <div className="home__hero-top">
+          <div className="home__hero-headings">
+            <p className="home__eyebrow">Welcome to Prythian Permits</p>
+            <h1 id="home-hero-heading">Explore technology in permitting and Weave compliance across the Courts of Prythian</h1>
+          </div>
+          <button type="button" className="home__tour-button" onClick={() => startTour()}>
+            Take a Tour
+          </button>
+        </div>
+        <p className="home__intro">
+          Prythian Permits is a demo that showcases how technology tools like AI can streamline petition intake and review. Explore the
+          tools below to see how petition tracking, application portals, and geospatial augury tools come together in one place.
+        </p>
+      </section>
+
+      <section className="home__cards" aria-label="Explore Prythian Permits">
+        {cards.map((card) => (
+          <article key={card.title} className="home-card">
+            <h2 className="home-card__title">{card.title}</h2>
+            <p className="home-card__body">{card.description}</p>
+            <Link to={card.to} className="home-card__action">
+              <span>{card.linkLabel}</span>
+              <span aria-hidden="true" className="home-card__action-icon">
+                →
+              </span>
+            </Link>
+          </article>
+        ))}
+      </section>
+
+      <section className="home__feature-panels" aria-label="Dive deeper into Prythian Permits">
+        {featurePanels.map((panel) => (
+          <article key={panel.title} className="home-panel">
+            <div className="home-panel__content">
+              <h2 className="home-panel__title">{panel.title}</h2>
+              <p className="home-panel__body">{panel.description}</p>
+            </div>
+            {panel.kind === "external" ? (
+              <a href={panel.href} className="home-panel__action" target="_blank" rel="noreferrer">
+                <span>{panel.linkLabel}</span>
+                <span aria-hidden="true" className="home-panel__action-icon">
+                  →
+                </span>
+              </a>
+            ) : (
+              <Link to={panel.to} className="home-panel__action">
+                <span>{panel.linkLabel}</span>
+                <span aria-hidden="true" className="home-panel__action-icon">
+                  →
+                </span>
+              </Link>
+            )}
+          </article>
+        ))}
+      </section>
+
+      <div className="home__map-preloader" aria-hidden="true">
+        <ImageMapCanvas geometry={undefined} onGeometryChange={noopGeometryChange} isVisible={false} />
+      </div>
+    </div>
+  )
+}

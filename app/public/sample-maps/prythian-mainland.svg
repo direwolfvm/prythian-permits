@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <defs>
+    <filter id="parchment">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" result="noise"/>
+      <feDiffuseLighting in="noise" lighting-color="#f4e4c1" surfaceScale="1.5" result="lit">
+        <feDistantLight azimuth="45" elevation="55"/>
+      </feDiffuseLighting>
+      <feComposite in="lit" in2="SourceGraphic" operator="in"/>
+    </filter>
+  </defs>
+
+  <!-- Parchment background -->
+  <rect width="1200" height="900" fill="#f4e4c1"/>
+  <rect width="1200" height="900" fill="#e8d5a8" opacity="0.3"/>
+
+  <!-- Border -->
+  <rect x="20" y="20" width="1160" height="860" fill="none" stroke="#8b7355" stroke-width="3"/>
+  <rect x="25" y="25" width="1150" height="850" fill="none" stroke="#8b7355" stroke-width="1" opacity="0.5"/>
+
+  <!-- Title -->
+  <text x="600" y="65" text-anchor="middle" font-family="Georgia, serif" font-size="36" fill="#4a3728" letter-spacing="12">PRYTHIAN</text>
+  <line x1="420" y1="75" x2="780" y2="75" stroke="#8b7355" stroke-width="1"/>
+
+  <!-- Coastline (west and south) -->
+  <path d="M40,100 Q60,200 50,350 Q45,450 70,550 Q90,650 80,750 Q75,800 100,860"
+        fill="none" stroke="#8b9dc3" stroke-width="2" opacity="0.6"/>
+  <path d="M100,860 Q300,850 500,870 Q650,875 800,855 Q900,840 1000,860"
+        fill="none" stroke="#8b9dc3" stroke-width="2" opacity="0.6"/>
+  <!-- Water shading -->
+  <path d="M40,100 Q60,200 50,350 Q45,450 70,550 Q90,650 80,750 Q75,800 100,860 L40,860 Z"
+        fill="#c5d5e8" opacity="0.3"/>
+  <path d="M100,860 Q300,850 500,870 Q650,875 800,855 Q900,840 1000,860 L1000,900 L40,900 L40,860 Z"
+        fill="#c5d5e8" opacity="0.3"/>
+
+  <!-- Mountain range (north) -->
+  <g stroke="#7a6b5a" stroke-width="1.5" fill="none" opacity="0.5">
+    <path d="M200,140 L220,110 L240,140 M230,140 L255,105 L280,140"/>
+    <path d="M320,130 L345,95 L370,130 M360,130 L390,90 L420,130"/>
+    <path d="M450,120 L480,85 L510,125 M500,125 L530,80 L560,120"/>
+    <path d="M590,115 L620,78 L650,118 M640,118 L670,82 L700,115"/>
+    <path d="M730,120 L760,88 L790,125 M780,125 L810,85 L840,120"/>
+    <path d="M870,130 L900,100 L930,135 M920,135 L945,105 L970,130"/>
+  </g>
+
+  <!-- Forest areas (center) -->
+  <g fill="#6b8e5a" opacity="0.35">
+    <!-- Central forests -->
+    <circle cx="400" cy="380" r="8"/><circle cx="420" cy="370" r="6"/><circle cx="385" cy="395" r="7"/>
+    <circle cx="440" cy="390" r="8"/><circle cx="415" cy="400" r="5"/><circle cx="460" cy="375" r="7"/>
+    <circle cx="500" cy="400" r="6"/><circle cx="480" cy="410" r="8"/><circle cx="520" cy="395" r="5"/>
+    <circle cx="350" cy="420" r="7"/><circle cx="370" cy="430" r="6"/><circle cx="390" cy="415" r="8"/>
+    <!-- Eastern forests -->
+    <circle cx="850" cy="350" r="7"/><circle cx="870" cy="340" r="6"/><circle cx="890" cy="355" r="8"/>
+    <circle cx="860" cy="370" r="5"/><circle cx="880" cy="380" r="7"/>
+  </g>
+
+  <!-- The Wall -->
+  <line x1="80" y1="650" x2="1100" y2="650" stroke="#6b4e37" stroke-width="3" stroke-dasharray="12,4"/>
+  <text x="600" y="670" text-anchor="middle" font-family="Georgia, serif" font-size="14" fill="#6b4e37" letter-spacing="6">THE WALL</text>
+
+  <!-- Court regions - subtle boundary lines -->
+  <g stroke="#8b7355" stroke-width="1" fill="none" opacity="0.25" stroke-dasharray="6,4">
+    <path d="M350,100 L300,300 L450,450 L600,400 L750,450 L850,300 L900,100"/>
+    <path d="M300,300 L200,500 L350,600"/>
+    <path d="M450,450 L350,600"/>
+    <path d="M600,400 L600,600"/>
+    <path d="M750,450 L800,600"/>
+    <path d="M850,300 L1000,400 L1050,600"/>
+  </g>
+
+  <!-- Night Court (north-center) -->
+  <g>
+    <circle cx="600" cy="220" r="45" fill="#2c2654" opacity="0.12"/>
+    <text x="600" y="215" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#2c2654" font-weight="bold">Night Court</text>
+    <text x="600" y="235" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#4a3f6b" font-style="italic">Velaris</text>
+  </g>
+
+  <!-- Day Court (center-west) -->
+  <g>
+    <circle cx="280" cy="380" r="40" fill="#c4a948" opacity="0.12"/>
+    <text x="280" y="375" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#8a7a30" font-weight="bold">Day Court</text>
+  </g>
+
+  <!-- Autumn Court (center-east) -->
+  <g>
+    <circle cx="850" cy="400" r="40" fill="#a0522d" opacity="0.12"/>
+    <text x="850" y="395" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#8b4513" font-weight="bold">Autumn Court</text>
+  </g>
+
+  <!-- Winter Court (north-east) -->
+  <g>
+    <circle cx="950" cy="200" r="40" fill="#6b8fa3" opacity="0.12"/>
+    <text x="950" y="195" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#4a6e80" font-weight="bold">Winter Court</text>
+  </g>
+
+  <!-- Dawn Court (east) -->
+  <g>
+    <circle cx="1020" cy="450" r="40" fill="#d4956a" opacity="0.12"/>
+    <text x="1020" y="445" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#a0623a" font-weight="bold">Dawn Court</text>
+  </g>
+
+  <!-- Summer Court (south-west, coastal) -->
+  <g>
+    <circle cx="220" cy="560" r="40" fill="#3a8a6e" opacity="0.12"/>
+    <text x="220" y="555" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#2a6a50" font-weight="bold">Summer Court</text>
+    <text x="220" y="575" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#3a7a60" font-style="italic">Adriata</text>
+  </g>
+
+  <!-- Spring Court (south-east) -->
+  <g>
+    <circle cx="780" cy="560" r="40" fill="#5a8a3a" opacity="0.12"/>
+    <text x="780" y="555" text-anchor="middle" font-family="Georgia, serif" font-size="16" fill="#3a6a2a" font-weight="bold">Spring Court</text>
+  </g>
+
+  <!-- Mortal Lands label (below the wall) -->
+  <text x="600" y="720" text-anchor="middle" font-family="Georgia, serif" font-size="20" fill="#8b7355" opacity="0.5" letter-spacing="8">MORTAL LANDS</text>
+
+  <!-- Compass Rose (bottom-right corner) -->
+  <g transform="translate(1080, 800)">
+    <circle cx="0" cy="0" r="35" fill="none" stroke="#8b7355" stroke-width="1" opacity="0.4"/>
+    <!-- N arrow -->
+    <polygon points="0,-30 -5,-10 0,-15 5,-10" fill="#4a3728" opacity="0.7"/>
+    <!-- S arrow -->
+    <polygon points="0,30 -5,10 0,15 5,10" fill="#8b7355" opacity="0.5"/>
+    <!-- E arrow -->
+    <polygon points="30,0 10,-5 15,0 10,5" fill="#8b7355" opacity="0.5"/>
+    <!-- W arrow -->
+    <polygon points="-30,0 -10,-5 -15,0 -10,5" fill="#8b7355" opacity="0.5"/>
+    <text x="0" y="-36" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#4a3728">N</text>
+    <text x="0" y="46" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#8b7355">S</text>
+    <text x="40" y="4" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#8b7355">E</text>
+    <text x="-40" y="4" text-anchor="middle" font-family="Georgia, serif" font-size="9" fill="#8b7355">W</text>
+  </g>
+
+  <!-- Sea labels -->
+  <text x="55" y="480" font-family="Georgia, serif" font-size="12" fill="#6b83a3" opacity="0.5" transform="rotate(-90,55,480)" letter-spacing="4">WESTERN SEA</text>
+  <text x="550" y="855" font-family="Georgia, serif" font-size="12" fill="#6b83a3" opacity="0.5" letter-spacing="4">SOUTHERN SEA</text>
+</svg>

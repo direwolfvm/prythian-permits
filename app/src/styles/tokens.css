@@ -1,0 +1,678 @@
+/* ===================================================================
+   Prythian Permits — Court Theme Tokens
+   Default: Night Court (deep indigo/purple, starlight silver)
+   =================================================================== */
+
+:root {
+  color-scheme: dark;
+  --background-texture: none;
+
+  /* Primitive palette — Night Court */
+  --color-navy-950: #0f0a1a;
+  --color-navy-900: #1a1030;
+  --color-navy-800: #140e24;
+  --color-navy-700: #2a1f44;
+  --color-navy-500: #6a5aad;
+  --color-navy-300: #9b8fd0;
+  --color-gold-300: #c4b5e0;
+  --color-white: #ffffff;
+  --color-ink-900: #e8e2f0;
+  --color-ink-700: #b0a8c4;
+
+  /* Semantic tokens */
+  --background: #0f0a1a;
+  --foreground: #e8e2f0;
+  --foreground-strong: #f4f0ff;
+  --foreground-inverse: #0f0a1a;
+
+  --card: #1e1635;
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--card-foreground);
+
+  --primary: #7c6bc4;
+  --primary-strong: #9585d6;
+  --primary-foreground: #f4f0ff;
+  --secondary: #2a1f44;
+  --secondary-foreground: #e8e2f0;
+  --muted: #2a1f44;
+  --muted-foreground: #9a90b8;
+
+  --border: rgba(200, 190, 230, 0.15);
+  --border-strong: rgba(200, 190, 230, 0.25);
+  --input: rgba(200, 190, 230, 0.18);
+  --ring: #6a5aad;
+
+  --destructive: #ff6b6b;
+  --success: #7bc47a;
+  --warning: #d4b86a;
+  --info: #7aaddc;
+  --info-subtle: rgba(122, 173, 220, 0.15);
+  --info-border: rgba(122, 173, 220, 0.4);
+  --code-surface: #0a0614;
+  --code-foreground: #e8e2f0;
+
+  /* Alpha primitives */
+  --alpha-accent-04: rgba(124, 107, 196, 0.04);
+  --alpha-accent-06: rgba(124, 107, 196, 0.06);
+  --alpha-accent-08: rgba(124, 107, 196, 0.08);
+  --alpha-accent-12: rgba(124, 107, 196, 0.12);
+  --alpha-accent-14: rgba(124, 107, 196, 0.14);
+  --alpha-accent-15: rgba(124, 107, 196, 0.15);
+  --alpha-accent-18: rgba(124, 107, 196, 0.18);
+  --alpha-accent-20: rgba(124, 107, 196, 0.2);
+  --alpha-accent-22: rgba(124, 107, 196, 0.22);
+  --alpha-accent-25: rgba(124, 107, 196, 0.25);
+  --alpha-accent-26: rgba(124, 107, 196, 0.26);
+  --alpha-accent-30: rgba(124, 107, 196, 0.3);
+  --alpha-accent-40: rgba(124, 107, 196, 0.4);
+  --alpha-accent-55: rgba(124, 107, 196, 0.55);
+
+  --alpha-heading-06: rgba(232, 226, 240, 0.06);
+  --alpha-heading-08: rgba(232, 226, 240, 0.08);
+  --alpha-heading-15: rgba(232, 226, 240, 0.15);
+  --alpha-heading-30: rgba(232, 226, 240, 0.3);
+  --alpha-heading-35: rgba(232, 226, 240, 0.35);
+  --alpha-heading-40: rgba(232, 226, 240, 0.4);
+  --alpha-heading-45: rgba(232, 226, 240, 0.45);
+  --alpha-heading-50: rgba(232, 226, 240, 0.5);
+  --alpha-heading-52: rgba(232, 226, 240, 0.52);
+  --alpha-heading-55: rgba(232, 226, 240, 0.55);
+  --alpha-heading-58: rgba(232, 226, 240, 0.58);
+  --alpha-heading-60: rgba(232, 226, 240, 0.6);
+  --alpha-heading-65: rgba(232, 226, 240, 0.65);
+
+  --alpha-white-08: rgba(255, 255, 255, 0.08);
+  --alpha-white-45: rgba(255, 255, 255, 0.45);
+  --alpha-white-60: rgba(255, 255, 255, 0.6);
+
+  --alpha-deep-12: rgba(0, 0, 0, 0.18);
+  --alpha-deep-42: rgba(0, 0, 0, 0.5);
+
+  --alpha-slate-22: rgba(0, 0, 0, 0.22);
+  --alpha-slate-25: rgba(0, 0, 0, 0.25);
+  --alpha-slate-45: rgba(0, 0, 0, 0.45);
+  --alpha-slate-55: rgba(0, 0, 0, 0.55);
+  --alpha-slate-blue-40: rgba(0, 0, 0, 0.4);
+
+  --shadow: 0 36px 72px -44px rgba(0, 0, 0, 0.55);
+  --shadow-subtle: 0 20px 44px -34px rgba(0, 0, 0, 0.45);
+
+  /* Compatibility aliases */
+  --theme-navy-950: var(--color-navy-950);
+  --theme-navy-900: var(--color-navy-900);
+  --theme-navy-800: var(--color-navy-800);
+  --theme-navy-700: var(--color-navy-700);
+  --theme-navy-500: var(--color-navy-500);
+  --theme-navy-300: var(--color-navy-300);
+  --theme-gold-300: var(--color-gold-300);
+
+  --surface: var(--card);
+  --surface-muted: var(--muted);
+  --color-text: var(--foreground);
+  --color-text-muted: var(--muted-foreground);
+  --color-heading: var(--foreground-strong);
+  --color-text-inverse: var(--foreground-inverse);
+  --accent-dark: var(--primary-strong);
+  --accent-contrast: var(--primary-foreground);
+  --callout-bg: var(--info-subtle);
+  --callout-border: var(--info-border);
+
+  --card-background: var(--card);
+  --color-primary: var(--primary);
+  --color-danger: var(--destructive);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+
+  /* Layout/system tokens */
+  --copilot-frame-side-offset: clamp(1.35rem, 3vw, 3rem);
+  --copilot-frame-width: clamp(22rem, 28vw, 30rem);
+  --layout-site-main-padding-top: 1.25rem;
+  --layout-site-main-padding-bottom: 4rem;
+  --layout-app-top-offset: 3rem;
+  --site-header-height: 4rem;
+  --site-banner-height: 0px;
+}
+
+/* ===================================================================
+   Spring Court — Soft greens, rose, warm cream
+   =================================================================== */
+:root[data-design-theme="spring"] {
+  color-scheme: light;
+
+  --color-navy-950: #f5f9f2;
+  --color-navy-900: #e8f0e3;
+  --color-navy-800: #f9fcf7;
+  --color-navy-700: #d4e4cc;
+  --color-navy-500: #5a8f4a;
+  --color-navy-300: #3d6b30;
+  --color-gold-300: #d4a0b0;
+  --color-ink-900: #1a2e14;
+  --color-ink-700: #4a6640;
+
+  --background: #f5f9f2;
+  --foreground: #1a2e14;
+  --foreground-strong: #0f1e0a;
+  --foreground-inverse: #f5f9f2;
+
+  --card: #ffffff;
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+
+  --primary: #4a7d3a;
+  --primary-strong: #3a6630;
+  --primary-foreground: #ffffff;
+  --secondary: #e8f0e3;
+  --secondary-foreground: var(--foreground-strong);
+  --muted: #e8f0e3;
+  --muted-foreground: #4a6640;
+
+  --border: rgba(26, 46, 20, 0.14);
+  --border-strong: rgba(26, 46, 20, 0.24);
+  --input: var(--border);
+  --ring: #7ab06a;
+
+  --destructive: #c44040;
+  --success: #3a7a2e;
+  --warning: #8a7020;
+  --info: #2e6eaa;
+  --info-subtle: rgba(46, 110, 170, 0.1);
+  --info-border: rgba(46, 110, 170, 0.35);
+  --code-surface: #1a2e14;
+  --code-foreground: #e8f0e3;
+
+  --alpha-accent-04: rgba(74, 125, 58, 0.04);
+  --alpha-accent-06: rgba(74, 125, 58, 0.06);
+  --alpha-accent-08: rgba(74, 125, 58, 0.08);
+  --alpha-accent-12: rgba(74, 125, 58, 0.12);
+  --alpha-accent-14: rgba(74, 125, 58, 0.14);
+  --alpha-accent-15: rgba(74, 125, 58, 0.15);
+  --alpha-accent-18: rgba(74, 125, 58, 0.18);
+  --alpha-accent-20: rgba(74, 125, 58, 0.2);
+  --alpha-accent-22: rgba(74, 125, 58, 0.22);
+  --alpha-accent-25: rgba(74, 125, 58, 0.25);
+  --alpha-accent-26: rgba(74, 125, 58, 0.26);
+  --alpha-accent-30: rgba(74, 125, 58, 0.3);
+  --alpha-accent-40: rgba(74, 125, 58, 0.4);
+  --alpha-accent-55: rgba(74, 125, 58, 0.55);
+
+  --alpha-heading-06: rgba(26, 46, 20, 0.06);
+  --alpha-heading-08: rgba(26, 46, 20, 0.08);
+  --alpha-heading-15: rgba(26, 46, 20, 0.15);
+  --alpha-heading-30: rgba(26, 46, 20, 0.3);
+  --alpha-heading-35: rgba(26, 46, 20, 0.35);
+  --alpha-heading-40: rgba(26, 46, 20, 0.4);
+  --alpha-heading-45: rgba(26, 46, 20, 0.45);
+  --alpha-heading-50: rgba(26, 46, 20, 0.5);
+  --alpha-heading-52: rgba(26, 46, 20, 0.52);
+  --alpha-heading-55: rgba(26, 46, 20, 0.55);
+  --alpha-heading-58: rgba(26, 46, 20, 0.58);
+  --alpha-heading-60: rgba(26, 46, 20, 0.6);
+  --alpha-heading-65: rgba(26, 46, 20, 0.65);
+
+  --alpha-deep-12: rgba(15, 30, 10, 0.12);
+  --alpha-deep-42: rgba(15, 30, 10, 0.42);
+
+  --alpha-slate-22: rgba(26, 46, 20, 0.22);
+  --alpha-slate-25: rgba(26, 46, 20, 0.25);
+  --alpha-slate-45: rgba(26, 46, 20, 0.45);
+  --alpha-slate-55: rgba(26, 46, 20, 0.55);
+  --alpha-slate-blue-40: rgba(26, 46, 20, 0.4);
+
+  --shadow: 0 40px 80px -45px rgba(15, 30, 10, 0.3);
+  --shadow-subtle: 0 24px 48px -40px rgba(15, 30, 10, 0.2);
+}
+
+/* ===================================================================
+   Summer Court — Ocean blues, gold, bright white
+   =================================================================== */
+:root[data-design-theme="summer"] {
+  color-scheme: light;
+
+  --color-navy-950: #f0f7fc;
+  --color-navy-900: #dbeaf5;
+  --color-navy-800: #f5faff;
+  --color-navy-700: #b8d4ea;
+  --color-navy-500: #1a6fa8;
+  --color-navy-300: #0f4f7a;
+  --color-gold-300: #f0c050;
+  --color-ink-900: #0a2840;
+  --color-ink-700: #2e5878;
+
+  --background: #f0f7fc;
+  --foreground: #0a2840;
+  --foreground-strong: #061e34;
+  --foreground-inverse: #f0f7fc;
+
+  --card: #ffffff;
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+
+  --primary: #1570a6;
+  --primary-strong: #0f5580;
+  --primary-foreground: #ffffff;
+  --secondary: #dbeaf5;
+  --secondary-foreground: var(--foreground-strong);
+  --muted: #dbeaf5;
+  --muted-foreground: #2e5878;
+
+  --border: rgba(10, 40, 64, 0.14);
+  --border-strong: rgba(10, 40, 64, 0.24);
+  --input: var(--border);
+  --ring: #40a0d8;
+
+  --destructive: #c44040;
+  --success: #15803d;
+  --warning: #c09020;
+  --info: #1570a6;
+  --info-subtle: rgba(21, 112, 166, 0.1);
+  --info-border: rgba(21, 112, 166, 0.35);
+  --code-surface: #0a2840;
+  --code-foreground: #dbeaf5;
+
+  --alpha-accent-04: rgba(21, 112, 166, 0.04);
+  --alpha-accent-06: rgba(21, 112, 166, 0.06);
+  --alpha-accent-08: rgba(21, 112, 166, 0.08);
+  --alpha-accent-12: rgba(21, 112, 166, 0.12);
+  --alpha-accent-14: rgba(21, 112, 166, 0.14);
+  --alpha-accent-15: rgba(21, 112, 166, 0.15);
+  --alpha-accent-18: rgba(21, 112, 166, 0.18);
+  --alpha-accent-20: rgba(21, 112, 166, 0.2);
+  --alpha-accent-22: rgba(21, 112, 166, 0.22);
+  --alpha-accent-25: rgba(21, 112, 166, 0.25);
+  --alpha-accent-26: rgba(21, 112, 166, 0.26);
+  --alpha-accent-30: rgba(21, 112, 166, 0.3);
+  --alpha-accent-40: rgba(21, 112, 166, 0.4);
+  --alpha-accent-55: rgba(21, 112, 166, 0.55);
+
+  --alpha-heading-06: rgba(10, 40, 64, 0.06);
+  --alpha-heading-08: rgba(10, 40, 64, 0.08);
+  --alpha-heading-15: rgba(10, 40, 64, 0.15);
+  --alpha-heading-30: rgba(10, 40, 64, 0.3);
+  --alpha-heading-35: rgba(10, 40, 64, 0.35);
+  --alpha-heading-40: rgba(10, 40, 64, 0.4);
+  --alpha-heading-45: rgba(10, 40, 64, 0.45);
+  --alpha-heading-50: rgba(10, 40, 64, 0.5);
+  --alpha-heading-52: rgba(10, 40, 64, 0.52);
+  --alpha-heading-55: rgba(10, 40, 64, 0.55);
+  --alpha-heading-58: rgba(10, 40, 64, 0.58);
+  --alpha-heading-60: rgba(10, 40, 64, 0.6);
+  --alpha-heading-65: rgba(10, 40, 64, 0.65);
+
+  --alpha-deep-12: rgba(6, 30, 52, 0.12);
+  --alpha-deep-42: rgba(6, 30, 52, 0.42);
+
+  --alpha-slate-22: rgba(10, 40, 64, 0.22);
+  --alpha-slate-25: rgba(10, 40, 64, 0.25);
+  --alpha-slate-45: rgba(10, 40, 64, 0.45);
+  --alpha-slate-55: rgba(10, 40, 64, 0.55);
+  --alpha-slate-blue-40: rgba(10, 40, 64, 0.4);
+
+  --shadow: 0 40px 80px -45px rgba(6, 30, 52, 0.35);
+  --shadow-subtle: 0 24px 48px -40px rgba(6, 30, 52, 0.22);
+}
+
+/* ===================================================================
+   Autumn Court — Amber, burgundy, warm brown
+   =================================================================== */
+:root[data-design-theme="autumn"] {
+  color-scheme: light;
+
+  --color-navy-950: #faf5ee;
+  --color-navy-900: #f0e6d4;
+  --color-navy-800: #fdf9f2;
+  --color-navy-700: #dbc8a8;
+  --color-navy-500: #a06830;
+  --color-navy-300: #7a4e22;
+  --color-gold-300: #d4a050;
+  --color-ink-900: #2a1a0a;
+  --color-ink-700: #6a5040;
+
+  --background: #faf5ee;
+  --foreground: #2a1a0a;
+  --foreground-strong: #1e1208;
+  --foreground-inverse: #faf5ee;
+
+  --card: #ffffff;
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+
+  --primary: #8a5520;
+  --primary-strong: #6e4418;
+  --primary-foreground: #ffffff;
+  --secondary: #f0e6d4;
+  --secondary-foreground: var(--foreground-strong);
+  --muted: #f0e6d4;
+  --muted-foreground: #6a5040;
+
+  --border: rgba(42, 26, 10, 0.14);
+  --border-strong: rgba(42, 26, 10, 0.24);
+  --input: var(--border);
+  --ring: #c08040;
+
+  --destructive: #b02020;
+  --success: #4a7a30;
+  --warning: #a07020;
+  --info: #2e6eaa;
+  --info-subtle: rgba(46, 110, 170, 0.1);
+  --info-border: rgba(46, 110, 170, 0.35);
+  --code-surface: #2a1a0a;
+  --code-foreground: #f0e6d4;
+
+  --alpha-accent-04: rgba(138, 85, 32, 0.04);
+  --alpha-accent-06: rgba(138, 85, 32, 0.06);
+  --alpha-accent-08: rgba(138, 85, 32, 0.08);
+  --alpha-accent-12: rgba(138, 85, 32, 0.12);
+  --alpha-accent-14: rgba(138, 85, 32, 0.14);
+  --alpha-accent-15: rgba(138, 85, 32, 0.15);
+  --alpha-accent-18: rgba(138, 85, 32, 0.18);
+  --alpha-accent-20: rgba(138, 85, 32, 0.2);
+  --alpha-accent-22: rgba(138, 85, 32, 0.22);
+  --alpha-accent-25: rgba(138, 85, 32, 0.25);
+  --alpha-accent-26: rgba(138, 85, 32, 0.26);
+  --alpha-accent-30: rgba(138, 85, 32, 0.3);
+  --alpha-accent-40: rgba(138, 85, 32, 0.4);
+  --alpha-accent-55: rgba(138, 85, 32, 0.55);
+
+  --alpha-heading-06: rgba(42, 26, 10, 0.06);
+  --alpha-heading-08: rgba(42, 26, 10, 0.08);
+  --alpha-heading-15: rgba(42, 26, 10, 0.15);
+  --alpha-heading-30: rgba(42, 26, 10, 0.3);
+  --alpha-heading-35: rgba(42, 26, 10, 0.35);
+  --alpha-heading-40: rgba(42, 26, 10, 0.4);
+  --alpha-heading-45: rgba(42, 26, 10, 0.45);
+  --alpha-heading-50: rgba(42, 26, 10, 0.5);
+  --alpha-heading-52: rgba(42, 26, 10, 0.52);
+  --alpha-heading-55: rgba(42, 26, 10, 0.55);
+  --alpha-heading-58: rgba(42, 26, 10, 0.58);
+  --alpha-heading-60: rgba(42, 26, 10, 0.6);
+  --alpha-heading-65: rgba(42, 26, 10, 0.65);
+
+  --alpha-deep-12: rgba(30, 18, 8, 0.12);
+  --alpha-deep-42: rgba(30, 18, 8, 0.42);
+
+  --alpha-slate-22: rgba(42, 26, 10, 0.22);
+  --alpha-slate-25: rgba(42, 26, 10, 0.25);
+  --alpha-slate-45: rgba(42, 26, 10, 0.45);
+  --alpha-slate-55: rgba(42, 26, 10, 0.55);
+  --alpha-slate-blue-40: rgba(42, 26, 10, 0.4);
+
+  --shadow: 0 40px 80px -45px rgba(30, 18, 8, 0.35);
+  --shadow-subtle: 0 24px 48px -40px rgba(30, 18, 8, 0.22);
+}
+
+/* ===================================================================
+   Winter Court — Ice blue, frost white, cool gray
+   =================================================================== */
+:root[data-design-theme="winter"] {
+  color-scheme: light;
+
+  --color-navy-950: #f2f6fa;
+  --color-navy-900: #e4ecf4;
+  --color-navy-800: #f7f9fc;
+  --color-navy-700: #c8d8e8;
+  --color-navy-500: #5a7a9a;
+  --color-navy-300: #3a5a78;
+  --color-gold-300: #a0c0d8;
+  --color-ink-900: #1a2a3a;
+  --color-ink-700: #4a6278;
+
+  --background: #f2f6fa;
+  --foreground: #1a2a3a;
+  --foreground-strong: #101e2c;
+  --foreground-inverse: #f2f6fa;
+
+  --card: #ffffff;
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+
+  --primary: #4a6e8a;
+  --primary-strong: #3a5a74;
+  --primary-foreground: #ffffff;
+  --secondary: #e4ecf4;
+  --secondary-foreground: var(--foreground-strong);
+  --muted: #e4ecf4;
+  --muted-foreground: #4a6278;
+
+  --border: rgba(26, 42, 58, 0.12);
+  --border-strong: rgba(26, 42, 58, 0.22);
+  --input: var(--border);
+  --ring: #80a8c8;
+
+  --destructive: #c44040;
+  --success: #2e7a48;
+  --warning: #8a7a30;
+  --info: #3a7aaa;
+  --info-subtle: rgba(58, 122, 170, 0.1);
+  --info-border: rgba(58, 122, 170, 0.35);
+  --code-surface: #1a2a3a;
+  --code-foreground: #e4ecf4;
+
+  --alpha-accent-04: rgba(74, 110, 138, 0.04);
+  --alpha-accent-06: rgba(74, 110, 138, 0.06);
+  --alpha-accent-08: rgba(74, 110, 138, 0.08);
+  --alpha-accent-12: rgba(74, 110, 138, 0.12);
+  --alpha-accent-14: rgba(74, 110, 138, 0.14);
+  --alpha-accent-15: rgba(74, 110, 138, 0.15);
+  --alpha-accent-18: rgba(74, 110, 138, 0.18);
+  --alpha-accent-20: rgba(74, 110, 138, 0.2);
+  --alpha-accent-22: rgba(74, 110, 138, 0.22);
+  --alpha-accent-25: rgba(74, 110, 138, 0.25);
+  --alpha-accent-26: rgba(74, 110, 138, 0.26);
+  --alpha-accent-30: rgba(74, 110, 138, 0.3);
+  --alpha-accent-40: rgba(74, 110, 138, 0.4);
+  --alpha-accent-55: rgba(74, 110, 138, 0.55);
+
+  --alpha-heading-06: rgba(26, 42, 58, 0.06);
+  --alpha-heading-08: rgba(26, 42, 58, 0.08);
+  --alpha-heading-15: rgba(26, 42, 58, 0.15);
+  --alpha-heading-30: rgba(26, 42, 58, 0.3);
+  --alpha-heading-35: rgba(26, 42, 58, 0.35);
+  --alpha-heading-40: rgba(26, 42, 58, 0.4);
+  --alpha-heading-45: rgba(26, 42, 58, 0.45);
+  --alpha-heading-50: rgba(26, 42, 58, 0.5);
+  --alpha-heading-52: rgba(26, 42, 58, 0.52);
+  --alpha-heading-55: rgba(26, 42, 58, 0.55);
+  --alpha-heading-58: rgba(26, 42, 58, 0.58);
+  --alpha-heading-60: rgba(26, 42, 58, 0.6);
+  --alpha-heading-65: rgba(26, 42, 58, 0.65);
+
+  --alpha-deep-12: rgba(16, 30, 44, 0.12);
+  --alpha-deep-42: rgba(16, 30, 44, 0.42);
+
+  --alpha-slate-22: rgba(26, 42, 58, 0.22);
+  --alpha-slate-25: rgba(26, 42, 58, 0.25);
+  --alpha-slate-45: rgba(26, 42, 58, 0.45);
+  --alpha-slate-55: rgba(26, 42, 58, 0.55);
+  --alpha-slate-blue-40: rgba(26, 42, 58, 0.4);
+
+  --shadow: 0 40px 80px -45px rgba(16, 30, 44, 0.3);
+  --shadow-subtle: 0 24px 48px -40px rgba(16, 30, 44, 0.2);
+}
+
+/* ===================================================================
+   Day Court — Bright gold, warm white, sun-yellow accents
+   =================================================================== */
+:root[data-design-theme="day"] {
+  color-scheme: light;
+
+  --color-navy-950: #fdf9f0;
+  --color-navy-900: #f8f0dd;
+  --color-navy-800: #fefcf6;
+  --color-navy-700: #ecdcb0;
+  --color-navy-500: #a08030;
+  --color-navy-300: #7a6020;
+  --color-gold-300: #d4b040;
+  --color-ink-900: #2a2010;
+  --color-ink-700: #6a5a38;
+
+  --background: #fdf9f0;
+  --foreground: #2a2010;
+  --foreground-strong: #1e180a;
+  --foreground-inverse: #fdf9f0;
+
+  --card: #ffffff;
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+
+  --primary: #9a7a20;
+  --primary-strong: #7a6018;
+  --primary-foreground: #ffffff;
+  --secondary: #f8f0dd;
+  --secondary-foreground: var(--foreground-strong);
+  --muted: #f8f0dd;
+  --muted-foreground: #6a5a38;
+
+  --border: rgba(42, 32, 16, 0.12);
+  --border-strong: rgba(42, 32, 16, 0.22);
+  --input: var(--border);
+  --ring: #c0a040;
+
+  --destructive: #c44040;
+  --success: #3a7a30;
+  --warning: #a08020;
+  --info: #2e6eaa;
+  --info-subtle: rgba(46, 110, 170, 0.1);
+  --info-border: rgba(46, 110, 170, 0.35);
+  --code-surface: #2a2010;
+  --code-foreground: #f8f0dd;
+
+  --alpha-accent-04: rgba(154, 122, 32, 0.04);
+  --alpha-accent-06: rgba(154, 122, 32, 0.06);
+  --alpha-accent-08: rgba(154, 122, 32, 0.08);
+  --alpha-accent-12: rgba(154, 122, 32, 0.12);
+  --alpha-accent-14: rgba(154, 122, 32, 0.14);
+  --alpha-accent-15: rgba(154, 122, 32, 0.15);
+  --alpha-accent-18: rgba(154, 122, 32, 0.18);
+  --alpha-accent-20: rgba(154, 122, 32, 0.2);
+  --alpha-accent-22: rgba(154, 122, 32, 0.22);
+  --alpha-accent-25: rgba(154, 122, 32, 0.25);
+  --alpha-accent-26: rgba(154, 122, 32, 0.26);
+  --alpha-accent-30: rgba(154, 122, 32, 0.3);
+  --alpha-accent-40: rgba(154, 122, 32, 0.4);
+  --alpha-accent-55: rgba(154, 122, 32, 0.55);
+
+  --alpha-heading-06: rgba(42, 32, 16, 0.06);
+  --alpha-heading-08: rgba(42, 32, 16, 0.08);
+  --alpha-heading-15: rgba(42, 32, 16, 0.15);
+  --alpha-heading-30: rgba(42, 32, 16, 0.3);
+  --alpha-heading-35: rgba(42, 32, 16, 0.35);
+  --alpha-heading-40: rgba(42, 32, 16, 0.4);
+  --alpha-heading-45: rgba(42, 32, 16, 0.45);
+  --alpha-heading-50: rgba(42, 32, 16, 0.5);
+  --alpha-heading-52: rgba(42, 32, 16, 0.52);
+  --alpha-heading-55: rgba(42, 32, 16, 0.55);
+  --alpha-heading-58: rgba(42, 32, 16, 0.58);
+  --alpha-heading-60: rgba(42, 32, 16, 0.6);
+  --alpha-heading-65: rgba(42, 32, 16, 0.65);
+
+  --alpha-deep-12: rgba(30, 24, 10, 0.12);
+  --alpha-deep-42: rgba(30, 24, 10, 0.42);
+
+  --alpha-slate-22: rgba(42, 32, 16, 0.22);
+  --alpha-slate-25: rgba(42, 32, 16, 0.25);
+  --alpha-slate-45: rgba(42, 32, 16, 0.45);
+  --alpha-slate-55: rgba(42, 32, 16, 0.55);
+  --alpha-slate-blue-40: rgba(42, 32, 16, 0.4);
+
+  --shadow: 0 40px 80px -45px rgba(30, 24, 10, 0.3);
+  --shadow-subtle: 0 24px 48px -40px rgba(30, 24, 10, 0.2);
+
+  --background-texture: radial-gradient(circle at 20% 30%, rgba(212, 176, 64, 0.12), transparent 55%),
+    radial-gradient(circle at 78% 72%, rgba(154, 122, 32, 0.08), transparent 60%);
+}
+
+/* ===================================================================
+   Dawn Court — Soft pink/coral, lavender, peach
+   =================================================================== */
+:root[data-design-theme="dawn"] {
+  color-scheme: light;
+
+  --color-navy-950: #fdf5f4;
+  --color-navy-900: #f5e8e5;
+  --color-navy-800: #fefaf9;
+  --color-navy-700: #e8d0cc;
+  --color-navy-500: #b06a60;
+  --color-navy-300: #8a4e44;
+  --color-gold-300: #d8a8c0;
+  --color-ink-900: #2a1818;
+  --color-ink-700: #6a5050;
+
+  --background: #fdf5f4;
+  --foreground: #2a1818;
+  --foreground-strong: #1e1010;
+  --foreground-inverse: #fdf5f4;
+
+  --card: #ffffff;
+  --card-foreground: var(--foreground);
+  --popover: var(--card);
+  --popover-foreground: var(--foreground);
+
+  --primary: #a05a50;
+  --primary-strong: #804840;
+  --primary-foreground: #ffffff;
+  --secondary: #f5e8e5;
+  --secondary-foreground: var(--foreground-strong);
+  --muted: #f5e8e5;
+  --muted-foreground: #6a5050;
+
+  --border: rgba(42, 24, 24, 0.12);
+  --border-strong: rgba(42, 24, 24, 0.22);
+  --input: var(--border);
+  --ring: #d08878;
+
+  --destructive: #c44040;
+  --success: #3a7a48;
+  --warning: #a07a30;
+  --info: #6a70aa;
+  --info-subtle: rgba(106, 112, 170, 0.1);
+  --info-border: rgba(106, 112, 170, 0.35);
+  --code-surface: #2a1818;
+  --code-foreground: #f5e8e5;
+
+  --alpha-accent-04: rgba(160, 90, 80, 0.04);
+  --alpha-accent-06: rgba(160, 90, 80, 0.06);
+  --alpha-accent-08: rgba(160, 90, 80, 0.08);
+  --alpha-accent-12: rgba(160, 90, 80, 0.12);
+  --alpha-accent-14: rgba(160, 90, 80, 0.14);
+  --alpha-accent-15: rgba(160, 90, 80, 0.15);
+  --alpha-accent-18: rgba(160, 90, 80, 0.18);
+  --alpha-accent-20: rgba(160, 90, 80, 0.2);
+  --alpha-accent-22: rgba(160, 90, 80, 0.22);
+  --alpha-accent-25: rgba(160, 90, 80, 0.25);
+  --alpha-accent-26: rgba(160, 90, 80, 0.26);
+  --alpha-accent-30: rgba(160, 90, 80, 0.3);
+  --alpha-accent-40: rgba(160, 90, 80, 0.4);
+  --alpha-accent-55: rgba(160, 90, 80, 0.55);
+
+  --alpha-heading-06: rgba(42, 24, 24, 0.06);
+  --alpha-heading-08: rgba(42, 24, 24, 0.08);
+  --alpha-heading-15: rgba(42, 24, 24, 0.15);
+  --alpha-heading-30: rgba(42, 24, 24, 0.3);
+  --alpha-heading-35: rgba(42, 24, 24, 0.35);
+  --alpha-heading-40: rgba(42, 24, 24, 0.4);
+  --alpha-heading-45: rgba(42, 24, 24, 0.45);
+  --alpha-heading-50: rgba(42, 24, 24, 0.5);
+  --alpha-heading-52: rgba(42, 24, 24, 0.52);
+  --alpha-heading-55: rgba(42, 24, 24, 0.55);
+  --alpha-heading-58: rgba(42, 24, 24, 0.58);
+  --alpha-heading-60: rgba(42, 24, 24, 0.6);
+  --alpha-heading-65: rgba(42, 24, 24, 0.65);
+
+  --alpha-deep-12: rgba(30, 16, 16, 0.12);
+  --alpha-deep-42: rgba(30, 16, 16, 0.42);
+
+  --alpha-slate-22: rgba(42, 24, 24, 0.22);
+  --alpha-slate-25: rgba(42, 24, 24, 0.25);
+  --alpha-slate-45: rgba(42, 24, 24, 0.45);
+  --alpha-slate-55: rgba(42, 24, 24, 0.55);
+  --alpha-slate-blue-40: rgba(42, 24, 24, 0.4);
+
+  --shadow: 0 40px 80px -45px rgba(30, 16, 16, 0.28);
+  --shadow-subtle: 0 24px 48px -40px rgba(30, 16, 16, 0.18);
+}

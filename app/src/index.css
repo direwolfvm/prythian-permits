@@ -1,0 +1,47 @@
+@import "./styles/tokens.css";
+
+:root {
+  font-family: var(--usa-font-family-sans, "Public Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif);
+  line-height: 1.6;
+  font-weight: 400;
+  color: var(--color-text);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-color: color-mix(in srgb, var(--accent) 50%, transparent);
+}
+
+a:hover {
+  color: var(--accent-dark);
+  text-decoration-color: var(--accent-dark);
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, var(--alpha-accent-55), transparent 45%),
+    linear-gradient(180deg, var(--theme-navy-950) 0%, var(--theme-navy-800) 38%, var(--theme-navy-900) 100%);
+  color: var(--color-text-inverse);
+}
+
+:root[data-design-theme="gold-marble"] body {
+  background: var(--background);
+  background-image: var(--background-texture);
+  background-repeat: repeat;
+  background-size: 900px 900px;
+  color: var(--color-text);
+}
+
+#root {
+  min-height: 100vh;
+}
+
+button {
+  font-family: inherit;
+}
