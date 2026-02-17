@@ -5,63 +5,103 @@ export type MajorPermit = {
 
 export const majorPermits: MajorPermit[] = [
   {
-    title: "Clean Water Act Section 404 Permit",
+    title: "Ley Line Construction Clearance",
     description:
-      "Authorization from the U.S. Army Corps of Engineers for the discharge of dredged or fill material into waters of the United States."
+      "Authorization from the Presiding Court for any construction activity that intersects, diverts, or modifies an active ley line conduit."
   },
   {
-    title: "Clean Water Act Section 401 Water Quality Certification",
+    title: "Ward Modification License",
     description:
-      "State, Tribal, or territorial certification that a project will comply with water quality standards before a federal permit is issued."
+      "Permit from the Court Stewards to alter, remove, or extend existing protective wards within any Court territory."
   },
   {
-    title: "Rivers and Harbors Act Section 10 Permit",
+    title: "Suriel Habitat Consultation",
     description:
-      "U.S. Army Corps of Engineers authorization for work in, over, or under navigable waters of the United States."
+      "Consultation with the Night Court Wildlife Registry to ensure ventures do not displace Suriel populations or disrupt their feeding grounds."
   },
   {
-    title: "Endangered Species Act Section 7 Consultation",
+    title: "Ancient Ruins Preservation Review",
     description:
-      "Consultation with the U.S. Fish and Wildlife Service or NOAA Fisheries to ensure federal actions do not jeopardize listed species or critical habitat."
+      "Review by the Day Court Archivists to assess impacts on sites of historical or magical significance predating the Wall."
   },
   {
-    title: "Endangered Species Act Section 10 Incidental Take Permit",
+    title: "River Passage Accord",
     description:
-      "Permit from the U.S. Fish and Wildlife Service or NOAA Fisheries allowing incidental take of listed species for non-federal actions."
+      "Summer Court authorization for activities affecting navigable waterways, harbors, or the Sidra River tributaries."
   },
   {
-    title: "Marine Mammal Protection Act Incidental Harassment Authorization",
+    title: "Cauldron Proximity Waiver",
     description:
-      "Authorization from NOAA Fisheries to incidentally harass marine mammals during specified activities."
+      "Special dispensation required for any venture within the Cauldron's zone of influence, issued jointly by the Council of High Lords."
   },
   {
-    title: "Magnuson-Stevens Act Essential Fish Habitat Consultation",
+    title: "Forest Boundary Dispensation",
     description:
-      "Consultation with NOAA Fisheries to minimize adverse effects on essential fish habitat."
+      "Spring Court authorization to conduct activities within or adjacent to enchanted forest boundaries and sacred groves."
   },
   {
-    title: "National Historic Preservation Act Section 106 Consultation",
+    title: "Mountain Airspace Charter",
     description:
-      "Coordination with State and Tribal Historic Preservation Officers to consider effects on historic properties."
+      "Night Court / Illyrian authorization for structures or activities that may affect Illyrian flight corridors and training routes."
   },
   {
-    title: "Clean Air Act Title V Operating Permit",
+    title: "Glamour Impact Assessment",
     description:
-      "Comprehensive air emissions operating permit issued by EPA or a delegated state or local agency."
+      "Evaluation by the Court Stewards to determine whether a venture may disrupt or reveal existing glamour protections."
   },
   {
-    title: "Federal Land Policy and Management Act Right-of-Way Grant",
+    title: "Fae Migration Corridor Review",
     description:
-      "Bureau of Land Management authorization to use public lands for pipelines, transmission lines, or other infrastructure."
+      "Consultation with allied Courts to ensure ventures do not obstruct seasonal migration paths of fae creatures."
   },
   {
-    title: "Federal Power Act Section 4(e) License",
+    title: "Winnowing Network Interference Check",
     description:
-      "Federal Energy Regulatory Commission license for hydroelectric projects on federal reservations."
+      "Assessment by the Day Court to confirm that construction will not interfere with established winnowing corridors."
   },
   {
-    title: "Coastal Zone Management Act Consistency Determination",
+    title: "Enchanted Water Source Protection Decree",
     description:
-      "State review to ensure federal actions affecting coastal uses or resources are consistent with approved coastal management programs."
+      "Authorization ensuring ventures do not contaminate or divert water sources with magical properties."
+  },
+  {
+    title: "Night Court Starlight Preservation Order",
+    description:
+      "Decree limiting light pollution and magical emissions that could diminish starlight visibility in Velaris and surrounding territories."
+  },
+  {
+    title: "Dawn Court Sacred Site Clearance",
+    description:
+      "Authorization from the Dawn Court for activities near temples, prayer sites, or healing springs."
+  },
+  {
+    title: "Winter Court Ice Formation Permit",
+    description:
+      "Permission from the Winter Court to alter ice formations, frozen waterways, or permafrost within Court territory."
+  },
+  {
+    title: "Autumn Court Harvest Zone Authorization",
+    description:
+      "Dispensation from the Autumn Court for ventures that may affect agricultural lands, orchards, or harvest-critical territories."
+  },
+  {
+    title: "Cross-Court Infrastructure Accord",
+    description:
+      "Joint authorization from multiple Courts for ventures that span territorial boundaries, such as ley line extensions or trade routes."
+  },
+  {
+    title: "Magical Creature Displacement Permit",
+    description:
+      "Authorization to relocate magical creatures affected by a venture, with mitigation plans approved by the relevant Court."
+  },
+  {
+    title: "Under the Mountain Exclusion Zone Waiver",
+    description:
+      "Special clearance for activities near former Under the Mountain territories, requiring enhanced safety protocols."
+  },
+  {
+    title: "Weave Compliance Certification",
+    description:
+      "Final certification that a venture meets all Weave Review requirements and may proceed to construction phase."
   }
 ]

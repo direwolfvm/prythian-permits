@@ -183,4 +183,13 @@ export async function callIpacProxy(payload = {}) {
   };
 }
 
+export async function callFakeScreening(payload = {}) {
+  // This is a passthrough - the real logic is on the client side in fakeScreening.ts
+  // The server just returns the payload back since screening is deterministic on the client
+  return {
+    data: { mode: "fake", ...payload },
+    meta: { source: "prythian-fake-screening" }
+  };
+}
+
 export { ProxyError };

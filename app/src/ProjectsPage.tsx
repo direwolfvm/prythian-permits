@@ -10,14 +10,14 @@ import {
 } from "./utils/projectPersistence"
 import { loadBasicPermitProcessesForProjects } from "./utils/permitflow"
 import { loadComplexReviewProcessesForProjects } from "./utils/reviewworks"
-import { ArcgisSketchMap, type GeometryChange } from "./components/ArcgisSketchMap"
+import { ImageMapCanvas, type GeometryChange } from "./components/ImageMapCanvas"
 
-const PRE_SCREENING_COMPLETE_EVENT = "Pre-screening complete"
-const PRE_SCREENING_INITIATED_EVENT = "Pre-screening initiated"
+const PRE_SCREENING_COMPLETE_EVENT = "Augury complete"
+const PRE_SCREENING_INITIATED_EVENT = "Augury initiated"
 const PRE_SCREENING_ONE_WEEK_MS = 7 * 24 * 60 * 60 * 1000
-const BASIC_PERMIT_LABEL = "Basic Permit"
+const BASIC_PERMIT_LABEL = "Court Registry Decree"
 const BASIC_PERMIT_APPROVED_EVENT = "project_approved"
-const COMPLEX_REVIEW_LABEL = "Complex Review"
+const COMPLEX_REVIEW_LABEL = "Weave Review"
 const COMPLEX_REVIEW_APPROVED_EVENT = "project_approved"
 
 type PreScreeningStatus = "complete" | "pending" | "caution"
@@ -129,12 +129,12 @@ function determinePreScreeningStatus(
   if (latestEvent) {
     const latestTimestamp = parseTimestampMillis(latestEvent.lastUpdated)
     if (latestTimestamp && Date.now() - latestTimestamp > PRE_SCREENING_ONE_WEEK_MS) {
-      return { variant: "caution", label: "Pre-screening pending for over 7 days" }
+      return { variant: "caution", label: "Augury pending for over 7 days" }
     }
   }
 
   if (hasInitiated || latestEvent) {
-    return { variant: "pending", label: "Pre-screening in progress" }
+    return { variant: "pending", label: "Augury in progress" }
   }
 
   return undefined
@@ -271,18 +271,18 @@ function determineProjectStatus(entry: ProjectHierarchy): { variant: ProcessStat
   const checklistComplete = isPermitChecklistComplete(entry)
 
   if (allProcessesComplete && checklistComplete) {
-    return { variant: "complete", label: "Project complete" }
+    return { variant: "complete", label: "Petition complete" }
   }
 
   if (!hasProcesses) {
-    return { variant: "pending", label: "Project not started" }
+    return { variant: "pending", label: "Petition not started" }
   }
 
   if (entry.processes.some(isProcessDelayed)) {
-    return { variant: "caution", label: "Project needs attention" }
+    return { variant: "caution", label: "Petition needs attention" }
   }
 
-  return { variant: "pending", label: "Project in progress" }
+  return { variant: "pending", label: "Petition in progress" }
 }
 
 function getLatestCaseEvent(entry: ProjectHierarchy): CaseEventSummary | undefined {
@@ -348,7 +348,7 @@ function ProcessTree({ process }: { process: ProjectProcessSummary }) {
             ) : null}
             {latestEventLabel ? (
               <span className="projects-tree__latest-event">
-                <span className="projects-tree__latest-event-label">Latest event:</span>
+                <span className="projects-tree__latest-event-label">Latest chronicle entry:</span>
                 <span className="projects-tree__latest-event-value">{latestEventLabel}</span>
               </span>
             ) : null}
@@ -366,7 +366,7 @@ function ProcessTree({ process }: { process: ProjectProcessSummary }) {
               ))}
             </ul>
           ) : (
-            <p className="projects-tree__empty">No case events recorded.</p>
+            <p className="projects-tree__empty">No chronicle entries recorded.</p>
           )}
         </div>
       </details>
@@ -376,7 +376,7 @@ function ProcessTree({ process }: { process: ProjectProcessSummary }) {
 
 function CaseEventTree({ event }: { event: CaseEventSummary }) {
   const formattedUpdated = useMemo(() => formatTimestamp(event.lastUpdated), [event.lastUpdated])
-  const eventLabel = event.name || event.eventType || `Event ${event.id}`
+  const eventLabel = event.name || event.eventType || `Entry ${event.id}`
 
   return (
     <li className="projects-tree__event">
@@ -392,7 +392,7 @@ function ProjectTreeItem({ entry }: { entry: ProjectHierarchy }) {
   const formattedUpdated = formatTimestamp(entry.project.lastUpdated)
   const projectTitle = entry.project.title?.trim().length
     ? entry.project.title
-    : `Project ${entry.project.id}`
+    : `Petition ${entry.project.id}`
   const [isOpen, setIsOpen] = useState(false)
   const handleToggle = useCallback((event: SyntheticEvent<HTMLDetailsElement>) => {
     setIsOpen(event.currentTarget.open)
@@ -403,18 +403,18 @@ function ProjectTreeItem({ entry }: { entry: ProjectHierarchy }) {
   const permitChecklistStatus = useMemo(() => {
     const total = entry.permittingChecklist.length
     if (total === 0) {
-      return { tone: "empty", label: "No checklist items" }
+      return { tone: "empty", label: "No decree items" }
     }
     const completed = entry.permittingChecklist.filter((item) => item.completed).length
     if (completed === total) {
-      return { tone: "complete", label: "Checklist complete" }
+      return { tone: "complete", label: "Decree checklist complete" }
     }
     return { tone: "pending", label: `${completed} of ${total} complete` }
   }, [entry.permittingChecklist])
 
   const handleGeometryChange = useCallback((_change: GeometryChange) => {
     // For read-only viewing, we don't need to handle changes
-    // This component is just for viewing existing project geometry
+    // This component is just for viewing existing petition geometry
   }, [])
 
   const geometryToRender = isOpen ? geometry : undefined
@@ -442,7 +442,7 @@ function ProjectTreeItem({ entry }: { entry: ProjectHierarchy }) {
             <StatusIndicator variant={projectStatus.variant} label={projectStatus.label} />
             {latestEvent?.name || latestEvent?.eventType ? (
               <span className="projects-tree__latest-event">
-                <span className="projects-tree__latest-event-label">Latest event:</span>
+                <span className="projects-tree__latest-event-label">Latest chronicle entry:</span>
                 <span className="projects-tree__latest-event-value">{latestEvent.name || latestEvent.eventType}</span>
               </span>
             ) : null}
@@ -464,17 +464,16 @@ function ProjectTreeItem({ entry }: { entry: ProjectHierarchy }) {
                   className={`projects-tree__map ${isOpen ? "projects-tree__map--visible" : "projects-tree__map--preload"}`}
                   aria-hidden={!isOpen}
                 >
-                  <ArcgisSketchMap
+                  <ImageMapCanvas
                     key={`project-map-${entry.project.id}`}
                     geometry={geometryToRender}
                     isVisible={isOpen}
-                    hideSketchWidget
                     onGeometryChange={handleGeometryChange}
                   />
                 </div>
               </div>
               {isOpen && !geometry ? (
-                <p className="projects-tree__map-empty projects-tree__empty">No project geometry provided.</p>
+                <p className="projects-tree__map-empty projects-tree__empty">No petition geometry provided.</p>
               ) : null}
             </div>
           </div>
@@ -485,11 +484,11 @@ function ProjectTreeItem({ entry }: { entry: ProjectHierarchy }) {
               ))}
             </ul>
           ) : (
-            <p className="projects-tree__empty">No processes recorded for this project.</p>
+            <p className="projects-tree__empty">No processes recorded for this petition.</p>
           )}
           <div className="projects-tree__permit-checklist">
             <div className="projects-tree__permit-checklist-header">
-              <span className="projects-tree__permit-checklist-title">Permitting checklist</span>
+              <span className="projects-tree__permit-checklist-title">Decree checklist</span>
               <span
                 className={`projects-tree__permit-checklist-status projects-tree__permit-checklist-status--${permitChecklistStatus.tone}`}
               >
@@ -511,7 +510,7 @@ function ProjectTreeItem({ entry }: { entry: ProjectHierarchy }) {
                 ))}
               </ul>
             ) : (
-              <p className="projects-tree__empty">No permitting checklist items recorded.</p>
+              <p className="projects-tree__empty">No decree checklist items recorded.</p>
             )}
           </div>
         </div>
@@ -562,7 +561,7 @@ export function ProjectsPage() {
         if (!isMounted) {
           return
         }
-        const message = err instanceof ProjectPersistenceError ? err.message : err instanceof Error ? err.message : "Unable to load projects."
+        const message = err instanceof ProjectPersistenceError ? err.message : err instanceof Error ? err.message : "Unable to load petitions."
         setError(message)
         setStatus("error")
       })
@@ -575,24 +574,24 @@ export function ProjectsPage() {
   return (
     <div className="projects-page usa-prose">
       <header className="projects-page__header">
-        <h1>Projects</h1>
-        <p>Browse saved projects and their pre-screening milestones.</p>
+        <h1>Petitions</h1>
+        <p>Browse saved petitions and their augury milestones.</p>
       </header>
 
       {status === "loading" ? (
         <div className="projects-page__status" aria-live="polite">
-          Loading projects…
+          Loading petitions…
         </div>
       ) : null}
 
       {status === "error" ? (
         <div className="projects-page__status projects-page__status--error" role="alert">
-          {error ?? "Unable to load projects."}
+          {error ?? "Unable to load petitions."}
         </div>
       ) : null}
 
       {status === "idle" && !hasProjects ? (
-        <p className="projects-page__empty">No projects found. Create a new one from the portal.</p>
+        <p className="projects-page__empty">No petitions found. Create a new one from the portal.</p>
       ) : null}
 
       {hasProjects ? (

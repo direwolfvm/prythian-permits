@@ -92,7 +92,7 @@ export default function PermitStartPage() {
             ? error.message
             : error instanceof Error
               ? error.message
-              : "Unable to load permit information."
+              : "Unable to load decree information."
         setProcessState({ status: "error", message })
       })
 
@@ -107,7 +107,7 @@ export default function PermitStartPage() {
     if (!projectId) {
       setProjectState({
         status: "error",
-        message: "Provide a project identifier to submit to PermitFlow."
+        message: "Provide a petition identifier to submit to PermitFlow."
       })
       setPermitflowStatus({ status: "idle" })
       return () => {
@@ -119,7 +119,7 @@ export default function PermitStartPage() {
     if (!Number.isFinite(parsedId)) {
       setProjectState({
         status: "error",
-        message: "Project identifiers must be numeric. Return to the portal to save your project."
+        message: "Petition identifiers must be numeric. Return to the portal to save your petition."
       })
       setPermitflowStatus({ status: "idle" })
       return () => {
@@ -145,7 +145,7 @@ export default function PermitStartPage() {
             ? error.message
             : error instanceof Error
               ? error.message
-              : "Unable to load project details."
+              : "Unable to load petition details."
         setProjectState({ status: "error", message })
         setPermitflowStatus({ status: "idle" })
       })
@@ -165,7 +165,7 @@ export default function PermitStartPage() {
     if (!Number.isFinite(projectId)) {
       setPermitflowStatus({
         status: "error",
-        message: "Project identifiers must be numeric to check PermitFlow status."
+        message: "Petition identifiers must be numeric to check PermitFlow status."
       })
       return
     }
@@ -281,13 +281,13 @@ export default function PermitStartPage() {
 
   const handleSubmit = async () => {
     if (projectState.status !== "success") {
-      setSubmitState({ status: "error", message: "Project details are not available yet." })
+      setSubmitState({ status: "error", message: "Petition details are not available yet." })
       return
     }
     if (missingRequiredFields.length > 0) {
       setSubmitState({
         status: "error",
-        message: "Complete the required project fields before submitting."
+        message: "Complete the required petition fields before submitting."
       })
       return
     }
@@ -319,8 +319,8 @@ export default function PermitStartPage() {
       setSubmitState({
         status: "success",
         message: hasExistingPermitflowProject
-          ? "Project updated in PermitFlow."
-          : "Project submitted to PermitFlow."
+          ? "Petition updated in PermitFlow."
+          : "Petition submitted to PermitFlow."
       })
       const projectIdValue = projectState.formData.id
       const projectId = projectIdValue ? Number.parseInt(projectIdValue, 10) : Number.NaN
@@ -338,7 +338,7 @@ export default function PermitStartPage() {
           ? error.message
           : error instanceof Error
             ? error.message
-            : "Unable to submit the project to PermitFlow."
+            : "Unable to submit the petition to PermitFlow."
       setSubmitState({ status: "error", message })
     }
   }
@@ -347,7 +347,7 @@ export default function PermitStartPage() {
   if (processState.status === "loading" || processState.status === "idle") {
     content = (
       <p className="permit-start-page__status" role="status" aria-live="polite">
-        Loading permit process information…
+        Loading decree process information…
       </p>
     )
   } else if (processState.status === "error") {
@@ -360,7 +360,7 @@ export default function PermitStartPage() {
     content = (
       <details className="permit-start-page__details" open>
         <summary className="permit-start-page__details-summary">
-          <span className="permit-start-page__details-title">Basic permit information</span>
+          <span className="permit-start-page__details-title">Court Registry decree information</span>
           <span className="permit-start-page__details-icon" aria-hidden="true">
             <svg viewBox="0 0 12 12" focusable="false">
               <path
@@ -385,24 +385,24 @@ export default function PermitStartPage() {
     <article className="app permit-start-page">
       <div className="app__inner">
         <header className="permit-start-page__header">
-          <p className="permit-start-page__eyebrow">Basic permit</p>
-          <h1>Start this permit.</h1>
+          <p className="permit-start-page__eyebrow">Court Registry decree</p>
+          <h1>Start this decree.</h1>
           <p>
-            Use this checklist item to kick off the PermitFlow workflow. Review the process
-            model and decision elements below before advancing the application.
+            Use this checklist item to kick off the PermitFlow workflow. Review the rite
+            model and ruling criteria below before advancing the application.
           </p>
         </header>
         <section className="permit-start-page__content">
           <section className="permit-start-page__panel">
-            <h2>Submit this project to PermitFlow</h2>
+            <h2>Submit this petition to PermitFlow</h2>
             <p>
-              PermitFlow requires a complete project profile and an authenticated Supabase
+              PermitFlow requires a complete petition profile and an authenticated Supabase
               session. Once authenticated, your user identifier will be attached to the
               submission record.
             </p>
             {projectState.status === "loading" ? (
               <p className="permit-start-page__status" role="status" aria-live="polite">
-                Loading project details…
+                Loading petition details…
               </p>
             ) : null}
             {projectState.status === "error" ? (
@@ -413,14 +413,14 @@ export default function PermitStartPage() {
             {projectState.status === "success" ? (
               <div className="permit-start-page__project">
                 <div>
-                  <h3>Project summary</h3>
+                  <h3>Petition summary</h3>
                   <pre className="permit-start-page__project-summary">{projectSummary}</pre>
                 </div>
                 <div>
                   <h3>PermitFlow status</h3>
                   {permitflowStatus.status === "loading" ? (
                     <p className="permit-start-page__status" role="status" aria-live="polite">
-                      Checking PermitFlow for existing records…
+                      Checking PermitFlow for existing petition records…
                     </p>
                   ) : null}
                   {permitflowStatus.status === "error" ? (
@@ -432,17 +432,17 @@ export default function PermitStartPage() {
                     <div className="permit-start-page__status" role="status" aria-live="polite">
                       {permitflowStatus.info.exists ? (
                         <p>
-                          PermitFlow already has this project.
+                          PermitFlow already has this petition.
                           {formattedPermitflowTimestamp
                             ? ` Last updated ${formattedPermitflowTimestamp}.`
                             : null}
                         </p>
                       ) : (
-                        <p>No PermitFlow submission found for this project yet.</p>
+                        <p>No PermitFlow submission found for this petition yet.</p>
                       )}
                       {permitflowStatus.info.basicPermitProcess ? (
                         <p>
-                          A Basic Permit process is already underway. Update details to keep it
+                          A Court Registry decree process is already underway. Update details to keep it
                           current.
                         </p>
                       ) : null}
@@ -460,7 +460,7 @@ export default function PermitStartPage() {
                   </div>
                 ) : (
                   <p className="permit-start-page__status">
-                    Project information is complete. Ready to authenticate.
+                    Petition information is complete. Ready to authenticate.
                   </p>
                 )}
               </div>
@@ -518,8 +518,8 @@ export default function PermitStartPage() {
                 {submitState.status === "submitting"
                   ? "Submitting…"
                   : hasExistingPermitflowProject
-                    ? "Update project in PermitFlow"
-                    : "Submit project to PermitFlow"}
+                    ? "Update petition in PermitFlow"
+                    : "Submit petition to PermitFlow"}
               </button>
               {submitState.status === "error" ? (
                 <span className="permit-start-page__submit-error" role="alert">

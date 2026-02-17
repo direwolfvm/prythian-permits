@@ -1,7 +1,6 @@
 import JSZip from "jszip"
 import { kml as parseKmlDocument } from "@tmcw/togeojson"
 
-import { convertGeoJsonToEsri } from "../components/arcgisResources"
 import type { UploadedGisFile } from "../types/gis"
 
 function arrayBufferToBase64(buffer: ArrayBuffer): string {
@@ -246,13 +245,8 @@ export async function parseUploadedGisFile(file: File): Promise<ParsedGisUpload>
     geometry = combineFeatureCollection(featureCollection)
   }
 
-  const arcgisGeometryJson = convertGeoJsonToEsri(geometry)
-  if (!arcgisGeometryJson) {
-    throw new Error("The uploaded geometry could not be converted to an ArcGIS shape.")
-  }
-
   const geoJson = JSON.stringify(geometry)
-  const arcgisJson = JSON.stringify(arcgisGeometryJson)
+  const arcgisJson = geoJson
 
   const uploadedFile: UploadedGisFile = {
     format,
@@ -265,7 +259,7 @@ export async function parseUploadedGisFile(file: File): Promise<ParsedGisUpload>
 
   return {
     geoJson,
-    arcgisGeometryJson,
+    arcgisGeometryJson: geometry,
     arcgisJson,
     uploadedFile
   }

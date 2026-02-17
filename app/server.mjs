@@ -5,7 +5,7 @@ import { Readable } from "node:stream";
 import { randomUUID } from "node:crypto";
 import { fileURLToPath } from "url";
 
-import { callIpacProxy, callNepassistProxy, ProxyError } from "./server/geospatialProxy.js";
+import { callIpacProxy, callNepassistProxy, callFakeScreening, ProxyError } from "./server/geospatialProxy.js";
 
 const app = express();
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -777,6 +777,15 @@ app.post("/api/geospatial/nepassist", async (req, res) => {
 app.post("/api/geospatial/ipac", async (req, res) => {
   try {
     const result = await callIpacProxy(req.body ?? {});
+    handleProxyResponse(res, result);
+  } catch (error) {
+    handleProxyError(res, error);
+  }
+});
+
+app.post("/api/screening/weave-review", async (req, res) => {
+  try {
+    const result = await callFakeScreening(req.body ?? {});
     handleProxyResponse(res, result);
   } catch (error) {
     handleProxyError(res, error);

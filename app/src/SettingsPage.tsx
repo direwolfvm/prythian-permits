@@ -75,7 +75,7 @@ function DeleteProjectModal({ projects, onClose, onProjectDeleted }: DeleteProje
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!hasProjects || selectedProjectId === "") {
-      setError("Select a project to delete.")
+      setError("Select a petition to delete.")
       return
     }
 
@@ -94,8 +94,8 @@ function DeleteProjectModal({ projects, onClose, onProjectDeleted }: DeleteProje
       setStatus("success")
       onProjectDeleted(selectedProjectId)
     } catch (caughtError) {
-      console.error("Failed to delete project", caughtError)
-      const fallbackMessage = "Unable to delete the project right now. Try again in a moment."
+      console.error("Failed to delete petition", caughtError)
+      const fallbackMessage = "Unable to delete the petition right now. Try again in a moment."
       const message =
         caughtError instanceof ProjectPersistenceError
           ? caughtError.message
@@ -117,8 +117,8 @@ function DeleteProjectModal({ projects, onClose, onProjectDeleted }: DeleteProje
         onClick={(event) => event.stopPropagation()}
       >
         <header className="process-info-modal__header">
-          <p className="process-info-modal__eyebrow">Project maintenance</p>
-          <h2 id="delete-project-modal-title">Delete a project</h2>
+          <p className="process-info-modal__eyebrow">Petition maintenance</p>
+          <h2 id="delete-project-modal-title">Delete a petition</h2>
           <button className="process-info-modal__close" type="button" onClick={onClose} aria-label="Close dialog">
             <svg viewBox="0 0 18 18" aria-hidden="true">
               <path d="m4.5 4.5 9 9m0-9-9 9" fill="none" strokeWidth="1.5" strokeLinecap="round" />
@@ -127,20 +127,20 @@ function DeleteProjectModal({ projects, onClose, onProjectDeleted }: DeleteProje
         </header>
         <div className="process-info-modal__body settings__modal-body">
           <p>
-            Permanently remove a project and its related processes, decision payloads, case events, supporting
-            documents, and GIS data. This action cannot be undone.
+            Permanently remove a petition and its related processes, ruling payloads, chronicle entries, supporting
+            documents, and map data. This action cannot be undone.
           </p>
 
           <form className="settings__form" onSubmit={handleSubmit}>
             <label className="settings__field">
-              <span className="settings__label">Select a project</span>
+              <span className="settings__label">Select a petition</span>
               <select
                 className="settings__select"
                 value={selectedProjectId}
                 onChange={(event) => setSelectedProjectId(event.target.value === "" ? "" : Number(event.target.value))}
                 disabled={!hasProjects || status === "pending"}
               >
-                {!hasProjects ? <option value="">No projects available</option> : null}
+                {!hasProjects ? <option value="">No petitions available</option> : null}
                 {projects.map((project) => (
                   <option key={project.project.id} value={project.project.id}>
                     {formatProjectLabel(project)}
@@ -171,13 +171,13 @@ function DeleteProjectModal({ projects, onClose, onProjectDeleted }: DeleteProje
 
             {status === "success" ? (
               <p className="settings__success" role="status">
-                Project deleted successfully.
+                Petition deleted successfully.
               </p>
             ) : null}
 
             <div className="settings__modal-actions">
               <button className="settings__button" type="submit" disabled={deleteDisabled}>
-                {status === "pending" ? "Deleting…" : "Delete project"}
+                {status === "pending" ? "Deleting…" : "Delete petition"}
               </button>
               <button className="settings__button settings__button--ghost" type="button" onClick={onClose}>
                 Cancel
@@ -211,7 +211,7 @@ export default function SettingsPage() {
         }
       } catch (error) {
         if (isActive) {
-          const message = error instanceof ProjectPersistenceError ? error.message : "Unable to load projects."
+          const message = error instanceof ProjectPersistenceError ? error.message : "Unable to load petitions."
           setProjectLoadError(message)
           setProjects([])
         }
@@ -240,19 +240,19 @@ export default function SettingsPage() {
       <div className="settings__inner">
         <header className="settings__header">
           <h1 id="settings-heading">Settings</h1>
-          <p>Configure how HelpPermit.me connects to Copilot runtimes used throughout the portal.</p>
+          <p>Configure how Prythian Permits connects to Copilot runtimes used throughout the portal.</p>
         </header>
 
         <section className="settings__section" aria-labelledby="settings-runtime-heading">
           <h2 id="settings-runtime-heading">Copilot runtime</h2>
           <p className="settings__description">
-            Choose between the hosted Copilot Cloud or the local Permitting ADK proxy for development and testing.
+            Choose between the hosted Copilot Cloud or the local Prythian ADK proxy for development and testing.
           </p>
           <div className="settings__control">
             <RuntimeSelectionControl />
           </div>
           <p className="settings__hint">
-            Switching to the Permitting ADK routes Copilot requests through the local <code>/api/custom-adk</code>
+            Switching to the Prythian ADK routes Copilot requests through the local <code>/api/custom-adk</code>
             proxy.
           </p>
         </section>
@@ -260,12 +260,12 @@ export default function SettingsPage() {
         <section className="settings__section" aria-labelledby="settings-theme-heading">
           <h2 id="settings-theme-heading">Seasonal theme</h2>
           <p className="settings__description">
-            Add a festive touch to HelpPermit.me with falling snowflakes and holiday cheer in the navigation.
+            Add a festive touch to Prythian Permits with falling starlight and Starfall cheer in the navigation.
           </p>
           <label className="settings__switch" htmlFor="settings-christmas-toggle">
             <div className="settings__switch-text">
-              <span className="settings__label">Christmas theme</span>
-              <span className="settings__hint">Show falling snow and holiday emojis in the header.</span>
+              <span className="settings__label">Starfall theme</span>
+              <span className="settings__hint">Show falling starlight and Starfall celebration in the header.</span>
             </div>
             <input
               id="settings-christmas-toggle"
@@ -291,9 +291,13 @@ export default function SettingsPage() {
                 value={designTheme}
                 onChange={(event) => setDesignTheme(event.target.value as DesignTheme)}
               >
-                <option value="old">Legacy</option>
-                <option value="new">New (token baseline)</option>
-                <option value="gold-marble">Gold + Marble</option>
+                <option value="night">Night Court</option>
+                <option value="spring">Spring Court</option>
+                <option value="summer">Summer Court</option>
+                <option value="autumn">Autumn Court</option>
+                <option value="winter">Winter Court</option>
+                <option value="day">Day Court</option>
+                <option value="dawn">Dawn Court</option>
               </select>
               <span className="settings__hint">Theme preference is stored in local browser storage.</span>
             </label>
@@ -301,17 +305,17 @@ export default function SettingsPage() {
         </section>
 
         <section className="settings__section settings__section--danger" aria-labelledby="settings-projects-heading">
-          <h2 id="settings-projects-heading">Project maintenance</h2>
+          <h2 id="settings-projects-heading">Petition maintenance</h2>
           <p className="settings__description">
-            Remove projects and their associated data from Supabase when they are no longer needed.
+            Remove petitions and their associated data from Supabase when they are no longer needed.
           </p>
 
           {projectLoadError ? <p className="settings__error">{projectLoadError}</p> : null}
           {!projectLoadError && isLoadingProjects ? (
-            <p className="settings__hint">Loading projects…</p>
+            <p className="settings__hint">Loading petitions…</p>
           ) : (
             <p className="settings__hint">
-              Projects, processes, decision payloads, supporting documents, GIS uploads, and case events will be
+              Petitions, processes, ruling payloads, supporting documents, map data, and chronicle entries will be
               deleted together.
             </p>
           )}
@@ -323,7 +327,7 @@ export default function SettingsPage() {
               onClick={() => setShowDeleteModal(true)}
               disabled={isLoadingProjects || (!!projectLoadError && projects.length === 0)}
             >
-              Delete a project
+              Delete a petition
             </button>
           </div>
         </section>

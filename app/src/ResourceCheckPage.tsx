@@ -8,7 +8,7 @@ import "@copilotkit/react-ui/styles.css"
 import "./copilot-overrides.css"
 import "./App.css"
 
-import { ArcgisSketchMap } from "./components/ArcgisSketchMap"
+import { ImageMapCanvas } from "./components/ImageMapCanvas"
 import type { GeometryChange, UploadedGisFile } from "./types/gis"
 import type { GeospatialResultsState, NepassistSummaryItem } from "./types/geospatial"
 import {
@@ -60,19 +60,19 @@ function buildImplicationLines(results: GeospatialResultsState): string[] {
     const elevated = countHighPriorityFindings(nepa.summary)
     if (elevated > 0) {
       lines.push(
-        `NEPA: ${elevated} screened resources may require a higher level of NEPA review or mitigation planning. Review the NEPA Assist findings to scope the appropriate document and extraordinary circumstance checks.`
+        `Weave Review: ${elevated} screened resources may require a higher level of Weave Review or ward mitigation planning. Review the Ward Assessment findings to scope the appropriate decree and extraordinary circumstance checks.`
       )
     } else {
       lines.push(
-        "NEPA: No elevated concerns were returned by NEPA Assist. Continue with the planned level of review and document any routine conditions."
+        "Weave Review: No elevated concerns were returned by the Ward Assessment. Continue with the planned level of review and document any routine conditions."
       )
     }
   } else if (nepa.status === "error") {
     lines.push(
-      `NEPA: Screening results were unavailable (${nepa.error ?? "unknown error"}). Document the outage and consider alternative mapping sources before advancing NEPA decisions.`
+      `Weave Review: Screening results were unavailable (${nepa.error ?? "unknown error"}). Document the outage and consider alternative scrying sources before advancing Weave Review decisions.`
     )
   } else {
-    lines.push("NEPA: Screening has not returned any findings yet.")
+    lines.push("Weave Review: Screening has not returned any findings yet.")
   }
 
   const ipac = results.ipac
@@ -80,14 +80,14 @@ function buildImplicationLines(results: GeospatialResultsState): string[] {
     if (ipac.summary.listedSpecies.length > 0 || ipac.summary.criticalHabitats.length > 0) {
       const species = ipac.summary.listedSpecies.slice(0, 5).join(", ")
       const habitats = ipac.summary.criticalHabitats.slice(0, 5).join(", ")
-      const speciesText = species ? `listed species (${species})` : "listed species"
-      const habitatText = habitats ? `critical habitats (${habitats})` : "critical habitats"
+      const speciesText = species ? `listed creatures (${species})` : "listed creatures"
+      const habitatText = habitats ? `protected territories (${habitats})` : "protected territories"
       lines.push(
-        `Endangered Species Act: IPaC identified ${speciesText} and ${habitatText}. Coordinate with the U.S. Fish and Wildlife Service for consultation needs and survey timing.`
+        `Endangered Creatures Accord: The Ley Line Registry identified ${speciesText} and ${habitatText}. Coordinate with the Suriel Sightings Archive for consultation needs and survey timing.`
       )
     } else {
       lines.push(
-        "Endangered Species Act: IPaC did not flag listed species or critical habitats. Keep records of the IPaC response to support any No Effect determinations."
+        "Endangered Creatures Accord: The Ley Line Registry did not flag listed creatures or protected territories. Keep records of the Ley Line Registry response to support any No Effect determinations."
       )
     }
 
@@ -97,40 +97,40 @@ function buildImplicationLines(results: GeospatialResultsState): string[] {
         .map((wetland) => (wetland.acres ? `${wetland.name} (${wetland.acres} ac)` : wetland.name))
         .join(", ")
       lines.push(
-        `Clean Water Act: Wetlands of interest were noted (${wetlands}). Engage the U.S. Army Corps of Engineers early to confirm jurisdiction and permitting requirements.`
+        `Sacred Waters Accord: Wetlands of interest were noted (${wetlands}). Engage the Court of Tides early to confirm jurisdiction and decree requirements.`
       )
     } else {
       lines.push(
-        "Clean Water Act: No wetlands of concern were identified in IPaC. Field verification is still recommended before finalizing Section 404 determinations."
+        "Sacred Waters Accord: No wetlands of concern were identified in the Ley Line Registry. Field verification is still recommended before finalizing Section 404 determinations."
       )
     }
 
     if (ipac.summary.migratoryBirds.length > 0) {
       lines.push(
-        "Clean Air Act: Sensitive biological resources were identified. Coordinate construction schedules and emissions planning to minimize indirect impacts alongside Clean Air Act conformity reviews."
+        "Cauldron Proximity Index: Sensitive magical resources were identified. Coordinate construction schedules and ward emissions planning to minimize indirect impacts alongside Cauldron Proximity Index conformity reviews."
       )
     } else {
       lines.push(
-        "Clean Air Act: No migratory bird hotspots were highlighted. Continue with standard conformity analyses for the project area."
+        "Cauldron Proximity Index: No migratory creature hotspots were highlighted. Continue with standard conformity analyses for the petition area."
       )
     }
   } else if (ipac.status === "error") {
     lines.push(
-      `Endangered Species Act: IPaC data was unavailable (${ipac.error ?? "unknown error"}). Document the outage and contact the U.S. Fish and Wildlife Service directly.`
+      `Endangered Creatures Accord: Ley Line Registry data was unavailable (${ipac.error ?? "unknown error"}). Document the outage and contact the Suriel Sightings Archive directly.`
     )
-    lines.push("Clean Water Act: IPaC wetlands were unavailable; coordinate wetland delineations manually and consult the Corps as needed.")
-    lines.push("Clean Air Act: Proceed with regular conformity analysis; no biological screening results were returned to adjust the approach.")
+    lines.push("Sacred Waters Accord: Ley Line Registry wetlands were unavailable; coordinate wetland delineations manually and consult the Court of Tides as needed.")
+    lines.push("Cauldron Proximity Index: Proceed with regular conformity analysis; no magical screening results were returned to adjust the approach.")
   } else {
-    lines.push("Endangered Species Act: Screening results are pending.")
-    lines.push("Clean Water Act: Screening results are pending.")
-    lines.push("Clean Air Act: Screening results are pending.")
+    lines.push("Endangered Creatures Accord: Screening results are pending.")
+    lines.push("Sacred Waters Accord: Screening results are pending.")
+    lines.push("Cauldron Proximity Index: Screening results are pending.")
   }
 
   lines.push(
-    "National Historic Preservation Act: Use these geospatial findings to inform the Area of Potential Effects and coordinate early with the SHPO/THPO; additional cultural resource surveys may still be required."
+    "Ancient Wards Preservation Accord: Use these geospatial findings to inform the Area of Potential Effects and coordinate early with the Court Historian; additional magical resource surveys may still be required."
   )
   lines.push(
-    "Tribal consultation: Share the screening summary with tribal partners and incorporate their knowledge of resources before scoping project alternatives."
+    "Fae consultation: Share the screening summary with allied Fae courts and incorporate their knowledge of resources before scoping petition alternatives."
   )
 
   return lines
@@ -139,7 +139,7 @@ function buildImplicationLines(results: GeospatialResultsState): string[] {
 function formatImplicationsForCopilot(results: GeospatialResultsState) {
   const lines = buildImplicationLines(results)
   if (!results.lastRunAt || lines.length === 0) {
-    return "No geospatial screening has been completed yet."
+    return "No augury screening has been completed yet."
   }
 
   return [
@@ -173,8 +173,8 @@ export function ResourceCheckContent() {
   const instructions = useMemo(
     () =>
       [
-        "You help interpret project resource screenings and suggest next steps for environmental review.",
-        "Highlight implications for NEPA, ESA, the Clean Water Act, Clean Air Act, NHPA, and tribal consultation.",
+        "You help interpret petition resource screenings and suggest next steps for Weave Review.",
+        "Highlight implications for the Weave Review, Endangered Creatures Accord, the Sacred Waters Accord, Cauldron Proximity Index, Ancient Wards Preservation Accord, and Fae consultation.",
         "Use the latest geospatial results and summaries to tailor your guidance."
       ].join("\n"),
     []
@@ -186,7 +186,7 @@ export function ResourceCheckContent() {
 
   useCopilotReadable(
     {
-      description: "Latest geospatial screening results for Resource Check",
+      description: "Latest augury screening results for Augury Check",
       value: geospatialResults,
       convert: (_, value) => formatGeospatialResultsSummary(value)
     },
@@ -204,7 +204,7 @@ export function ResourceCheckContent() {
 
   useCopilotReadable(
     {
-      description: "Field notes captured during the Resource Check session",
+      description: "Field notes captured during the Augury Check session",
       value: locationNotes,
       convert: (_, value) => value || "No notes provided."
     },
@@ -241,12 +241,12 @@ export function ResourceCheckContent() {
     setGeospatialResults({
       nepassist: prepared.nepassist
         ? { status: "loading" }
-        : { status: "error", error: generalMessages[0] ?? "Unable to prepare NEPA Assist request." },
+        : { status: "error", error: generalMessages[0] ?? "Unable to prepare Ward Assessment request." },
       ipac: prepared.ipac
         ? { status: "loading" }
         : {
             status: "error",
-            error: ipacNotice ?? generalMessages[0] ?? "IPaC is not available for this geometry."
+            error: ipacNotice ?? generalMessages[0] ?? "Ley Line Registry is not available for this geometry."
           },
       lastRunAt: new Date().toISOString(),
       messages: generalMessages.length ? generalMessages : undefined
@@ -282,7 +282,7 @@ export function ResourceCheckContent() {
               const message =
                 (payload && typeof payload === "object" && typeof payload.error === "string"
                   ? payload.error
-                  : text) || `NEPA Assist request failed (${response.status})`
+                  : text) || `Ward Assessment request failed (${response.status})`
               throw new Error(message)
             }
             const data = payload && typeof payload === "object" && "data" in payload ? payload.data : payload
@@ -296,7 +296,7 @@ export function ResourceCheckContent() {
               }
             }))
           } catch (error) {
-            const message = error instanceof Error ? error.message : "NEPA Assist request failed."
+            const message = error instanceof Error ? error.message : "Ward Assessment request failed."
             setGeospatialResults((previous) => ({
               ...previous,
               nepassist: { status: "error", error: message }
@@ -336,7 +336,7 @@ export function ResourceCheckContent() {
               const message =
                 (payload && typeof payload === "object" && typeof payload.error === "string"
                   ? payload.error
-                  : text) || `IPaC request failed (${response.status})`
+                  : text) || `Ley Line Registry request failed (${response.status})`
               throw new Error(message)
             }
             const data = payload && typeof payload === "object" && "data" in payload ? payload.data : payload
@@ -350,7 +350,7 @@ export function ResourceCheckContent() {
               }
             }))
           } catch (error) {
-            const message = error instanceof Error ? error.message : "IPaC request failed."
+            const message = error instanceof Error ? error.message : "Ley Line Registry request failed."
             setGeospatialResults((previous) => ({
               ...previous,
               ipac: { status: "error", error: message }
@@ -375,16 +375,16 @@ export function ResourceCheckContent() {
       instructions={instructions}
       defaultOpen
       clickOutsideToClose={false}
-      labels={{ title: "Resource Copilot" }}
+      labels={{ title: "Augury Copilot" }}
     >
       <main className="app">
         <div className="app__inner">
           <header className="app-header">
             <div>
-              <h1>Resource Check</h1>
+              <h1>Augury Check</h1>
               <p>
-                Draw your project footprint, set an optional analysis buffer, and run the built-in screening tools. The
-                Copilot summarizes the implications for key environmental reviews.
+                Draw your petition footprint, set an optional analysis buffer, and run the built-in screening tools. The
+                Copilot summarizes the implications for key Weave Reviews.
               </p>
             </div>
           </header>
@@ -393,9 +393,9 @@ export function ResourceCheckContent() {
             <div className="location-card">
               <div className="location-card__header">
                 <div>
-                  <h2>Project footprint</h2>
+                  <h2>Petition footprint</h2>
                   <p className="help-block">
-                    Search for an address or navigate the map, then draw a point, line, or polygon to capture the project
+                    Search for a location or navigate the map, then draw a point, line, or polygon to capture the petition
                     area. Use the clear option to start over.
                   </p>
                 </div>
@@ -411,7 +411,7 @@ export function ResourceCheckContent() {
                 rows={3}
               />
               <div className="location-card__map">
-                <ArcgisSketchMap
+                <ImageMapCanvas
                   geometry={geometry}
                   onGeometryChange={handleGeometryChange}
                   enableFileUpload
@@ -426,12 +426,12 @@ export function ResourceCheckContent() {
               <div className="form-panel__header">
                 <h2>Screening controls</h2>
                 <p className="help-block">
-                  Choose the analysis buffer for NEPA Assist (miles) and run the combined NEPA Assist and IPaC screening.
+                  Choose the analysis buffer for the Ward Assessment (leagues) and run the combined Ward Assessment and Ley Line Registry screening.
                 </p>
               </div>
               <div className="form-panel__body">
                 <label className="form-field">
-                  <span>Buffer distance (miles)</span>
+                  <span>Buffer distance (leagues)</span>
                   <input
                     type="number"
                     min={0}
@@ -446,11 +446,11 @@ export function ResourceCheckContent() {
                   onClick={handleRunGeospatial}
                   disabled={!hasGeometry || isRunning}
                 >
-                  {isRunning ? "Running geospatial screen…" : "Run geospatial screen"}
+                  {isRunning ? "Running augury screen..." : "Run augury screen"}
                 </button>
                 {!hasGeometry ? (
                   <p className="help-block geospatial-footer__hint">
-                    Draw a project geometry to enable the screening tools.
+                    Draw a petition geometry to enable the screening tools.
                   </p>
                 ) : null}
               </div>
@@ -466,7 +466,7 @@ export function ResourceCheckContent() {
               <div className="form-panel__body">
                 <div className="geospatial-results">
                   <div className="geospatial-results__header">
-                    <h3>Geospatial services</h3>
+                    <h3>Augury services</h3>
                     <span className="geospatial-results__timestamp" aria-live="polite">
                       {lastRunLabel ? `Last run ${lastRunLabel}` : "Not yet run"}
                     </span>
@@ -480,9 +480,9 @@ export function ResourceCheckContent() {
                   ) : null}
                   <div className="geospatial-results__cards">
                     <div className="geospatial-results__card" aria-live="polite">
-                      <h4>NEPA Assist</h4>
+                      <h4>Ward Assessment</h4>
                       {geospatialResults.nepassist.status === "loading" ? (
-                        <p className="geospatial-results__status">Running geospatial query…</p>
+                        <p className="geospatial-results__status">Running augury query...</p>
                       ) : geospatialResults.nepassist.status === "error" ? (
                         <p className="geospatial-results__status error">
                           {geospatialResults.nepassist.error ?? "The screening request failed."}
@@ -509,14 +509,14 @@ export function ResourceCheckContent() {
                         </div>
                       ) : (
                         <p className="geospatial-results__status muted">
-                          Run the geospatial screen to request NEPA Assist data.
+                          Run the augury screen to request Ward Assessment data.
                         </p>
                       )}
                     </div>
                     <div className="geospatial-results__card" aria-live="polite">
-                      <h4>IPaC</h4>
+                      <h4>Ley Line Registry</h4>
                       {geospatialResults.ipac.status === "loading" ? (
-                        <p className="geospatial-results__status">Running geospatial query…</p>
+                        <p className="geospatial-results__status">Running augury query...</p>
                       ) : geospatialResults.ipac.status === "error" ? (
                         <p className="geospatial-results__status error">
                           {geospatialResults.ipac.error ?? "The screening request failed."}
@@ -528,7 +528,7 @@ export function ResourceCheckContent() {
                               <strong>Location</strong>: {geospatialResults.ipac.summary.locationDescription || "Not provided"}
                             </li>
                             <li>
-                              <strong>Listed species</strong>:
+                              <strong>Listed creatures</strong>:
                               {geospatialResults.ipac.summary.listedSpecies.length ? (
                                 <ul>
                                   {geospatialResults.ipac.summary.listedSpecies.map((item, index) => (
@@ -540,7 +540,7 @@ export function ResourceCheckContent() {
                               )}
                             </li>
                             <li>
-                              <strong>Critical habitat</strong>:
+                              <strong>Protected territory</strong>:
                               {geospatialResults.ipac.summary.criticalHabitats.length ? (
                                 <ul>
                                   {geospatialResults.ipac.summary.criticalHabitats.map((item, index) => (
@@ -552,7 +552,7 @@ export function ResourceCheckContent() {
                               )}
                             </li>
                             <li>
-                              <strong>Migratory birds of concern</strong>:
+                              <strong>Migratory creatures of concern</strong>:
                               {geospatialResults.ipac.summary.migratoryBirds.length ? (
                                 <ul>
                                   {geospatialResults.ipac.summary.migratoryBirds.map((item, index) => (
@@ -570,7 +570,7 @@ export function ResourceCheckContent() {
                                   {geospatialResults.ipac.summary.wetlands.map((wetland, index) => (
                                     <li key={`${wetland.name}-${index}`}>
                                       {wetland.name}
-                                      {wetland.acres ? ` – ${wetland.acres} ac` : null}
+                                      {wetland.acres ? ` \u2013 ${wetland.acres} ac` : null}
                                     </li>
                                   ))}
                                 </ul>
@@ -582,7 +582,7 @@ export function ResourceCheckContent() {
                         </div>
                       ) : (
                         <p className="geospatial-results__status muted">
-                          Run the geospatial screen to request IPaC data.
+                          Run the augury screen to request Ley Line Registry data.
                         </p>
                       )}
                     </div>
@@ -597,7 +597,7 @@ export function ResourceCheckContent() {
                       </ul>
                     ) : (
                       <p className="geospatial-results__status muted">
-                        Run the geospatial screen to generate resource implications.
+                        Run the augury screen to generate resource implications.
                       </p>
                     )}
                   </div>

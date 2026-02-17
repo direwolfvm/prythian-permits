@@ -51,7 +51,7 @@ describe('prepareGeospatialPayload', () => {
     const result = prepareGeospatialPayload(pointGeometry)
 
     expect(result.errors).toContain(
-      'IPaC only supports polygon or line geometries. Draw a line or polygon to include IPaC results.'
+      'Ley Line Registry only supports polygon or line geometries. Draw a line or polygon to include Ley Line Registry results.'
     )
     expect(result.nepassist).toEqual({
       coords: [[-77.04, 38.91]],
@@ -88,12 +88,12 @@ describe('formatGeospatialResultsSummary', () => {
 
     const summary = formatGeospatialResultsSummary(results)
 
-    expect(summary).toContain('Geospatial screening results:')
+    expect(summary).toContain('Augury screening results:')
     expect(summary).toContain('Last run: not yet run')
     expect(summary).toContain('- Latest run succeeded')
-    expect(summary).toContain('NEPA Assist status: success')
+    expect(summary).toContain('Ward Assessment status: success')
     expect(summary).toContain('  - ⚠️ Yes: Floodplains')
-    expect(summary).toContain('IPaC status: success')
+    expect(summary).toContain('Ley Line Registry status: success')
     expect(summary).toContain('  - Location: Project corridor')
     expect(summary).toContain('  - Listed species: Bald eagle (Threatened)')
     expect(summary).toContain('  - Critical habitats: Habitat A')

@@ -11,9 +11,9 @@ const overviewFields: Array<{ key: SimpleProjectField; label: string }> = [
 ]
 
 const agencyFields: Array<{ key: SimpleProjectField; label: string }> = [
-  { key: "lead_agency", label: "Lead agency" },
-  { key: "participating_agencies", label: "Participating agencies" },
-  { key: "sponsor", label: "Sponsor" }
+  { key: "lead_agency", label: "Presiding Court" },
+  { key: "participating_agencies", label: "Allied Courts" },
+  { key: "sponsor", label: "Patron" }
 ]
 
 function renderValue(value: string | number | undefined) {
@@ -48,15 +48,15 @@ export function ProjectSummary({ data, actions }: ProjectSummaryProps) {
   return (
     <CollapsibleCard
       className="summary-panel"
-      title="Project snapshot"
-      description="As you populate the form, this summary updates so it can be copied into status reports or sent to collaborators."
+      title="Petition snapshot"
+      description="As you populate the form, this summary updates so it can be copied into Court reports or sent to collaborators."
       actions={actions ? <div className="summary-panel__actions">{actions}</div> : null}
       defaultExpanded
       dataAttributes={{
         "data-tour-id": "portal-summary",
         "data-tour-title": "Snapshot updates",
         "data-tour-intro":
-          "Key fields and a quick narrative update in this card as you or the Copilot provide more project details."
+          "Key fields and a quick narrative update in this card as you or the Copilot provide more petition details."
       }}
     >
       <div className="summary-grid">
@@ -73,7 +73,7 @@ export function ProjectSummary({ data, actions }: ProjectSummaryProps) {
         </div>
 
         <div className="summary-card">
-          <h3>Agencies &amp; sponsor</h3>
+          <h3>Courts &amp; patron</h3>
           <dl>
             {agencyFields.map((field) => (
               <div className="summary-row" key={field.key as string}>
@@ -106,7 +106,7 @@ export function ProjectSummary({ data, actions }: ProjectSummaryProps) {
 
         {showContact ? (
           <div className="summary-card">
-            <h3>Sponsor contact</h3>
+            <h3>Patron contact</h3>
             <dl>
               <div className="summary-row">
                 <dt>Name</dt>

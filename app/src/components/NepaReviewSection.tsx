@@ -63,8 +63,8 @@ export function NepaReviewSection({
     const savingLabel =
       preScreeningSubmitState.message ??
       (preScreeningSubmitState.action === "save"
-        ? "Saving pre-screening data…"
-        : "Submitting pre-screening data…")
+        ? "Saving augury data…"
+        : "Submitting augury data…")
     submissionStatus = (
       <div className="form-panel__status">
         <span className="status" role="status">{savingLabel}</span>
@@ -80,8 +80,8 @@ export function NepaReviewSection({
     const successLabel =
       preScreeningSubmitState.message ??
       (preScreeningSubmitState.action === "save"
-        ? "Pre-screening data saved."
-        : "Pre-screening data submitted.")
+        ? "Augury data saved."
+        : "Augury data submitted.")
     submissionStatus = (
       <div className="form-panel__status">
         <span className="status" role="status">{successLabel}</span>
@@ -91,7 +91,7 @@ export function NepaReviewSection({
     submissionStatus = (
       <div className="form-panel__status">
         <span className="status" role="status">
-          Save the project snapshot to enable pre-screening actions.
+          Save the petition snapshot to enable augury actions.
         </span>
       </div>
     )
@@ -100,20 +100,20 @@ export function NepaReviewSection({
   return (
     <CollapsibleCard
       className="form-panel"
-      title="NEPA review"
-      description="Capture information related to the NEPA review process."
-      ariaLabel="NEPA review details"
+      title="Weave Review"
+      description="Capture information related to the Weave Review process."
+      ariaLabel="Weave Review details"
       status={status}
       dataAttributes={{
-        "data-tour-id": "portal-nepa",
-        "data-tour-title": "Review NEPA factors",
+        "data-tour-id": "portal-weave",
+        "data-tour-title": "Review Weave factors",
         "data-tour-intro":
-          "Summarize categorical exclusions, conditions, and extraordinary circumstances. The Copilot can draft language based on your project details."
+          "Summarize Weave exemptions, conditions, and extraordinary circumstances. The Copilot can draft language based on your petition details."
       }}
     >
       <div className="form-panel__body">
         <div className="form-field">
-          <label htmlFor={categoricalId}>{categoricalConfig?.title ?? "Categorical Exclusion"}</label>
+          <label htmlFor={categoricalId}>{categoricalConfig?.title ?? "Weave Exemption Code"}</label>
           {categoricalConfig?.description ? <p className="help-block">{categoricalConfig.description}</p> : null}
           <textarea
             id={categoricalId}
@@ -140,7 +140,7 @@ export function NepaReviewSection({
         </div>
         <div className="form-field">
           <label htmlFor={extraordinaryId}>
-            {extraordinaryConfig?.title ?? "Environmental Narrative"}
+            {extraordinaryConfig?.title ?? "Weave Narrative"}
           </label>
           {extraordinaryConfig?.description ? <p className="help-block">{extraordinaryConfig.description}</p> : null}
           <textarea
@@ -181,7 +181,7 @@ export function NepaReviewSection({
               >
                 {preScreeningSubmitState.status === "saving" && preScreeningSubmitState.action === "save"
                   ? "Saving…"
-                  : "Save pre-screening data"}
+                  : "Save augury data"}
               </button>
               <button
                 type="button"
@@ -195,7 +195,7 @@ export function NepaReviewSection({
               >
                 {preScreeningSubmitState.status === "saving" && preScreeningSubmitState.action === "submit"
                   ? "Submitting…"
-                  : "Submit pre-screening data"}
+                  : "Submit augury data"}
               </button>
             </div>
           </div>

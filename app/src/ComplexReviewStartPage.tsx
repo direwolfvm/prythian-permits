@@ -92,7 +92,7 @@ export default function ComplexReviewStartPage() {
             ? error.message
             : error instanceof Error
               ? error.message
-              : "Unable to load Complex Review process information."
+              : "Unable to load Weave Review process information."
         setProcessState({ status: "error", message })
       })
 
@@ -107,7 +107,7 @@ export default function ComplexReviewStartPage() {
     if (!projectId) {
       setProjectState({
         status: "error",
-        message: "Provide a project identifier to submit to Review Works."
+        message: "Provide a petition identifier to submit to ReviewWorks."
       })
       setReviewworksStatus({ status: "idle" })
       return () => {
@@ -119,7 +119,7 @@ export default function ComplexReviewStartPage() {
     if (!Number.isFinite(parsedId)) {
       setProjectState({
         status: "error",
-        message: "Project identifiers must be numeric. Return to the portal to save your project."
+        message: "Petition identifiers must be numeric. Return to the portal to save your petition."
       })
       setReviewworksStatus({ status: "idle" })
       return () => {
@@ -145,7 +145,7 @@ export default function ComplexReviewStartPage() {
             ? error.message
             : error instanceof Error
               ? error.message
-              : "Unable to load project details."
+              : "Unable to load petition details."
         setProjectState({ status: "error", message })
         setReviewworksStatus({ status: "idle" })
       })
@@ -165,7 +165,7 @@ export default function ComplexReviewStartPage() {
     if (!Number.isFinite(projectId)) {
       setReviewworksStatus({
         status: "error",
-        message: "Project identifiers must be numeric to check Review Works status."
+        message: "Petition identifiers must be numeric to check ReviewWorks status."
       })
       return
     }
@@ -189,7 +189,7 @@ export default function ComplexReviewStartPage() {
             ? error.message
             : error instanceof Error
               ? error.message
-              : "Unable to check Review Works status."
+              : "Unable to check ReviewWorks status."
         setReviewworksStatus({ status: "error", message })
       })
 
@@ -274,27 +274,27 @@ export default function ComplexReviewStartPage() {
           ? error.message
           : error instanceof Error
             ? error.message
-            : "Unable to authenticate with Review Works."
+            : "Unable to authenticate with ReviewWorks."
       setAuthState({ status: "error", message })
     }
   }
 
   const handleSubmit = async () => {
     if (projectState.status !== "success") {
-      setSubmitState({ status: "error", message: "Project details are not available yet." })
+      setSubmitState({ status: "error", message: "Petition details are not available yet." })
       return
     }
     if (missingRequiredFields.length > 0) {
       setSubmitState({
         status: "error",
-        message: "Complete the required project fields before submitting."
+        message: "Complete the required petition fields before submitting."
       })
       return
     }
     if (authState.status !== "authenticated") {
       setSubmitState({
         status: "error",
-        message: "Authenticate with Review Works before submitting."
+        message: "Authenticate with ReviewWorks before submitting."
       })
       return
     }
@@ -319,8 +319,8 @@ export default function ComplexReviewStartPage() {
       setSubmitState({
         status: "success",
         message: hasExistingReviewworksProject
-          ? "Project updated in Review Works."
-          : "Project submitted to Review Works."
+          ? "Petition updated in ReviewWorks."
+          : "Petition submitted to ReviewWorks."
       })
       const projectIdValue = projectState.formData.id
       const projectId = projectIdValue ? Number.parseInt(projectIdValue, 10) : Number.NaN
@@ -329,7 +329,7 @@ export default function ComplexReviewStartPage() {
           const info = await loadReviewworksProjectStatus(projectId)
           setReviewworksStatus({ status: "success", info })
         } catch (statusError) {
-          console.warn("Failed to refresh Review Works status after submission.", statusError)
+          console.warn("Failed to refresh ReviewWorks status after submission.", statusError)
         }
       }
     } catch (error) {
@@ -338,7 +338,7 @@ export default function ComplexReviewStartPage() {
           ? error.message
           : error instanceof Error
             ? error.message
-            : "Unable to submit the project to Review Works."
+            : "Unable to submit the petition to ReviewWorks."
       setSubmitState({ status: "error", message })
     }
   }
@@ -347,7 +347,7 @@ export default function ComplexReviewStartPage() {
   if (processState.status === "loading" || processState.status === "idle") {
     content = (
       <p className="permit-start-page__status" role="status" aria-live="polite">
-        Loading Complex Review process information…
+        Loading Weave Review process information…
       </p>
     )
   } else if (processState.status === "error") {
@@ -360,7 +360,7 @@ export default function ComplexReviewStartPage() {
     content = (
       <details className="permit-start-page__details" open>
         <summary className="permit-start-page__details-summary">
-          <span className="permit-start-page__details-title">Complex Review process information</span>
+          <span className="permit-start-page__details-title">Weave Review process information</span>
           <span className="permit-start-page__details-icon" aria-hidden="true">
             <svg viewBox="0 0 12 12" focusable="false">
               <path
@@ -385,24 +385,24 @@ export default function ComplexReviewStartPage() {
     <article className="app permit-start-page">
       <div className="app__inner">
         <header className="permit-start-page__header">
-          <p className="permit-start-page__eyebrow">Complex Review</p>
-          <h1>Start this environmental review.</h1>
+          <p className="permit-start-page__eyebrow">Weave Review</p>
+          <h1>Start this Weave Review.</h1>
           <p>
-            Use this checklist item to kick off the Review Works workflow. Review the process
-            model and decision elements below before advancing the application.
+            Use this checklist item to kick off the ReviewWorks workflow. Review the rite
+            model and ruling criteria below before advancing the application.
           </p>
         </header>
         <section className="permit-start-page__content">
           <section className="permit-start-page__panel">
-            <h2>Submit this project to Review Works</h2>
+            <h2>Submit this petition to ReviewWorks</h2>
             <p>
-              Review Works requires a complete project profile and an authenticated Supabase
+              ReviewWorks requires a complete petition profile and an authenticated Supabase
               session. Once authenticated, your user identifier will be attached to the
               submission record.
             </p>
             {projectState.status === "loading" ? (
               <p className="permit-start-page__status" role="status" aria-live="polite">
-                Loading project details…
+                Loading petition details…
               </p>
             ) : null}
             {projectState.status === "error" ? (
@@ -413,14 +413,14 @@ export default function ComplexReviewStartPage() {
             {projectState.status === "success" ? (
               <div className="permit-start-page__project">
                 <div>
-                  <h3>Project summary</h3>
+                  <h3>Petition summary</h3>
                   <pre className="permit-start-page__project-summary">{projectSummary}</pre>
                 </div>
                 <div>
-                  <h3>Review Works status</h3>
+                  <h3>ReviewWorks status</h3>
                   {reviewworksStatus.status === "loading" ? (
                     <p className="permit-start-page__status" role="status" aria-live="polite">
-                      Checking Review Works for existing records…
+                      Checking ReviewWorks for existing petition records…
                     </p>
                   ) : null}
                   {reviewworksStatus.status === "error" ? (
@@ -432,17 +432,17 @@ export default function ComplexReviewStartPage() {
                     <div className="permit-start-page__status" role="status" aria-live="polite">
                       {reviewworksStatus.info.exists ? (
                         <p>
-                          Review Works already has this project.
+                          ReviewWorks already has this petition.
                           {formattedReviewworksTimestamp
                             ? ` Last updated ${formattedReviewworksTimestamp}.`
                             : null}
                         </p>
                       ) : (
-                        <p>No Review Works submission found for this project yet.</p>
+                        <p>No ReviewWorks submission found for this petition yet.</p>
                       )}
                       {reviewworksStatus.info.complexReviewProcess ? (
                         <p>
-                          A Complex Review process is already underway. Update details to keep it
+                          A Weave Review process is already underway. Update details to keep it
                           current.
                         </p>
                       ) : null}
@@ -460,7 +460,7 @@ export default function ComplexReviewStartPage() {
                   </div>
                 ) : (
                   <p className="permit-start-page__status">
-                    Project information is complete. Ready to authenticate.
+                    Petition information is complete. Ready to authenticate.
                   </p>
                 )}
               </div>
@@ -468,7 +468,7 @@ export default function ComplexReviewStartPage() {
             <form className="permit-start-page__auth" onSubmit={handleAuthenticate}>
               <div className="permit-start-page__auth-fields">
                 <label>
-                  Review Works email
+                  ReviewWorks email
                   <input
                     type="email"
                     value={authEmail}
@@ -477,7 +477,7 @@ export default function ComplexReviewStartPage() {
                   />
                 </label>
                 <label>
-                  Review Works password
+                  ReviewWorks password
                   <input
                     type="password"
                     value={authPassword}
@@ -494,7 +494,7 @@ export default function ComplexReviewStartPage() {
                 >
                   {authState.status === "authenticating"
                     ? "Authenticating…"
-                    : "Authenticate with Review Works"}
+                    : "Authenticate with ReviewWorks"}
                 </button>
                 {authState.status === "authenticated" ? (
                   <span className="permit-start-page__auth-success" role="status">
@@ -518,8 +518,8 @@ export default function ComplexReviewStartPage() {
                 {submitState.status === "submitting"
                   ? "Submitting…"
                   : hasExistingReviewworksProject
-                    ? "Update project in Review Works"
-                    : "Submit project to Review Works"}
+                    ? "Update petition in ReviewWorks"
+                    : "Submit petition to ReviewWorks"}
               </button>
               {submitState.status === "error" ? (
                 <span className="permit-start-page__submit-error" role="alert">

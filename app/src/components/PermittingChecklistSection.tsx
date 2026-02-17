@@ -63,24 +63,24 @@ export function PermittingChecklistSection({
   return (
     <CollapsibleCard
       className="checklist-panel"
-      title="Permitting checklist"
-      description="Track anticipated permits and authorizations alongside the project form. Use the Copilot to suggest items based on project scope, or add your own below."
+      title="Decree checklist"
+      description="Track anticipated decrees and authorizations alongside the petition form. Use the Copilot to suggest items based on petition scope, or add your own below."
       status={status}
       dataAttributes={{
         "data-tour-id": "portal-checklist",
-        "data-tour-title": "Track permits",
+        "data-tour-title": "Track decrees",
         "data-tour-intro":
-          "Use this checklist to capture likely permits. Ask the Copilot to suggest items and it can add them directly here."
+          "Use this checklist to capture likely decrees. Ask the Copilot to suggest items and it can add them directly here."
       }}
     >
       <form className="checklist-panel__form" onSubmit={handleSubmit}>
         <label htmlFor="permitting-checklist-input" className="visually-hidden">
-          Add permitting checklist item
+          Add decree checklist item
         </label>
         <input
           id="permitting-checklist-input"
           type="text"
-          placeholder="Add permit or authorization"
+          placeholder="Add decree or authorization"
           value={draftLabel}
           onChange={(event) => setDraftLabel(event.target.value)}
         />
@@ -90,9 +90,9 @@ export function PermittingChecklistSection({
       </form>
       {!hasBasicPermit ? (
         <div className="checklist-panel__basic-permit">
-          <p>Need to track the Basic Permit workflow?</p>
+          <p>Need to track the Court Registry decree workflow?</p>
           <button type="button" className="secondary" onClick={onAddBasicPermit}>
-            Add Basic Permit item
+            Add Court Registry decree
           </button>
         </div>
       ) : null}
@@ -108,9 +108,9 @@ export function PermittingChecklistSection({
               className="secondary"
               onClick={() =>
                 onBulkAddFromSeed([
-                  "Clean Water Act Section 404 Permit",
-                  "Endangered Species Act Section 7 Consultation",
-                  "National Historic Preservation Act Section 106 Consultation"
+                  "Ley Line Construction Clearance",
+                  "Suriel Habitat Consultation",
+                  "Ancient Ruins Preservation Review"
                 ])
               }
             >

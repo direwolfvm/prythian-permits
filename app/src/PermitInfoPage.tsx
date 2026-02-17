@@ -16,7 +16,7 @@ function PermitInfoContent({ permit }: { permit: PermitInfo }) {
     <div className="permit-info">
       <header className="permit-info__header">
         <Link to="/portal" className="permit-info__back">
-          &larr; Back to Project Portal
+          &larr; Back to Petition Portal
         </Link>
         <h1>{permit.name}</h1>
         <div className="permit-info__meta">
@@ -30,7 +30,7 @@ function PermitInfoContent({ permit }: { permit: PermitInfo }) {
 
       <section className="permit-info__section">
         <h2>Description</h2>
-        <p className="permit-info__description">{permit.description || "No description available."}</p>
+        <p className="permit-info__description">{permit.description || "No description available for this decree."}</p>
       </section>
 
       {permit.activityTrigger ? (
@@ -42,7 +42,7 @@ function PermitInfoContent({ permit }: { permit: PermitInfo }) {
 
       {permit.projectType ? (
         <section className="permit-info__section">
-          <h2>Project Types</h2>
+          <h2>Petition Types</h2>
           <p>{permit.projectType}</p>
         </section>
       ) : null}
@@ -62,15 +62,15 @@ function PermitNotFound({ permitId }: { permitId: string }) {
     <div className="permit-info permit-info--not-found">
       <header className="permit-info__header">
         <Link to="/portal" className="permit-info__back">
-          &larr; Back to Project Portal
+          &larr; Back to Petition Portal
         </Link>
-        <h1>Permit Not Found</h1>
+        <h1>Decree Not Found</h1>
       </header>
       <p>
-        No permit information found for ID: <code>{permitId}</code>
+        No decree information found for ID: <code>{permitId}</code>
       </p>
       <p>
-        <Link to="/portal">Return to the Project Portal</Link> to continue working on your project.
+        <Link to="/portal">Return to the Petition Portal</Link> to continue working on your petition.
       </p>
     </div>
   )

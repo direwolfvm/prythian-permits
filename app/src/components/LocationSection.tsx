@@ -2,7 +2,7 @@ import { useCallback, useId, useState } from "react"
 import type { ReactNode } from "react"
 
 import type { ProjectFormData } from "../schema/projectSchema"
-import { ArcgisSketchMap } from "./ArcgisSketchMap"
+import { ImageMapCanvas } from "./ImageMapCanvas"
 import type { GeometryChange, GeometrySource, UploadedGisFile } from "../types/gis"
 import type {
   GeospatialResultsState,
@@ -39,7 +39,7 @@ type LocationGeometryUpdates =
 
 function NepassistSummaryTable({ items }: { items: NepassistSummaryItem[] }) {
   if (!items.length) {
-    return <p className="geospatial-results__status muted">No NEPA Assist findings returned.</p>
+    return <p className="geospatial-results__status muted">No Ley Line Registry findings returned.</p>
   }
 
   return (
@@ -237,12 +237,12 @@ export function LocationSection({
     <CollapsibleCard
       className="location-section"
       title={title}
-      aria-label="Project location details"
+      aria-label="Petition location details"
       dataAttributes={{
         "data-tour-id": "portal-location",
-        "data-tour-title": "Map the project",
+        "data-tour-title": "Map the petition",
         "data-tour-intro":
-          "Describe the location and sketch or upload a geometry. The Copilot uses this footprint to generate geospatial checks.",
+          "Describe the location and sketch or upload a geometry. The Copilot uses this footprint to generate augury checks.",
         "data-tour-step": 2
       }}
       onToggle={setIsCardOpen}
@@ -265,16 +265,16 @@ export function LocationSection({
         />
         <div className="location-card__map">
           <div className="location-card__map-header">
-            <h4>Draw the project area</h4>
+            <h4>Draw the petition area</h4>
             <button type="button" className="link-button" onClick={handleClear}>
               Clear shape
             </button>
           </div>
           <p className="help-block">
-            Search for an address or navigate the map, then draw a point, line, or polygon to capture the
-            project footprint.
+            Navigate the map, then draw a point, line, or polygon to capture the
+            petition footprint.
           </p>
-          <ArcgisSketchMap
+          <ImageMapCanvas
             geometry={geometry}
             onGeometryChange={handleGeometryChange}
             enableFileUpload={enableFileUpload}
@@ -287,9 +287,9 @@ export function LocationSection({
           <div className="geospatial-results">
             <div className="geospatial-results__header">
               <div>
-                <h3>Geospatial screening</h3>
+                <h3>Augury screening</h3>
                 <p className="help-block">
-                  Runs NEPA Assist and IPaC with a {bufferMiles.toFixed(2)} mile buffer around the project geometry.
+                  Runs Ley Line Registry and Ward Assessment with a {bufferMiles.toFixed(2)} league buffer around the petition geometry.
                 </p>
               </div>
               {geospatialResults.lastRunAt ? (
@@ -307,16 +307,16 @@ export function LocationSection({
             ) : null}
             <div className="geospatial-results__cards">
               <GeospatialServiceCard
-                title="NEPA Assist"
+                title="Ley Line Registry"
                 result={geospatialResults.nepassist}
                 renderSummary={(summary) => <NepassistSummaryTable items={summary} />}
-                emptyMessage="Run the geospatial screen to request NEPA Assist data."
+                emptyMessage="Run the augury screen to request Ley Line Registry data."
               />
               <GeospatialServiceCard
-                title="IPaC"
+                title="Ward Assessment"
                 result={geospatialResults.ipac}
                 renderSummary={(summary) => <IpacSummaryDetails summary={summary} />}
-                emptyMessage="Run the geospatial screen to request IPaC data."
+                emptyMessage="Run the augury screen to request Ward Assessment data."
               />
             </div>
             <div className="geospatial-results__footer">
@@ -326,10 +326,10 @@ export function LocationSection({
                 onClick={onRunGeospatialScreen}
                 disabled={isRunningGeospatial || !hasGeometry}
               >
-                {isRunningGeospatial ? "Running geospatial screen…" : "Run geospatial screen"}
+                {isRunningGeospatial ? "Running augury screen…" : "Run augury screen"}
               </button>
               {!hasGeometry ? (
-                <p className="help-block geospatial-footer__hint">Draw a project geometry to enable the screening tools.</p>
+                <p className="help-block geospatial-footer__hint">Draw a petition geometry to enable the augury tools.</p>
               ) : null}
             </div>
           </div>

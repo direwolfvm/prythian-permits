@@ -164,22 +164,15 @@ function Layout() {
               </svg>
             </span>
             <p className="site-banner__message">
-              <strong>This is NOT a US government website at all</strong>, but it’s still safe to be here!
+              <strong>Welcome to Prythian Permits</strong> &mdash; a fantasy permitting portal for the Courts of Prythian.
             </p>
             <details className="site-banner__details">
-              <summary className="site-banner__summary">Here’s how you know</summary>
+              <summary className="site-banner__summary">What is this?</summary>
               <div className="site-banner__content">
                 <p>
-                  HelpPermit.me is a demonstration project and uses a custom domain instead of a
-                  <code>.gov</code> address.
+                  Prythian Permits is a demo portal themed after A Court of Thorns and Roses.
+                  All decrees, courts, and auguries are fictional.
                 </p>
-                <ul>
-                  <li>
-                    Even without <code>.gov</code>, the <strong>https://</strong> prefix shows your connection is
-                    encrypted.
-                  </li>
-                  <li>A lock icon next to the URL means your browser verified this site’s security certificate.</li>
-                </ul>
               </div>
             </details>
           </div>
@@ -197,8 +190,8 @@ function Layout() {
                   : "site-header__brand-link"
               }
             >
-              <span className="site-header__title">HelpPermit.me</span>
-              <span className="site-header__tagline">(an unofficial demo)</span>
+              <span className="site-header__title">Prythian Permits</span>
+              <span className="site-header__tagline">A Court of Permits and Reviews</span>
             </NavLink>
           </div>
           <button
@@ -230,8 +223,8 @@ function Layout() {
           <NavLink
             to="/about"
             data-tour="nav-link"
-            data-tour-title="About HelpPermit.me"
-              data-tour-intro="Learn about the purpose of this demo experience."
+            data-tour-title="About Prythian Permits"
+              data-tour-intro="Learn about the Courts and how decrees work."
               className={({ isActive }) =>
                 isActive ? "site-nav__link site-nav__link--active" : "site-nav__link"
               }
@@ -241,30 +234,30 @@ function Layout() {
             <NavLink
               to="/portal"
               data-tour="nav-link"
-              data-tour-title="Start a new project"
-              data-tour-intro="Work with the copilot to kick off a simulated pre-screening."
+              data-tour-title="File a new petition"
+              data-tour-intro="Work with the copilot to begin a new augury for your petition."
               className={({ isActive }) =>
                 isActive ? "site-nav__link site-nav__link--active" : "site-nav__link"
               }
             >
-              Project Portal
+              Petition Portal
             </NavLink>
             <NavLink
               to="/projects"
               data-tour="nav-link"
-              data-tour-title="Projects overview"
-              data-tour-intro="See active permit applications and track their milestones."
+              data-tour-title="Petitions overview"
+              data-tour-intro="See active petitions and track their chronicle entries."
               className={({ isActive }) =>
                 isActive ? "site-nav__link site-nav__link--active" : "site-nav__link"
               }
             >
-              Projects
+              Petitions
             </NavLink>
             <NavLink
               to="/analytics"
               data-tour="nav-link"
               data-tour-title="Analytics"
-              data-tour-intro="Review pre-screening activity and turnaround times."
+              data-tour-intro="Review augury activity and court processing times."
               className={({ isActive }) =>
                 isActive ? "site-nav__link site-nav__link--active" : "site-nav__link"
               }
@@ -274,30 +267,30 @@ function Layout() {
             <NavLink
               to="/resource-check"
               data-tour="nav-link"
-              data-tour-title="Resource check"
-              data-tour-intro="Check how a footprint may interact with natural resources."
+              data-tour-title="Augury check"
+              data-tour-intro="Check how a venture footprint may interact with ley lines and wards."
               className={({ isActive }) =>
                 isActive ? "site-nav__link site-nav__link--active" : "site-nav__link"
               }
             >
-              Resource Check
+              Augury Check
             </NavLink>
             <NavLink
               to="/resources"
               data-tour="nav-link"
-              data-tour-title="Resources"
-              data-tour-intro="Browse the inventory of federal permits and authorizations."
+              data-tour-title="Decrees"
+              data-tour-intro="Browse the inventory of court decrees and authorizations."
               className={({ isActive }) =>
                 isActive ? "site-nav__link site-nav__link--active" : "site-nav__link"
               }
             >
-              Resources
+              Decrees
             </NavLink>
             <NavLink
               to="/developer-tools"
               data-tour="nav-link"
               data-tour-title="Developer tools"
-              data-tour-intro="See how CopilotKit integrations power this experience."
+              data-tour-intro="See how the Copilot integrations power the portal."
               className={({ isActive }) =>
                 isActive ? "site-nav__link site-nav__link--active" : "site-nav__link"
               }
@@ -329,27 +322,10 @@ function Layout() {
       </main>
       <footer className="site-footer" aria-label="Site footer">
         <p className="site-footer__message">
-          Mostly built by a robot!{' '}
-          <a
-            className="site-footer__link"
-            href="https://chatgpt.com/codex"
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            Codex
-          </a>{' '}
-          (and other AI tools) made this, with help and guidance from its human{' '}
-          <a
-            className="site-footer__link"
-            href="https://github.com/direwolfvm"
-            target="_blank"
-            rel="noreferrer noopener"
-          >
-            expert
-          </a>
-          ...
+          By decree of the High Lords, this portal was forged with the aid of enchanted constructs
+          and the diligent oversight of mortal stewards.
         </p>
-        <p className="site-footer__copyright">© {currentYear} HelpPermit.me. All rights reserved.</p>
+        <p className="site-footer__copyright">© {currentYear} Prythian Permits. All rights reserved under the Prythian Accord.</p>
       </footer>
     </div>
   )

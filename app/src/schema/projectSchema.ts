@@ -46,109 +46,109 @@ interface FieldDetail {
 export const projectFieldDetails: ReadonlyArray<FieldDetail> = [
   {
     key: "title",
-    title: "Project Title",
+    title: "Petition Title",
     description:
-      "Plain-language name that agencies and the public use to refer to the project.",
+      "Plain-language name used by the Courts and petitioners to refer to this venture.",
     jsonType: "string",
-    placeholder: "River Valley Transmission Line"
+    placeholder: "Velaris Ley Line Extension"
   },
   {
     key: "sector",
     title: "Sector",
-    description: "Sector category from the permitting data standard.",
+    description: "Category of the venture from the Prythian decree standards.",
     jsonType: "string",
-    placeholder: "Energy"
+    placeholder: "Ley Line Infrastructure"
   },
   {
     key: "lead_agency",
-    title: "Lead Agency",
-    description: "Agency responsible for leading the environmental review.",
+    title: "Presiding Court",
+    description: "Court responsible for leading the Weave Review.",
     jsonType: "string",
-    placeholder: "Department of Energy"
+    placeholder: "Night Court"
   },
   {
     key: "participating_agencies",
-    title: "Participating Agencies",
-    description: "Additional agencies contributing to the review (comma-separated).",
+    title: "Allied Courts",
+    description: "Additional Courts contributing to the review (comma-separated).",
     jsonType: "string",
-    placeholder: "USACE, EPA Region 8"
+    placeholder: "Day Court, Dawn Court"
   },
   {
     key: "sponsor",
-    title: "Project Sponsor",
-    description: "Organization proposing or funding the project.",
+    title: "Petition Patron",
+    description: "Individual or organization sponsoring this venture.",
     jsonType: "string",
-    placeholder: "River Valley Transmission LLC"
+    placeholder: "Velaris Infrastructure Guild"
   },
   {
     key: "description",
-    title: "Project Description",
-    description: "Concise summary of the project's purpose, scope, and major components.",
+    title: "Petition Description",
+    description: "Concise summary of the venture's purpose, scope, and major components.",
     jsonType: "string",
     widget: "textarea",
     rows: 5,
-    placeholder: "Construct a 230 kV line connecting..."
+    placeholder: "Extend the primary ley line conduit from Velaris to..."
   },
   {
     key: "funding",
-    title: "Funding Summary",
-    description: "Key funding sources or authorizations supporting the project.",
+    title: "Funding & Tithe Summary",
+    description: "Key funding sources or Court tithes supporting the venture.",
     jsonType: "string",
     widget: "textarea",
     rows: 3,
-    placeholder: "DOE Grid Resilience Grants; private capital"
+    placeholder: "Night Court treasury; Velaris merchant guild contributions"
   },
   {
     key: "location_text",
     title: "Location Description",
-    description: "Narrative description of the project location (state, county, landmarks).",
+    description: "Narrative description of the venture location (court territory, landmarks, regions).",
     jsonType: "string",
     widget: "textarea",
     rows: 3,
-    placeholder: "Spans Lincoln and Dawson counties in Nebraska",
+    placeholder: "Northern reaches of the Night Court, along the Sidra River",
     includeInForm: false
   },
   {
     key: "location_lat",
-    title: "Project Centroid Latitude",
-    description: "Latitude in decimal degrees for the project centroid.",
+    title: "Map Position Y",
+    description: "Normalized Y position on the Prythian map (0-1).",
     jsonType: "number",
-    placeholder: "41.2405",
+    placeholder: "0.35",
     includeInForm: false
   },
   {
     key: "location_lon",
-    title: "Project Centroid Longitude",
-    description: "Longitude in decimal degrees for the project centroid.",
+    title: "Map Position X",
+    description: "Normalized X position on the Prythian map (0-1).",
     jsonType: "number",
-    placeholder: "-101.0169",
+    placeholder: "0.52",
     includeInForm: false
   },
   {
     key: "location_object",
     title: "Location Geometry (GeoJSON)",
-    description: "GeoJSON geometry describing the project footprint or corridor.",
+    description: "GeoJSON geometry describing the venture footprint on the map.",
     jsonType: "string",
     widget: "textarea",
     rows: 4,
-    placeholder: '{"type":"Point","coordinates":[-101.0169,41.2405]}',
+    placeholder: '{"type":"Polygon","coordinates":[[[0.3,0.2],[0.5,0.2],[0.5,0.4],[0.3,0.4],[0.3,0.2]]]}',
     includeInForm: false
   },
   {
     key: "nepa_categorical_exclusion_code",
-    title: "Categorical Exclusion",
-    description: "Describe the categorical exclusion applied to this project.",
+    title: "Weave Exemption Code",
+    description: "Describe the Weave exemption category applied to this petition.",
     jsonType: "string",
     widget: "textarea",
     rows: 3,
-    placeholder: "Briefly describe the categorical exclusion determination.",
+    placeholder: "Briefly describe the Weave exemption determination.",
     includeInForm: false
   },
   {
     key: "nepa_conformance_conditions",
     title: "Conditions for Conformance",
     description:
-      "Document any conditions that must be met for the project to move through permitting or environmental review.",
+      "Document any conditions that must be met for the petition to proceed through decree or Weave Review.",
     jsonType: "string",
     widget: "textarea",
     rows: 4,
@@ -156,9 +156,9 @@ export const projectFieldDetails: ReadonlyArray<FieldDetail> = [
   },
   {
     key: "nepa_extraordinary_circumstances",
-    title: "Environmental Narrative",
+    title: "Weave Narrative",
     description:
-      "Summarize analysis of any natural or other resources that could be impacted by the project.  If relevant, evaluate how these might be considered an extraordinary circumstance for a categorical exclusion.",
+      "Summarize analysis of any ley lines, wards, or magical resources that could be impacted by the venture. If relevant, evaluate extraordinary circumstances for a Weave exemption.",
     jsonType: "string",
     widget: "textarea",
     rows: 5,
@@ -167,7 +167,7 @@ export const projectFieldDetails: ReadonlyArray<FieldDetail> = [
   {
     key: "other",
     title: "Other Notes",
-    description: "Additional context or data points that do not fit other fields.",
+    description: "Additional context or notes that do not fit other fields.",
     jsonType: "string",
     widget: "textarea",
     rows: 3
@@ -192,15 +192,15 @@ const schemaProperties: RJSFSchema["properties"] = projectFieldDetails.reduce(
 
 schemaProperties.id = {
   type: "string",
-  title: "Project Identifier",
-  description: "Auto-generated identifier used to track this project across systems.",
+  title: "Petition Identifier",
+  description: "Auto-generated identifier used to track this petition across Courts.",
   readOnly: true
 }
 
 schemaProperties.sponsor_contact = {
   type: "object",
-  title: "Sponsor Point of Contact",
-  description: "Primary contact information for the project sponsor.",
+  title: "Patron Point of Contact",
+  description: "Primary contact information for the petition patron.",
   properties: {
     name: {
       type: "string",
@@ -223,9 +223,9 @@ schemaProperties.sponsor_contact = {
 }
 
 export const projectSchema: RJSFSchema = {
-  title: "Project Information",
+  title: "Petition Information",
   description:
-    "Start your project by populating the data fields below and saving the snapshot..",
+    "Begin your petition by populating the data fields below and saving the snapshot.",
   type: "object",
   properties: schemaProperties,
   required: ["title", "lead_agency", "description"]
@@ -257,7 +257,7 @@ export const projectUiSchema: UiSchema<ProjectFormData> = {
       "ui:placeholder": "Organization"
     },
     email: {
-      "ui:placeholder": "name@example.gov"
+      "ui:placeholder": "name@court.pry"
     },
     phone: {
       "ui:placeholder": "###-###-####"
@@ -316,22 +316,22 @@ export function formatProjectSummary(data: ProjectFormData): string {
     summaryLines.push(`Sector: ${data.sector}`)
   }
   if (data.lead_agency) {
-    summaryLines.push(`Lead agency: ${data.lead_agency}`)
+    summaryLines.push(`Presiding Court: ${data.lead_agency}`)
   }
   if (data.participating_agencies) {
-    summaryLines.push(`Participating agencies: ${data.participating_agencies}`)
+    summaryLines.push(`Allied Courts: ${data.participating_agencies}`)
   }
   if (data.sponsor) {
-    summaryLines.push(`Sponsor: ${data.sponsor}`)
+    summaryLines.push(`Patron: ${data.sponsor}`)
   }
   if (data.location_text) {
     summaryLines.push(`Location: ${data.location_text}`)
   }
   if (typeof data.location_lat === "number" && typeof data.location_lon === "number") {
-    summaryLines.push(`Project centroid coordinates: ${data.location_lat}, ${data.location_lon}`)
+    summaryLines.push(`Map coordinates: ${data.location_lat}, ${data.location_lon}`)
   }
   if (data.description) {
     summaryLines.push(`Summary: ${data.description}`)
   }
-  return summaryLines.join("\n") || "No project details captured yet."
+  return summaryLines.join("\n") || "No petition details captured yet."
 }

@@ -57,7 +57,7 @@ export function prepareGeospatialPayload(geometryJson?: string | null): Prepared
   const result: PreparedGeospatialPayload = { errors: [] }
 
   if (!geometryJson) {
-    result.errors.push('No geometry is available. Draw a project footprint to run the geospatial screen.')
+    result.errors.push('No geometry is available. Draw a petition footprint to run the augury screen.')
     return result
   }
 
@@ -173,7 +173,7 @@ export function prepareGeospatialPayload(geometryJson?: string | null): Prepared
       coordsString: flattenCoordinatePairs([pair]),
       type: 'point',
     }
-    result.errors.push('IPaC only supports polygon or line geometries. Draw a line or polygon to include IPaC results.')
+    result.errors.push('Ley Line Registry only supports polygon or line geometries. Draw a line or polygon to include Ley Line Registry results.')
     return result
   }
 
@@ -451,7 +451,7 @@ function formatIpacSummary(summary: IpacSummary | undefined): string[] {
 
 export function formatGeospatialResultsSummary(results: GeospatialResultsState): string {
   const lines: string[] = []
-  lines.push('Geospatial screening results:')
+  lines.push('Augury screening results:')
 
   const lastRun = formatDateTime(results.lastRunAt)
   lines.push(`Last run: ${lastRun ?? 'not yet run'}`)
@@ -464,7 +464,7 @@ export function formatGeospatialResultsSummary(results: GeospatialResultsState):
   }
 
   const nepaStatus = describeServiceStatus(results.nepassist.status)
-  lines.push(`NEPA Assist status: ${nepaStatus}`)
+  lines.push(`Ward Assessment status: ${nepaStatus}`)
   if (results.nepassist.status === 'error' && results.nepassist.error) {
     lines.push(`- Error: ${results.nepassist.error}`)
   } else if (results.nepassist.status === 'success') {
@@ -475,7 +475,7 @@ export function formatGeospatialResultsSummary(results: GeospatialResultsState):
   }
 
   const ipacStatus = describeServiceStatus(results.ipac.status)
-  lines.push(`IPaC status: ${ipacStatus}`)
+  lines.push(`Ley Line Registry status: ${ipacStatus}`)
   if (results.ipac.status === 'error' && results.ipac.error) {
     lines.push(`- Error: ${results.ipac.error}`)
   } else if (results.ipac.status === 'success') {

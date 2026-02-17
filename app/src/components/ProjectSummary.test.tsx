@@ -22,7 +22,7 @@ describe('ProjectSummary', () => {
     renderSummary()
     const placeholders = screen.getAllByText('Not provided')
     expect(placeholders.length).toBeGreaterThan(0)
-    expect(screen.queryByRole('heading', { name: 'Sponsor contact' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('heading', { name: 'Patron contact' })).not.toBeInTheDocument()
   })
 
   it('shows coordinate pair only when both values exist', () => {
@@ -45,7 +45,7 @@ describe('ProjectSummary', () => {
       },
     })
 
-    expect(screen.getByRole('heading', { name: 'Sponsor contact' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Patron contact' })).toBeInTheDocument()
     expect(screen.getByText('Alex Rivera')).toBeInTheDocument()
     expect(screen.getByText('alex.rivera@example.com')).toBeInTheDocument()
   })
@@ -62,7 +62,7 @@ describe('ProjectSummary', () => {
       sponsor: 'River Valley Transmission LLC',
     })
 
-    const summarySection = screen.getByLabelText('Project snapshot')
+    const summarySection = screen.getByLabelText('Petition snapshot')
     const narrativeHeading = within(summarySection).getByRole('heading', { level: 3, name: 'Quick narrative' })
     const narrativeCard = narrativeHeading.parentElement
 

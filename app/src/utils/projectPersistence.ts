@@ -2785,12 +2785,12 @@ const DECISION_ELEMENT_BUILDERS: ReadonlyArray<DecisionElementBuilder> = [
   },
   {
     decisionElementId: 2,
-    title: "Confirm or upload NEPA Assist results if auto fetch fails",
+    title: "Confirm or upload Ward Assessment results if auto fetch fails",
     build: buildNepaAssistPayload
   },
   {
     decisionElementId: 3,
-    title: "Confirm or upload IPaC results if auto fetch fails",
+    title: "Confirm or upload Ley Line Registry results if auto fetch fails",
     build: buildIpacPayload
   },
   {
@@ -2817,8 +2817,8 @@ const DECISION_ELEMENT_BUILDERS: ReadonlyArray<DecisionElementBuilder> = [
 
 const DECISION_ELEMENT_TITLES = {
   PROJECT_DETAILS: DECISION_ELEMENT_BUILDERS[0]?.title ?? "Provide complete project details",
-  NEPA_ASSIST: DECISION_ELEMENT_BUILDERS[1]?.title ?? "Confirm or upload NEPA Assist results if auto fetch fails",
-  IPAC: DECISION_ELEMENT_BUILDERS[2]?.title ?? "Confirm or upload IPaC results if auto fetch fails",
+  NEPA_ASSIST: DECISION_ELEMENT_BUILDERS[1]?.title ?? "Confirm or upload Ward Assessment results if auto fetch fails",
+  IPAC: DECISION_ELEMENT_BUILDERS[2]?.title ?? "Confirm or upload Ley Line Registry results if auto fetch fails",
   PERMIT_NOTES: DECISION_ELEMENT_BUILDERS[3]?.title ?? "Provide permit applicability notes",
   CE_REFERENCES: DECISION_ELEMENT_BUILDERS[4]?.title ?? "Enter CE references and rationale",
   CONDITIONS: DECISION_ELEMENT_BUILDERS[5]?.title ?? "List applicable conditions and notes",
@@ -3185,7 +3185,7 @@ function buildResourceEntries(results: GeospatialResultsState): Array<Record<str
   if (shouldIncludeService(nepassist)) {
     entries.push(
       stripUndefined({
-        name: "NEPA Assist",
+        name: "Ward Assessment",
         status: nepassist?.status,
         summary: emptyToNull(nepassist?.summary),
         error: normalizeString(nepassist?.error),
@@ -3198,7 +3198,7 @@ function buildResourceEntries(results: GeospatialResultsState): Array<Record<str
   if (shouldIncludeService(ipac)) {
     entries.push(
       stripUndefined({
-        name: "IPaC",
+        name: "Ley Line Registry",
         status: ipac?.status,
         summary: emptyToNull(ipac?.summary),
         error: normalizeString(ipac?.error),
@@ -3219,12 +3219,12 @@ function buildResourceSummary(results: GeospatialResultsState): string | null {
     sections.push(`Last screening run: ${formatted}`)
   }
 
-  const nepaStatus = formatServiceStatus("NEPA Assist", results.nepassist)
+  const nepaStatus = formatServiceStatus("Ward Assessment", results.nepassist)
   if (nepaStatus) {
     sections.push(nepaStatus)
   }
 
-  const ipacStatus = formatServiceStatus("IPaC", results.ipac)
+  const ipacStatus = formatServiceStatus("Ley Line Registry", results.ipac)
   if (ipacStatus) {
     sections.push(ipacStatus)
   }

@@ -78,13 +78,13 @@ const MAJOR_PERMIT_SUMMARIES = majorPermits.map(
   (permit) => `${permit.title}: ${permit.description}`
 )
 
-const BASIC_PERMIT_LABEL = "Basic Permit"
-const BASIC_PERMIT_LINK = { href: "/permits/basic", label: "Start this permit." }
+const BASIC_PERMIT_LABEL = "Court Registry Decree"
+const BASIC_PERMIT_LINK = { href: "/permits/basic", label: "Start this decree." }
 const BASIC_PERMIT_PROJECT_PARAM = "projectId"
 const BASIC_PERMIT_CHECKLIST_KEY = toChecklistKey(BASIC_PERMIT_LABEL)
 
-const COMPLEX_REVIEW_LABEL = "Complex Review"
-const COMPLEX_REVIEW_LINK = { href: "/reviews/complex", label: "Start this review." }
+const COMPLEX_REVIEW_LABEL = "Weave Review"
+const COMPLEX_REVIEW_LINK = { href: "/reviews/complex", label: "Start this Weave Review." }
 const COMPLEX_REVIEW_PROJECT_PARAM = "projectId"
 const COMPLEX_REVIEW_CHECKLIST_KEY = toChecklistKey(COMPLEX_REVIEW_LABEL)
 
@@ -373,8 +373,8 @@ function PortalProgressIndicator({ progress, hasSavedSnapshot }: PortalProgressI
   const projectSnapshotStatus: ProgressStatus = projectSnapshotComplete ? "complete" : "not-started"
   const projectSnapshotDate = formatProgressDate(progress.projectSnapshot.initiatedAt)
   const projectSnapshotDetail = projectSnapshotComplete
-    ? "Project initiation case event recorded."
-    : "Save the project snapshot to start the process."
+    ? "Petition initiation chronicle entry recorded."
+    : "Save the petition snapshot to start the process."
   const projectSnapshotTimestamp = projectSnapshotDate
     ? `Initiated ${projectSnapshotDate}`
     : undefined
@@ -399,15 +399,15 @@ function PortalProgressIndicator({ progress, hasSavedSnapshot }: PortalProgressI
   const preScreeningDetail = (() => {
     if (preScreeningStatus === "complete") {
       return lastActivityDate
-        ? `Decision payload submitted ${lastActivityDate}.`
-        : "Decision payload submitted."
+        ? `Ruling payload submitted ${lastActivityDate}.`
+        : "Ruling payload submitted."
     }
     if (preScreeningStatus === "in-progress") {
       return lastActivityDate
-        ? `Pre-screening in progress. Last activity ${lastActivityDate}.`
-        : "Pre-screening in progress."
+        ? `Augury in progress. Last activity ${lastActivityDate}.`
+        : "Augury in progress."
     }
-    return "Pre-screening has not started."
+    return "Augury has not started."
   })()
 
   let showCaution = false
@@ -420,7 +420,7 @@ function PortalProgressIndicator({ progress, hasSavedSnapshot }: PortalProgressI
         showCaution = true
         cautionMessage = lastActivityDate
           ? `No activity since ${lastActivityDate}.`
-          : "No pre-screening activity recorded in the last week."
+          : "No augury activity recorded in the last week."
       }
     }
   }
@@ -428,19 +428,19 @@ function PortalProgressIndicator({ progress, hasSavedSnapshot }: PortalProgressI
   return (
     <section
       className="portal-progress"
-      aria-label="Project progress"
+      aria-label="Petition progress"
       data-tour-id="portal-progress"
       data-tour-title="Follow the workflow"
-      data-tour-intro="These status cards reflect whether you've saved a project snapshot and advanced pre-screening steps."
+      data-tour-intro="These status cards reflect whether you've saved a petition snapshot and advanced augury steps."
     >
       <ProgressPanel
-        name="Project snapshot"
+        name="Petition snapshot"
         status={projectSnapshotStatus}
         detail={projectSnapshotDetail}
         timestampLabel={projectSnapshotTimestamp}
       />
       <ProgressPanel
-        name="Pre-screening"
+        name="Augury"
         status={preScreeningStatus}
         detail={preScreeningDetail}
         caution={showCaution}
@@ -825,7 +825,7 @@ function ProcessInformationModal({
       >
         <header className="process-info-modal__header">
           <div>
-            <p className="process-info-modal__eyebrow">Pre-screening process</p>
+            <p className="process-info-modal__eyebrow">Augury process</p>
             <h2 id="process-info-modal-title">Process information</h2>
           </div>
           <button
@@ -940,7 +940,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
         copilotWrapper.dataset.tourTitle ?? "Work with the Copilot"
       copilotWrapper.dataset.tourIntro =
         copilotWrapper.dataset.tourIntro ??
-        "Open the Copilot pane to describe your project conversationally. It can map your notes into the form and checklist."
+        "Open the Copilot pane to describe your petition conversationally. It can map your notes into the form and checklist."
     }
 
     const stepSelectors = [
@@ -1074,7 +1074,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
     const trimmed = projectId.trim()
     const parsedId = Number.parseInt(trimmed, 10)
     if (!Number.isFinite(parsedId)) {
-      setProjectLoadState({ status: "error", message: "Invalid project identifier." })
+      setProjectLoadState({ status: "error", message: "Invalid petition identifier." })
       return
     }
 
@@ -1141,7 +1141,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
             ? error.message
             : error instanceof Error
             ? error.message
-            : "Unable to load project data."
+            : "Unable to load petition data."
         setProjectLoadState({ status: "error", message })
         setHasSavedSnapshot(false)
         setPortalProgress(createInitialPortalProgress())
@@ -1253,7 +1253,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
     }
 
     if (!hasSavedSnapshot) {
-      return { tone: "warning", text: "Save the project snapshot to continue" }
+      return { tone: "warning", text: "Save the petition snapshot to continue" }
     }
 
     const savedLabel = lastSaved ? `Snapshot saved ${lastSaved}` : "Snapshot saved"
@@ -1284,26 +1284,26 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
     const hasChecklistItems = permittingChecklist.length > 0
 
     if (!geospatialComplete) {
-      return { tone: "danger", text: "Run the geospatial screen" }
+      return { tone: "danger", text: "Run the augury screen" }
     }
 
     if (portalProgress.preScreening.completedAt) {
-      return { tone: "success", text: "Pre-screening submitted" }
+      return { tone: "success", text: "Augury submitted" }
     }
 
     if (!hasChecklistItems) {
-      return { tone: "danger", text: "Add permitting checklist items" }
+      return { tone: "danger", text: "Add decree checklist items" }
     }
 
     if (!hasSavedSnapshot) {
-      return { tone: "warning", text: "Save the project snapshot to submit" }
+      return { tone: "warning", text: "Save the petition snapshot to submit" }
     }
 
     if (portalProgress.preScreening.hasDecisionPayloads || portalProgress.preScreening.initiatedAt) {
-      return { tone: "warning", text: "Submit pre-screening data" }
+      return { tone: "warning", text: "Submit augury data" }
     }
 
-    return { tone: "warning", text: "Save pre-screening data" }
+    return { tone: "warning", text: "Save augury data" }
   }, [
     formData,
     geospatialResults,
@@ -1338,7 +1338,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
 
   useCopilotReadable(
     {
-      description: "Current CEQ project form data as formatted JSON",
+      description: "Current petition form data as formatted JSON",
       value: formData,
       convert: (_, value) => JSON.stringify(value, null, 2)
     },
@@ -1355,7 +1355,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
 
   useCopilotReadable(
     {
-      description: "Latest geospatial screening results including NEPA Assist and IPaC findings",
+      description: "Latest augury screening results including Ward Assessment and Ley Line Registry findings",
       value: geospatialResults,
       convert: (_, value) => formatGeospatialResultsSummary(value)
     },
@@ -1364,7 +1364,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
 
   useCopilotReadable(
     {
-      description: "Reference list of major federal permits and authorizations",
+      description: "Reference list of major Court decrees and authorizations",
       value: MAJOR_PERMIT_SUMMARIES,
       convert: (_, value) => value.join("\n")
     },
@@ -1375,7 +1375,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
 
   useCopilotReadable(
     {
-      description: "Federal permit inventory with IDs. When adding checklist items, prefer using permitId from this list for accurate linking.",
+      description: "Court decree inventory with IDs. When adding checklist items, prefer using permitId from this list for accurate linking.",
       value: permitInventoryForCopilot,
       convert: (_, value) =>
         value
@@ -1387,7 +1387,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
 
   useCopilotReadable(
     {
-      description: "Current permitting checklist items with completion status",
+      description: "Current decree checklist items with completion status",
       value: permittingChecklist,
       convert: (_, value) =>
           value.length
@@ -1397,7 +1397,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
                     `- [${item.completed ? "x" : " "}] ${item.label}${item.notes ? ` — ${item.notes}` : ""}`
                 )
               .join("\n")
-          : "No permitting checklist items yet."
+          : "No decree checklist items yet."
     },
     [permittingChecklist]
   )
@@ -1602,7 +1602,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
       setDecisionSubmitState({
         status: "error",
         action: "save",
-        message: "Save the project snapshot before saving pre-screening data."
+        message: "Save the petition snapshot before saving augury data."
       })
       return
     }
@@ -1610,7 +1610,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
     setDecisionSubmitState({
       status: "saving",
       action: "save",
-      message: "Saving pre-screening data…"
+      message: "Saving augury data…"
     })
 
     const preparedFormData = ensureProjectIdentifier()
@@ -1626,8 +1626,8 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
         status: "success",
         action: "save",
         message: evaluation.isComplete
-          ? "Pre-screening data saved. Ready to submit."
-          : "Pre-screening data saved."
+          ? "Augury data saved. Ready to submit."
+          : "Augury data saved."
       })
       const nowIso = new Date().toISOString()
       setPortalProgress((previous) => ({
@@ -1641,7 +1641,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
       }))
     } catch (error) {
       console.error("Failed to save pre-screening data", error)
-      let message = "Unable to save pre-screening data."
+      let message = "Unable to save augury data."
       if (error instanceof ProjectPersistenceError) {
         message = error.message
       } else if (error instanceof Error) {
@@ -1662,7 +1662,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
       setDecisionSubmitState({
         status: "error",
         action: "submit",
-        message: "Save the project snapshot before submitting pre-screening data."
+        message: "Save the petition snapshot before submitting augury data."
       })
       return
     }
@@ -1678,7 +1678,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
       })
     } catch (error) {
       console.error("Failed to evaluate pre-screening data", error)
-      let message = "Unable to submit pre-screening data."
+      let message = "Unable to submit augury data."
       if (error instanceof ProjectPersistenceError) {
         message = error.message
       } else if (error instanceof Error) {
@@ -1692,7 +1692,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
       setDecisionSubmitState({
         status: "error",
         action: "submit",
-        message: "Complete all pre-screening data before submitting."
+        message: "Complete all augury data before submitting."
       })
       return
     }
@@ -1700,7 +1700,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
     setDecisionSubmitState({
       status: "saving",
       action: "submit",
-      message: "Submitting pre-screening data…"
+      message: "Submitting augury data…"
     })
 
     try {
@@ -1712,7 +1712,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
       setDecisionSubmitState({
         status: "success",
         action: "submit",
-        message: "Pre-screening data submitted."
+        message: "Augury data submitted."
       })
       const nowIso = new Date().toISOString()
       setPortalProgress((previous) => ({
@@ -1726,7 +1726,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
       }))
     } catch (error) {
       console.error("Failed to submit pre-screening data", error)
-      let message = "Unable to submit pre-screening data."
+      let message = "Unable to submit augury data."
       if (error instanceof ProjectPersistenceError) {
         message = error.message
       } else if (error instanceof Error) {
@@ -1746,13 +1746,13 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
     {
       name: "updateProjectForm",
       description:
-        "Update one or more fields on the CEQ Project form. Provide only the fields that should change.",
+        "Update one or more fields on the petition form. Provide only the fields that should change.",
       parameters: [
         {
           name: "updates",
           type: "object",
           description:
-            "Project field values to merge into the form. Strings should align with CEQ data standard semantics.",
+            "Petition field values to merge into the form. Strings should align with Court data standard semantics.",
           attributes: projectFieldDetails.map((field) => ({
             name: field.key,
             type: "string",
@@ -1842,7 +1842,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
   useCopilotAction(
     {
       name: "resetProjectForm",
-      description: "Clear the CEQ Project form back to its initial state.",
+      description: "Clear the petition form back to its initial state.",
       handler: async () => {
         setFormData(createEmptyProjectData())
         setLastSaved(undefined)
@@ -1855,23 +1855,23 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
     {
       name: "addPermittingChecklistItems",
       description:
-        "Add or update permitting checklist entries. Use this to track likely permits, approvals, or consultations the project will require. Prefer using permitId from the federal permit inventory when available for accurate linking to permit info pages.",
+        "Add or update decree checklist entries. Use this to track likely decrees, approvals, or consultations the petition will require. Prefer using permitId from the Court decree inventory when available for accurate linking to decree information pages.",
       parameters: [
         {
           name: "items",
           type: "object[]",
-          description: "Checklist items to merge into the permitting tracker.",
+          description: "Checklist items to merge into the decree tracker.",
           attributes: [
             {
               name: "permitId",
               type: "string",
-              description: "The ID from the federal permit inventory (e.g., 'section-404-clean-water-act'). When provided, the label and link will be automatically set from the inventory.",
+              description: "The ID from the Court decree inventory (e.g., 'section-404-clean-water-act'). When provided, the label and link will be automatically set from the inventory.",
               required: false
             },
             {
               name: "label",
               type: "string",
-              description: "Name of the permit or authorization. Optional if permitId is provided.",
+              description: "Name of the decree or authorization. Optional if permitId is provided.",
               required: false
             },
             {
@@ -1921,11 +1921,11 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
   const instructions = useMemo(
     () =>
       [
-        "You are a permitting domain expert helping complete the CEQ Project entity form.",
+        "You are a Court decree domain expert helping complete the petition form.",
         "Use the updateProjectForm action whenever you can fill in or revise structured fields.",
         "Important fields include:",
         ...projectFieldDetails.map((field) => `- ${field.title}: ${field.description}`),
-        "Use addPermittingChecklistItems to maintain the permitting checklist. IMPORTANT: When adding permits, always use the permitId from the federal permit inventory (provided in context) instead of just the label. This ensures proper linking to permit information pages. For example, use permitId='section-404-clean-water-act' for CWA Section 404 permits.",
+        "Use addPermittingChecklistItems to maintain the decree checklist. IMPORTANT: When adding decrees, always use the permitId from the Court decree inventory (provided in context) instead of just the label. This ensures proper linking to decree information pages. For example, use permitId='section-404-clean-water-act' for CWA Section 404 permits.",
         "Use resetProjectForm when the user asks to start over."
       ].join("\n"),
     []
@@ -1938,12 +1938,12 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
       {
         title: "How do I start?",
         message:
-          "How do I start? Describe how this project portal form works and what information I should provide."
+          "How do I start? Describe how this petition portal form works and what information I should provide."
       },
       {
-        title: "I have an idea for a project.",
+        title: "I have an idea for a petition.",
         message:
-          "I have an idea for a project. Ask me for the details you need and map them into the form and checklist."
+          "I have an idea for a petition. Ask me for the details you need and map them into the form and checklist."
       }
     ],
     []
@@ -2031,7 +2031,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
       } else if (error instanceof Error) {
         setSaveError(error.message)
       } else {
-        setSaveError("Unable to save project snapshot.")
+        setSaveError("Unable to save petition snapshot.")
       }
     } finally {
       setIsSaving(false)
@@ -2056,7 +2056,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
 
       if (!Number.isFinite(projectIdValue)) {
         const error = new ProjectPersistenceError(
-          "A numeric project identifier is required before uploading documents."
+          "A numeric petition identifier is required before uploading documents."
         )
         setDocumentUploadStatus({ type: "error", message: error.message })
         throw error
@@ -2107,12 +2107,12 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
     const projectIdValue = normalizedId.length > 0 ? Number.parseInt(normalizedId, 10) : Number.NaN
 
     if (!Number.isFinite(projectIdValue)) {
-      setReportError("Save the project snapshot before generating a report.")
+      setReportError("Save the petition snapshot before generating a report.")
       return
     }
 
     if (typeof preScreeningProcessId !== "number" || !Number.isFinite(preScreeningProcessId)) {
-      setReportError("Pre-screening must be initialized before generating a report.")
+      setReportError("Augury must be initialized before generating a report.")
       return
     }
 
@@ -2322,12 +2322,12 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
     setGeospatialResults({
       nepassist: prepared.nepassist
         ? { status: "loading" }
-        : { status: "error", error: generalMessages[0] ?? "Unable to prepare NEPA Assist request." },
+        : { status: "error", error: generalMessages[0] ?? "Unable to prepare Ward Assessment request." },
       ipac: prepared.ipac
         ? { status: "loading" }
         : {
             status: "error",
-            error: ipacNotice ?? generalMessages[0] ?? "IPaC is not available for this geometry."
+            error: ipacNotice ?? generalMessages[0] ?? "Ley Line Registry is not available for this geometry."
           },
       lastRunAt: new Date().toISOString(),
       messages: generalMessages.length ? generalMessages : undefined
@@ -2363,7 +2363,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
               const errorMessage =
                 (payload && typeof payload === "object" && typeof payload.error === "string"
                   ? payload.error
-                  : text) || `NEPA Assist request failed (${response.status})`
+                  : text) || `Ward Assessment request failed (${response.status})`
               throw new Error(errorMessage)
             }
             const data = payload && typeof payload === "object" && "data" in payload ? payload.data : payload
@@ -2377,7 +2377,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
               }
             }))
           } catch (error) {
-            const message = error instanceof Error ? error.message : "NEPA Assist request failed."
+            const message = error instanceof Error ? error.message : "Ward Assessment request failed."
             setGeospatialResults((previous) => ({
               ...previous,
               nepassist: { status: "error", error: message }
@@ -2417,7 +2417,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
               const errorMessage =
                 (payload && typeof payload === "object" && typeof payload.error === "string"
                   ? payload.error
-                  : text) || `IPaC request failed (${response.status})`
+                  : text) || `Ley Line Registry request failed (${response.status})`
               throw new Error(errorMessage)
             }
             const data = payload && typeof payload === "object" && "data" in payload ? payload.data : payload
@@ -2431,7 +2431,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
               }
             }))
           } catch (error) {
-            const message = error instanceof Error ? error.message : "IPaC request failed."
+            const message = error instanceof Error ? error.message : "Ley Line Registry request failed."
             setGeospatialResults((previous) => ({
               ...previous,
               ipac: { status: "error", error: message }
@@ -2459,16 +2459,16 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
       suggestions={conversationStarters}
       defaultOpen
       clickOutsideToClose={false}
-      labels={{ title: "Permitting Copilot" }}
+      labels={{ title: "Decree Copilot" }}
       RenderSuggestionsList={ConversationStartersList}
     >
       <main className="app">
         <div className="app__inner">
           <header className="app-header">
             <div>
-              <h1>Project Portal</h1>
+              <h1>Petition Portal</h1>
               <p>
-                Start your project by filling out the forms below. The Copilot can translate unstructured notes into the schema or suggest
+                Start your petition by filling out the forms below. The Copilot can translate unstructured notes into the schema or suggest
                 corrections as you work.
               </p>
             </div>
@@ -2494,7 +2494,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
           {projectLoadState.status === "loading" ? (
             <div className="usa-alert usa-alert--info usa-alert--slim" role="status" aria-live="polite">
               <div className="usa-alert__body">
-                <p className="usa-alert__text">Loading project data…</p>
+                <p className="usa-alert__text">Loading petition data…</p>
               </div>
             </div>
           ) : null}
@@ -2502,7 +2502,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
           {projectLoadState.status === "error" ? (
             <div className="usa-alert usa-alert--error" role="alert">
               <div className="usa-alert__body">
-                <h3 className="usa-alert__heading">Unable to load project data.</h3>
+                <h3 className="usa-alert__heading">Unable to load petition data.</h3>
                 <p className="usa-alert__text">{projectLoadState.message ?? "Please try again."}</p>
               </div>
             </div>
@@ -2533,7 +2533,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
                       disabled={!canGenerateReport || isGeneratingReport}
                       title={
                         !canGenerateReport
-                          ? "Save the project snapshot to enable report generation."
+                          ? "Save the petition snapshot to enable report generation."
                           : undefined
                       }
                     >
@@ -2580,13 +2580,13 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
             />
             <CollapsibleCard
               className="form-panel"
-              title="Project form"
-              description="Complete the CEQ project fields."
-              ariaLabel="Project form"
+              title="Petition form"
+              description="Complete the petition fields."
+              ariaLabel="Petition form"
               status={projectFormStatus}
               dataAttributes={{
                 "data-tour-id": "portal-form",
-                "data-tour-title": "Fill out the CEQ form",
+                "data-tour-title": "Fill out the petition form",
                 "data-tour-intro":
                   "Work through the structured fields or ask the Copilot to take your narrative and populate the schema for you."
               }}
@@ -2613,7 +2613,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
                   ) : null}
                   <div className="form-panel__actions-group">
                     <button type="submit" className="usa-button primary" disabled={isSaving}>
-                      {isSaving ? "Saving…" : "Save project snapshot"}
+                      {isSaving ? "Saving…" : "Save petition snapshot"}
                     </button>
                     <button
                       type="button"
@@ -2622,7 +2622,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
                       disabled={!canUploadDocument}
                       title={
                         !canUploadDocument
-                          ? "Save the project snapshot before uploading documents."
+                          ? "Save the petition snapshot before uploading documents."
                           : undefined
                       }
                     >
@@ -2670,7 +2670,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
             {locationFieldDetail ? (
               <LocationSection
                 key={locationSectionKey}
-                title="Location and Geospatial Screening"
+                title="Location and Augury Screening"
                 description={locationFieldDetail.description}
                 placeholder={locationFieldDetail.placeholder}
                 rows={locationFieldDetail.rows}

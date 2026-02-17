@@ -3,7 +3,7 @@ import { formatProjectSummary, type ProjectFormData } from './projectSchema'
 
 describe('formatProjectSummary', () => {
   it('returns fallback message when no data is provided', () => {
-    expect(formatProjectSummary({})).toBe('No project details captured yet.')
+    expect(formatProjectSummary({})).toBe('No petition details captured yet.')
   })
 
   it('includes key project attributes in a consistent order', () => {
@@ -25,11 +25,11 @@ describe('formatProjectSummary', () => {
       'Title: River Valley Transmission Line',
       'Identifier: PRJ-42',
       'Sector: Energy',
-      'Lead agency: DOE',
-      'Participating agencies: USACE',
-      'Sponsor: River Valley Transmission LLC',
+      'Presiding Court: DOE',
+      'Allied Courts: USACE',
+      'Patron: River Valley Transmission LLC',
       'Location: Lincoln County, Nebraska',
-      'Project centroid coordinates: 45.1234, -122.9876',
+      'Map coordinates: 45.1234, -122.9876',
       'Summary: Construct a 230 kV transmission line across two counties.',
     ])
   })
@@ -40,6 +40,6 @@ describe('formatProjectSummary', () => {
       location_lat: 45.1234,
     }).split('\n')
 
-    expect(summaryLines).not.toContainEqual(expect.stringMatching(/^Project centroid coordinates/))
+    expect(summaryLines).not.toContainEqual(expect.stringMatching(/^Map coordinates/))
   })
 })

@@ -37,7 +37,7 @@ const defaultRuntimeUrl = getRuntimeUrl() || COPILOT_CLOUD_CHAT_URL
 const CUSTOM_ADK_PROXY_URL = "/api/custom-adk/agent"
 
 const ANALYTICS_INSTRUCTIONS = [
-  "You are an analytics copilot for the HelpPermit.me pre-screening, Basic Permit, and Complex Review workflows.",
+  "You are an analytics copilot for the Prythian Permits augury, Basic Decree, and Weave Review workflows.",
   "Interpret completion volumes and average completion times to surface notable trends and anomalies across all processes.",
   "Reference missing data explicitly when gaps appear in the series."
 ].join("\n")
@@ -47,13 +47,13 @@ const COMPLETIONS_ACCENT_COLOR = "#0f2f66"
 const AVERAGE_COLOR = "#f08a24"
 const AVERAGE_ACCENT_COLOR = "#f4c95f"
 
-// Basic Permit chart colors
+// Basic Decree chart colors
 const BASIC_PERMIT_COMPLETIONS_COLOR = "#0f7d43"
 const BASIC_PERMIT_COMPLETIONS_ACCENT_COLOR = "#0a5c32"
 const BASIC_PERMIT_AVERAGE_COLOR = "#9333ea"
 const BASIC_PERMIT_AVERAGE_ACCENT_COLOR = "#c084fc"
 
-// Complex Review chart colors
+// Weave Review chart colors
 const COMPLEX_REVIEW_COMPLETIONS_COLOR = "#dc2626"
 const COMPLEX_REVIEW_COMPLETIONS_ACCENT_COLOR = "#991b1b"
 const COMPLEX_REVIEW_AVERAGE_COLOR = "#0891b2"
@@ -164,7 +164,7 @@ function AnalyticsTooltip({
         <li>
           <span className="analytics-tooltip__label">Completed processes</span>
           <span className="analytics-tooltip__value">
-            {typeof completionsEntry?.value === "number" ? completionsEntry.value : "—"}
+            {typeof completionsEntry?.value === "number" ? completionsEntry.value : "\u2014"}
           </span>
         </li>
         <li>
@@ -172,7 +172,7 @@ function AnalyticsTooltip({
           <span className="analytics-tooltip__value">
             {typeof averageEntry?.value === "number"
               ? `${averageEntry.value} days`
-              : "—"}
+              : "\u2014"}
             {datum && datum.durationSampleSize > 0
               ? ` (n=${datum.durationSampleSize})`
               : ""}
@@ -245,7 +245,7 @@ function AnalyticsContent() {
         const message =
           caught instanceof Error
             ? caught.message
-            : "Failed to load Basic Permit analytics data."
+            : "Failed to load Basic Decree analytics data."
         setBasicPermitError(message)
         setBasicPermitStatus("error")
       }
@@ -276,7 +276,7 @@ function AnalyticsContent() {
         const message =
           caught instanceof Error
             ? caught.message
-            : "Failed to load Complex Review analytics data."
+            : "Failed to load Weave Review analytics data."
         setComplexReviewError(message)
         setComplexReviewStatus("error")
       }
@@ -290,9 +290,9 @@ function AnalyticsContent() {
   useCopilotReadable(
     {
       description:
-        "Daily counts of completed pre-screening processes and the corresponding average completion time in days.",
+        "Daily counts of completed augury processes and the corresponding average completion time in days.",
       value: points,
-      convert: (_, value) => formatSummaryForCopilot(value, "pre-screening")
+      convert: (_, value) => formatSummaryForCopilot(value, "augury")
     },
     [points]
   )
@@ -300,9 +300,9 @@ function AnalyticsContent() {
   useCopilotReadable(
     {
       description:
-        "Daily counts of completed Basic Permit processes and the corresponding average completion time in days.",
+        "Daily counts of completed Basic Decree processes and the corresponding average completion time in days.",
       value: basicPermitPoints,
-      convert: (_, value) => formatSummaryForCopilot(value, "Basic Permit")
+      convert: (_, value) => formatSummaryForCopilot(value, "Basic Decree")
     },
     [basicPermitPoints]
   )
@@ -310,9 +310,9 @@ function AnalyticsContent() {
   useCopilotReadable(
     {
       description:
-        "Daily counts of completed Complex Review processes and the corresponding average completion time in days.",
+        "Daily counts of completed Weave Review processes and the corresponding average completion time in days.",
       value: complexReviewPoints,
-      convert: (_, value) => formatSummaryForCopilot(value, "Complex Review")
+      convert: (_, value) => formatSummaryForCopilot(value, "Weave Review")
     },
     [complexReviewPoints]
   )
@@ -472,7 +472,7 @@ function AnalyticsContent() {
             <div>
               <h1>Analytics</h1>
               <p>
-                Track daily pre-screening and Basic Permit completions along with how long it takes to
+                Track daily augury and Basic Decree completions along with how long it takes to
                 finish each review. Use the Copilot to interpret trends or spot gaps in the workflow.
               </p>
             </div>
@@ -482,9 +482,9 @@ function AnalyticsContent() {
             <article className="analytics-card">
               <header className="analytics-card__header">
                 <div>
-                  <h2 className="analytics-card__title">Pre-screening overview</h2>
+                  <h2 className="analytics-card__title">Augury overview</h2>
                   <p className="analytics-card__subtitle">
-                    Totals and timing for all captured pre-screening completions.
+                    Totals and timing for all captured augury completions.
                   </p>
                 </div>
               </header>
@@ -499,7 +499,7 @@ function AnalyticsContent() {
                     <dd className="analytics-summary__value">
                       {summary.overallAverage !== null
                         ? `${summary.overallAverage} days`
-                        : "—"}
+                        : "\u2014"}
                     </dd>
                     {summary.overallAverage !== null ? (
                       <dd className="analytics-summary__hint">
@@ -516,7 +516,7 @@ function AnalyticsContent() {
                             day: "numeric",
                             year: "numeric"
                           })
-                        : "—"}
+                        : "\u2014"}
                     </dd>
                     {summary.firstCompletionDate && summary.latestCompletionDate ? (
                       <dd className="analytics-summary__hint">
@@ -525,7 +525,7 @@ function AnalyticsContent() {
                           day: "numeric",
                           year: "numeric"
                         })}{" "}
-                        –{" "}
+                        \u2013{" "}
                         {formatDisplayDate(summary.latestCompletionDate, {
                           month: "short",
                           day: "numeric",
@@ -541,19 +541,19 @@ function AnalyticsContent() {
             <article className="analytics-card">
               <header className="analytics-card__header">
                 <div>
-                  <h2 className="analytics-card__title">Basic Permit overview</h2>
+                  <h2 className="analytics-card__title">Basic Decree overview</h2>
                   <p className="analytics-card__subtitle">
-                    Totals and timing for all captured Basic Permit completions.
+                    Totals and timing for all captured Basic Decree completions.
                   </p>
                 </div>
               </header>
               <div className="analytics-card__body">
                 {basicPermitStatus === "loading" ? (
-                  <p className="analytics-status">Loading Basic Permit analytics…</p>
+                  <p className="analytics-status">Loading Basic Decree analytics...</p>
                 ) : null}
                 {basicPermitStatus === "error" ? (
                   <p className="analytics-status analytics-status--error">
-                    {basicPermitError ?? "Unable to load Basic Permit analytics."}
+                    {basicPermitError ?? "Unable to load Basic Decree analytics."}
                   </p>
                 ) : null}
                 {basicPermitStatus === "success" ? (
@@ -569,7 +569,7 @@ function AnalyticsContent() {
                       <dd className="analytics-summary__value">
                         {basicPermitSummary.overallAverage !== null
                           ? `${basicPermitSummary.overallAverage} days`
-                          : "—"}
+                          : "\u2014"}
                       </dd>
                       {basicPermitSummary.overallAverage !== null ? (
                         <dd className="analytics-summary__hint">
@@ -586,7 +586,7 @@ function AnalyticsContent() {
                               day: "numeric",
                               year: "numeric"
                             })
-                          : "—"}
+                          : "\u2014"}
                       </dd>
                       {basicPermitSummary.firstCompletionDate &&
                       basicPermitSummary.latestCompletionDate ? (
@@ -597,7 +597,7 @@ function AnalyticsContent() {
                             day: "numeric",
                             year: "numeric"
                           })}{" "}
-                          –{" "}
+                          \u2013{" "}
                           {formatDisplayDate(basicPermitSummary.latestCompletionDate, {
                             month: "short",
                             day: "numeric",
@@ -614,19 +614,19 @@ function AnalyticsContent() {
             <article className="analytics-card">
               <header className="analytics-card__header">
                 <div>
-                  <h2 className="analytics-card__title">Complex Review overview</h2>
+                  <h2 className="analytics-card__title">Weave Review overview</h2>
                   <p className="analytics-card__subtitle">
-                    Totals and timing for all captured Complex Review completions.
+                    Totals and timing for all captured Weave Review completions.
                   </p>
                 </div>
               </header>
               <div className="analytics-card__body">
                 {complexReviewStatus === "loading" ? (
-                  <p className="analytics-status">Loading Complex Review analytics…</p>
+                  <p className="analytics-status">Loading Weave Review analytics...</p>
                 ) : null}
                 {complexReviewStatus === "error" ? (
                   <p className="analytics-status analytics-status--error">
-                    {complexReviewError ?? "Unable to load Complex Review analytics."}
+                    {complexReviewError ?? "Unable to load Weave Review analytics."}
                   </p>
                 ) : null}
                 {complexReviewStatus === "success" ? (
@@ -642,7 +642,7 @@ function AnalyticsContent() {
                       <dd className="analytics-summary__value">
                         {complexReviewSummary.overallAverage !== null
                           ? `${complexReviewSummary.overallAverage} days`
-                          : "—"}
+                          : "\u2014"}
                       </dd>
                       {complexReviewSummary.overallAverage !== null ? (
                         <dd className="analytics-summary__hint">
@@ -659,7 +659,7 @@ function AnalyticsContent() {
                               day: "numeric",
                               year: "numeric"
                             })
-                          : "—"}
+                          : "\u2014"}
                       </dd>
                       {complexReviewSummary.firstCompletionDate &&
                       complexReviewSummary.latestCompletionDate ? (
@@ -670,7 +670,7 @@ function AnalyticsContent() {
                             day: "numeric",
                             year: "numeric"
                           })}{" "}
-                          –{" "}
+                          \u2013{" "}
                           {formatDisplayDate(complexReviewSummary.latestCompletionDate, {
                             month: "short",
                             day: "numeric",
@@ -687,16 +687,16 @@ function AnalyticsContent() {
             <article className="analytics-card analytics-card--chart">
               <header className="analytics-card__header">
                 <div>
-                  <h2 className="analytics-card__title">Daily pre-screening outcomes</h2>
+                  <h2 className="analytics-card__title">Daily augury outcomes</h2>
                   <p className="analytics-card__subtitle">
-                    A line chart with markers showing completed pre-screenings and the average completion
+                    A line chart with markers showing completed auguries and the average completion
                     time in days.
                   </p>
                 </div>
               </header>
               <div className="analytics-card__body">
                 {status === "loading" ? (
-                  <p className="analytics-status">Loading analytics…</p>
+                  <p className="analytics-status">Loading analytics...</p>
                 ) : null}
                 {status === "error" ? (
                   <p className="analytics-status analytics-status--error">{error}</p>
@@ -772,7 +772,7 @@ function AnalyticsContent() {
                     </div>
                   ) : (
                     <p className="analytics-status analytics-status--muted">
-                      No pre-screening completions have been recorded yet.
+                      No augury completions have been recorded yet.
                     </p>
                   )
                 ) : null}
@@ -782,16 +782,16 @@ function AnalyticsContent() {
             <article className="analytics-card analytics-card--chart">
               <header className="analytics-card__header">
                 <div>
-                  <h2 className="analytics-card__title">Daily Basic Permit outcomes</h2>
+                  <h2 className="analytics-card__title">Daily Basic Decree outcomes</h2>
                   <p className="analytics-card__subtitle">
-                    A line chart with markers showing completed Basic Permit processes and the average
+                    A line chart with markers showing completed Basic Decree processes and the average
                     completion time in days.
                   </p>
                 </div>
               </header>
               <div className="analytics-card__body">
                 {basicPermitStatus === "loading" ? (
-                  <p className="analytics-status">Loading Basic Permit analytics…</p>
+                  <p className="analytics-status">Loading Basic Decree analytics...</p>
                 ) : null}
                 {basicPermitStatus === "error" ? (
                   <p className="analytics-status analytics-status--error">{basicPermitError}</p>
@@ -817,7 +817,7 @@ function AnalyticsContent() {
                             axisLine={{ stroke: BASIC_PERMIT_COMPLETIONS_COLOR }}
                             tickLine={{ stroke: BASIC_PERMIT_COMPLETIONS_COLOR }}
                             label={{
-                              value: "Completed permits",
+                              value: "Completed decrees",
                               angle: -90,
                               position: "insideLeft",
                               offset: 12,
@@ -845,7 +845,7 @@ function AnalyticsContent() {
                           <Line
                             type="monotone"
                             dataKey="completions"
-                            name="Completed permits"
+                            name="Completed decrees"
                             stroke={BASIC_PERMIT_COMPLETIONS_COLOR}
                             strokeWidth={2}
                             connectNulls
@@ -877,7 +877,7 @@ function AnalyticsContent() {
                     </div>
                   ) : (
                     <p className="analytics-status analytics-status--muted">
-                      No Basic Permit completions have been recorded yet.
+                      No Basic Decree completions have been recorded yet.
                     </p>
                   )
                 ) : null}
@@ -887,16 +887,16 @@ function AnalyticsContent() {
             <article className="analytics-card analytics-card--chart">
               <header className="analytics-card__header">
                 <div>
-                  <h2 className="analytics-card__title">Daily Complex Review outcomes</h2>
+                  <h2 className="analytics-card__title">Daily Weave Review outcomes</h2>
                   <p className="analytics-card__subtitle">
-                    A line chart with markers showing completed Complex Reviews and the average
+                    A line chart with markers showing completed Weave Reviews and the average
                     completion time in days.
                   </p>
                 </div>
               </header>
               <div className="analytics-card__body">
                 {complexReviewStatus === "loading" ? (
-                  <p className="analytics-status">Loading Complex Review analytics…</p>
+                  <p className="analytics-status">Loading Weave Review analytics...</p>
                 ) : null}
                 {complexReviewStatus === "error" ? (
                   <p className="analytics-status analytics-status--error">{complexReviewError}</p>
@@ -982,7 +982,7 @@ function AnalyticsContent() {
                     </div>
                   ) : (
                     <p className="analytics-status analytics-status--muted">
-                      No Complex Review completions have been recorded yet.
+                      No Weave Review completions have been recorded yet.
                     </p>
                   )
                 ) : null}

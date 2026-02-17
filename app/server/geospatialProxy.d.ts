@@ -11,3 +11,4 @@ export interface ProxyResult {
 
 export declare function callNepassistProxy(payload?: unknown): Promise<ProxyResult>
 export declare function callIpacProxy(payload?: unknown): Promise<ProxyResult>
+export declare function callFakeScreening(payload?: unknown): Promise<ProxyResult>

@@ -50,7 +50,7 @@ type ReviewworksCaseEventRow = {
   other?: unknown
 }
 
-const COMPLEX_REVIEW_LABEL = "Complex Review"
+const COMPLEX_REVIEW_LABEL = "Weave Review"
 export const COMPLEX_REVIEW_PROCESS_MODEL_ID = 1
 
 function safeJsonParse(text: string): unknown {

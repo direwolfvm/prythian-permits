@@ -15,7 +15,7 @@ function IntegrationStatusBadge({ status }: { status: IntegrationStatus }) {
   )
 }
 
-// Group permits by agency
+// Group decrees by court
 function groupByAgency(permits: PermitInfo[]): Map<string, PermitInfo[]> {
   const grouped = new Map<string, PermitInfo[]>()
   for (const permit of permits) {
@@ -33,13 +33,13 @@ export default function ResourcesPage() {
   const [selectedAgency, setSelectedAgency] = useState<string>("all")
   const [selectedStatus, setSelectedStatus] = useState<string>("all")
 
-  // Get unique agencies for filter dropdown
+  // Get unique courts for filter dropdown
   const agencies = useMemo(() => {
     const agencySet = new Set(permitInventory.map(p => p.responsibleAgency))
     return Array.from(agencySet).sort()
   }, [])
 
-  // Filter permits based on search, agency filter, and status filter
+  // Filter decrees based on search, court filter, and status filter
   const filteredPermits = useMemo(() => {
     return permitInventory.filter(permit => {
       const matchesSearch = searchQuery === "" ||
@@ -55,7 +55,7 @@ export default function ResourcesPage() {
     })
   }, [searchQuery, selectedAgency, selectedStatus])
 
-  // Group filtered permits by agency
+  // Group filtered decrees by court
   const groupedPermits = useMemo(() => groupByAgency(filteredPermits), [filteredPermits])
 
   return (
@@ -63,34 +63,34 @@ export default function ResourcesPage() {
       <div className="app__inner">
         <header className="resources-page__header">
           <p className="resources-page__eyebrow">Reference Library</p>
-          <h1>Permits and Authorizations</h1>
+          <h1>Decrees and Authorizations</h1>
           <p>
-            Browse the complete inventory of federal environmental permits, authorizations, and consultations.
-            Each entry includes details about the responsible agency, activity triggers, and relevant statutes.
+            Browse the complete inventory of Prythian court decrees, authorizations, and consultations.
+            Each entry includes details about the responsible court, activity triggers, and relevant statutes.
           </p>
         </header>
 
         <div className="resources-page__filters">
           <div className="resources-page__search">
-            <label htmlFor="permit-search" className="visually-hidden">Search permits</label>
+            <label htmlFor="permit-search" className="visually-hidden">Search decrees</label>
             <input
               id="permit-search"
               type="search"
-              placeholder="Search permits..."
+              placeholder="Search decrees..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="resources-page__search-input"
             />
           </div>
           <div className="resources-page__agency-filter">
-            <label htmlFor="agency-filter" className="visually-hidden">Filter by agency</label>
+            <label htmlFor="agency-filter" className="visually-hidden">Filter by court</label>
             <select
               id="agency-filter"
               value={selectedAgency}
               onChange={(e) => setSelectedAgency(e.target.value)}
               className="resources-page__select"
             >
-              <option value="all">All Agencies ({permitInventory.length})</option>
+              <option value="all">All Courts ({permitInventory.length})</option>
               {agencies.map(agency => {
                 const count = permitInventory.filter(p => p.responsibleAgency === agency).length
                 return (
@@ -123,7 +123,7 @@ export default function ResourcesPage() {
         </div>
 
         <p className="resources-page__results-count">
-          Showing {filteredPermits.length} of {permitInventory.length} permits
+          Showing {filteredPermits.length} of {permitInventory.length} decrees
         </p>
 
         <div className="resources-page__list">
@@ -156,7 +156,7 @@ export default function ResourcesPage() {
 
         {filteredPermits.length === 0 && (
           <p className="resources-page__no-results">
-            No permits found matching your search criteria.
+            No decrees found matching your search criteria.
           </p>
         )}
       </div>
