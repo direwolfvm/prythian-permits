@@ -13,11 +13,15 @@ import type { GeometryChange, UploadedGisFile } from "./types/gis"
 import type { GeospatialResultsState, NepassistSummaryItem } from "./types/geospatial"
 import {
   DEFAULT_BUFFER_MILES,
-  formatGeospatialResultsSummary,
-  prepareGeospatialPayload,
-  summarizeIpac,
-  summarizeNepassist
+  formatGeospatialResultsSummary
 } from "./utils/geospatial"
+import {
+  runAllScreenings,
+  screeningResultsToNepassistSummary,
+  screeningResultsToIpacSummary,
+  type ScreeningInput
+} from "./utils/fakeScreening"
+import { fromGeoJson, computeBBox, bboxCenter, polygonArea } from "./utils/mapGeometry"
 import { getPublicApiKey, getRuntimeUrl } from "./runtimeConfig"
 import { COPILOT_CLOUD_CHAT_URL } from "@copilotkit/shared"
 
@@ -162,14 +166,6 @@ export function ResourceCheckContent() {
     () => createInitialGeospatialResults()
   )
 
-  const bufferMiles = useMemo(() => {
-    const value = Number.parseFloat(bufferInput)
-    if (!Number.isFinite(value) || value < 0) {
-      return DEFAULT_BUFFER_MILES
-    }
-    return value
-  }, [bufferInput])
-
   const instructions = useMemo(
     () =>
       [
@@ -233,139 +229,58 @@ export function ResourceCheckContent() {
   }, [])
 
   const handleRunGeospatial = useCallback(async () => {
-    const prepared = prepareGeospatialPayload(geometry ?? null)
-    const messages = prepared.errors
-    const ipacNotice = messages.find((message) => message.toLowerCase().includes("ipac"))
-    const generalMessages = ipacNotice ? messages.filter((message) => message !== ipacNotice) : messages
-
-    setGeospatialResults({
-      nepassist: prepared.nepassist
-        ? { status: "loading" }
-        : { status: "error", error: generalMessages[0] ?? "Unable to prepare Ward Assessment request." },
-      ipac: prepared.ipac
-        ? { status: "loading" }
-        : {
-            status: "error",
-            error: ipacNotice ?? generalMessages[0] ?? "Ley Line Registry is not available for this geometry."
-          },
-      lastRunAt: new Date().toISOString(),
-      messages: generalMessages.length ? generalMessages : undefined
-    })
-
-    const tasks: Promise<void>[] = []
-
-    if (prepared.nepassist) {
-      const body = {
-        coords: prepared.nepassist.coords,
-        type: prepared.nepassist.type,
-        bufferMiles
-      }
-
-      tasks.push(
-        (async () => {
-          try {
-            const response = await fetch("/api/geospatial/nepassist", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(body)
-            })
-            const text = await response.text()
-            let payload: any = null
-            if (text) {
-              try {
-                payload = JSON.parse(text)
-              } catch {
-                payload = { data: text }
-              }
-            }
-            if (!response.ok) {
-              const message =
-                (payload && typeof payload === "object" && typeof payload.error === "string"
-                  ? payload.error
-                  : text) || `Ward Assessment request failed (${response.status})`
-              throw new Error(message)
-            }
-            const data = payload && typeof payload === "object" && "data" in payload ? payload.data : payload
-            setGeospatialResults((previous) => ({
-              ...previous,
-              nepassist: {
-                status: "success",
-                summary: summarizeNepassist(data),
-                raw: data,
-                meta: payload?.meta
-              }
-            }))
-          } catch (error) {
-            const message = error instanceof Error ? error.message : "Ward Assessment request failed."
-            setGeospatialResults((previous) => ({
-              ...previous,
-              nepassist: { status: "error", error: message }
-            }))
-          }
-        })()
-      )
-    }
-
-    if (prepared.ipac) {
-      const body = {
-        projectLocationWKT: prepared.ipac.wkt,
-        includeOtherFwsResources: true,
-        includeCrithabGeometry: false,
-        saveLocationForProjectCreation: false,
-        timeout: 5
-      }
-
-      tasks.push(
-        (async () => {
-          try {
-            const response = await fetch("/api/geospatial/ipac", {
-              method: "POST",
-              headers: { "Content-Type": "application/json" },
-              body: JSON.stringify(body)
-            })
-            const text = await response.text()
-            let payload: any = null
-            if (text) {
-              try {
-                payload = JSON.parse(text)
-              } catch {
-                payload = { data: text }
-              }
-            }
-            if (!response.ok) {
-              const message =
-                (payload && typeof payload === "object" && typeof payload.error === "string"
-                  ? payload.error
-                  : text) || `Ley Line Registry request failed (${response.status})`
-              throw new Error(message)
-            }
-            const data = payload && typeof payload === "object" && "data" in payload ? payload.data : payload
-            setGeospatialResults((previous) => ({
-              ...previous,
-              ipac: {
-                status: "success",
-                summary: summarizeIpac(data),
-                raw: data,
-                meta: payload?.meta
-              }
-            }))
-          } catch (error) {
-            const message = error instanceof Error ? error.message : "Ley Line Registry request failed."
-            setGeospatialResults((previous) => ({
-              ...previous,
-              ipac: { status: "error", error: message }
-            }))
-          }
-        })()
-      )
-    }
-
-    if (tasks.length === 0) {
+    if (!geometry) {
+      setGeospatialResults({
+        nepassist: { status: "error", error: "No geometry available. Draw a shape on the map first." },
+        ipac: { status: "error", error: "No geometry available. Draw a shape on the map first." },
+        lastRunAt: new Date().toISOString(),
+        messages: ["No geometry available. Draw a shape on the map first."]
+      })
       return
     }
 
-    await Promise.allSettled(tasks)
-  }, [geometry, bufferMiles])
+    setGeospatialResults({
+      nepassist: { status: "loading" },
+      ipac: { status: "loading" },
+      lastRunAt: new Date().toISOString(),
+      messages: undefined
+    })
+
+    try {
+      const polygon = fromGeoJson(geometry)
+      if (!polygon || polygon.length < 3) {
+        throw new Error("The drawn geometry could not be interpreted. Please redraw your shape.")
+      }
+
+      const bbox = computeBBox(polygon)
+      const center = bboxCenter(bbox)
+      const area = polygonArea(polygon)
+
+      const screeningInput: ScreeningInput = { bboxCenter: center, area }
+      const results = runAllScreenings(screeningInput)
+
+      setGeospatialResults({
+        nepassist: {
+          status: "success",
+          summary: screeningResultsToNepassistSummary(results)
+        },
+        ipac: {
+          status: "success",
+          summary: screeningResultsToIpacSummary(results)
+        },
+        lastRunAt: new Date().toISOString(),
+        messages: undefined
+      })
+    } catch (error) {
+      const message = error instanceof Error ? error.message : "Screening failed."
+      setGeospatialResults({
+        nepassist: { status: "error", error: message },
+        ipac: { status: "error", error: message },
+        lastRunAt: new Date().toISOString(),
+        messages: [message]
+      })
+    }
+  }, [geometry])
 
   const isRunning =
     geospatialResults.nepassist.status === "loading" || geospatialResults.ipac.status === "loading"

@@ -4,6 +4,14 @@
 FROM node:22-alpine AS build
 WORKDIR /usr/src/app
 
+# Build-time args so Vite can inline VITE_* vars into the client bundle
+ARG VITE_COPILOTKIT_PUBLIC_API_KEY
+ARG VITE_SUPABASE_URL
+ARG VITE_SUPABASE_ANON_KEY
+ENV VITE_COPILOTKIT_PUBLIC_API_KEY=$VITE_COPILOTKIT_PUBLIC_API_KEY
+ENV VITE_SUPABASE_URL=$VITE_SUPABASE_URL
+ENV VITE_SUPABASE_ANON_KEY=$VITE_SUPABASE_ANON_KEY
+
 # Install production and development dependencies to build the app
 COPY app/package*.json ./
 RUN npm ci

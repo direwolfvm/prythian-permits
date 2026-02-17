@@ -1,30 +1,60 @@
 steps:
   - name: gcr.io/cloud-builders/docker
+    id: Build
     args:
       - build
+      - --no-cache
       - -t
       - $_IMAGE
+      - --build-arg=VITE_COPILOTKIT_PUBLIC_API_KEY=$_VITE_COPILOTKIT_PUBLIC_API_KEY
+      - --build-arg=VITE_SUPABASE_URL=$_VITE_SUPABASE_URL
+      - --build-arg=VITE_SUPABASE_ANON_KEY=$_VITE_SUPABASE_ANON_KEY
       - .
 
   - name: gcr.io/cloud-builders/docker
+    id: Push
     args:
       - push
       - $_IMAGE
 
-  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk:slim
+    id: Deploy
     entrypoint: gcloud
     args:
       - run
-      - deploy
-      - prythian-permits
-      - --image=$_IMAGE
-      - --region=$_REGION
+      - services
+      - update
+      - $_SERVICE_NAME
       - --platform=managed
-      - --allow-unauthenticated
+      - --image=$_IMAGE
+      - --region=$_DEPLOY_REGION
+      - --quiet
+      - >-
+        --set-env-vars=VITE_COPILOTKIT_PUBLIC_API_KEY=$_VITE_COPILOTKIT_PUBLIC_API_KEY,VITE_SUPABASE_URL=$_VITE_SUPABASE_URL,VITE_SUPABASE_ANON_KEY=$_VITE_SUPABASE_ANON_KEY,PERMITFLOW_SUPABASE_URL=$_PERMITFLOW_SUPABASE_URL,PERMITFLOW_SUPABASE_ANON_KEY=$_PERMITFLOW_SUPABASE_ANON_KEY,REVIEWWORKS_SUPABASE_URL=$_REVIEWWORKS_SUPABASE_URL,REVIEWWORKS_SUPABASE_ANON_KEY=$_REVIEWWORKS_SUPABASE_ANON_KEY
 
 substitutions:
-  _REGION: us-east4
-  _IMAGE: us-docker.pkg.dev/$PROJECT_ID/prythian-permits/app:$COMMIT_SHA
+  _AR_HOSTNAME: us-east4-docker.pkg.dev
+  _AR_PROJECT_ID: permitting-ai-helper
+  _AR_REPOSITORY: cloud-run-source-deploy
+  _SERVICE_NAME: prythian-permits
+  _DEPLOY_REGION: us-east4
+  _IMAGE: ${_AR_HOSTNAME}/${_AR_PROJECT_ID}/${_AR_REPOSITORY}/${_SERVICE_NAME}/${_SERVICE_NAME}:${COMMIT_SHA}
+  _VITE_COPILOTKIT_PUBLIC_API_KEY: ck_pub_29d06e4191ee87eeaec7d5e64b65e14f
+  _VITE_SUPABASE_URL: https://rzrijalijuliromqgmqp.supabase.co
+  _VITE_SUPABASE_ANON_KEY: sb_publishable_AqD1s9hEKRls-gG2Z7fBRg_kSBZAXEz
+  _PERMITFLOW_SUPABASE_URL: https://hslyuwjkdceklrunjmxv.supabase.co
+  _PERMITFLOW_SUPABASE_ANON_KEY: sb_publishable_aqb_2BISMWJhS0b9Tw9wzA_vHqLGZuw
+  _REVIEWWORKS_SUPABASE_URL: https://erbzeaejjomjqmbhclpj.supabase.co
+  _REVIEWWORKS_SUPABASE_ANON_KEY: sb_publishable_yMLNgLZp4l8Il3T5ExLCwg_S9m093Ld
+
+options:
+  logging: CLOUD_LOGGING_ONLY
+  substitutionOption: ALLOW_LOOSE
 
 images:
   - $_IMAGE
+
+tags:
+  - gcp-cloud-build-deploy-cloud-run
+  - gcp-cloud-build-deploy-cloud-run-managed
+  - prythian-permits
