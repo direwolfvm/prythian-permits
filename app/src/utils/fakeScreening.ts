@@ -446,31 +446,172 @@ export function screeningResultsToIpacSummary(
   const highResults = results.filter(
     (r) => r.severity === "high" || r.severity === "moderate",
   )
+
+  const pushUnique = (target: string[], value: string) => {
+    if (!value) {
+      return
+    }
+    if (!target.includes(value)) {
+      target.push(value)
+    }
+  }
+
+  const findByType = (type: string) =>
+    results.find((r) => r.screeningType === type)
+
+  const toNumber = (value: unknown): number | undefined => {
+    if (typeof value === "number" && Number.isFinite(value)) {
+      return value
+    }
+    if (typeof value === "string" && value.trim()) {
+      const parsed = Number(value)
+      if (!Number.isNaN(parsed) && Number.isFinite(parsed)) {
+        return parsed
+      }
+    }
+    return undefined
+  }
+
+  const ley = findByType("Ley Line Interference")
+  const suriel = findByType("Suriel Sightings")
+  const illyrian = findByType("Illyrian Airspace Conflicts")
+  const cauldron = findByType("Cauldron Disturbance Risk")
+  const ward = findByType("Ward and Glamour Sensitivity")
+
+  const centerY = toNumber(ley?.details?.centerY)
+  const area = toNumber(suriel?.details?.area)
+  const cauldronDistance = toNumber(cauldron?.details?.distance)
+
+  const regionLabel = (() => {
+    if (typeof centerY !== "number") {
+      return undefined
+    }
+    if (centerY > 0.75) return "Northern Marches"
+    if (centerY > 0.45) return "Central Lowlands"
+    if (centerY > 0.2) return "Southern Borderlands"
+    return "Coastal Fringe"
+  })()
+
   return {
     locationDescription:
       highResults.length > 0
-        ? "Area of elevated arcane sensitivity"
+        ? `Area of elevated arcane sensitivity${regionLabel ? ` (${regionLabel})` : ""}`
         : "No significant arcane concerns identified",
-    listedSpecies: results
-      .filter(
-        (r) =>
-          r.screeningType === "Suriel Sightings" && r.severity !== "none",
-      )
-      .flatMap((r) => [r.summary]),
-    criticalHabitats: results
-      .filter(
-        (r) =>
-          r.screeningType === "Ley Line Interference" &&
-          r.severity !== "none",
-      )
-      .map((r) => `Ley line zone: ${r.severity} sensitivity`),
-    migratoryBirds: results
-      .filter(
-        (r) =>
-          r.screeningType === "Illyrian Airspace Conflicts" &&
-          r.severity !== "none",
-      )
-      .map((r) => `Illyrian flight corridor: ${r.severity} conflict`),
-    wetlands: [],
+    listedSpecies: (() => {
+      const species: string[] = []
+      switch (suriel?.severity) {
+        case "high":
+          pushUnique(species, "Suriel (Protected)")
+          pushUnique(species, "Bogge (Restricted)")
+          pushUnique(species, "Naga (Restricted)")
+          break
+        case "moderate":
+          pushUnique(species, "Suriel (Protected)")
+          pushUnique(species, "Bogge (Watch)")
+          break
+        case "low":
+          pushUnique(species, "Suriel (Watch)")
+          break
+        default:
+          break
+      }
+
+      // Cauldron proximity can attract unusual, sensitive fauna.
+      if (cauldron?.severity === "high") {
+        pushUnique(species, "Cauldron-touched beasts (Unclassified)")
+      } else if (cauldron?.severity === "moderate") {
+        pushUnique(species, "Cauldron-touched beasts (Watch)")
+      }
+
+      return species
+    })(),
+    criticalHabitats: (() => {
+      const habitats: string[] = []
+      switch (ley?.severity) {
+        case "high":
+          pushUnique(habitats, "Major ley convergence: Northern Nexus")
+          pushUnique(habitats, "Ward anchor: Starfall Spur")
+          break
+        case "moderate":
+          pushUnique(habitats, "Minor ley thread: Riverbend Line")
+          pushUnique(habitats, "Glamour seam: Old Wall Trace")
+          break
+        case "low":
+          pushUnique(habitats, "Residual ley current: Meadow Drift")
+          break
+        default:
+          break
+      }
+
+      if (cauldron?.severity === "high" || cauldron?.severity === "moderate") {
+        pushUnique(habitats, "Resonance buffer: Cauldron Echo Field")
+      }
+
+      if (ward?.severity === "high") {
+        pushUnique(habitats, "Ward lattice: High-sensitivity zone")
+      } else if (ward?.severity === "moderate") {
+        pushUnique(habitats, "Ward lattice: Managed coordination zone")
+      }
+
+      return habitats
+    })(),
+    migratoryBirds: (() => {
+      const routes: string[] = []
+      switch (illyrian?.severity) {
+        case "high":
+          pushUnique(routes, "Illyrian training route: Windhaven Loop")
+          pushUnique(routes, "Winnowing lane: Raven Ridge Gate")
+          break
+        case "moderate":
+          pushUnique(routes, "Illyrian patrol corridor: Western Pass")
+          break
+        case "low":
+          pushUnique(routes, "Seasonal patrols: Highwatch Drift")
+          break
+        default:
+          break
+      }
+      return routes
+    })(),
+    wetlands: (() => {
+      // This is a stylized subset of what a real registry might return. It is deterministic and
+      // keyed off inputs already captured in the screening details.
+      const wetlands: { name: string; acres?: string }[] = []
+
+      // Convert normalized area to a plausible "acres" estimate for display.
+      const toAcres = (scale: number) => {
+        if (typeof area !== "number") {
+          return undefined
+        }
+        const acres = Math.max(0.2, Math.min(75, area * scale))
+        return acres.toFixed(1)
+      }
+
+      const likelyWetlands =
+        (typeof area === "number" && area > 0.12) ||
+        (typeof centerY === "number" && centerY > 0.28 && centerY < 0.66) ||
+        ley?.severity === "high"
+
+      if (!likelyWetlands) {
+        return wetlands
+      }
+
+      if (typeof centerY === "number" && centerY > 0.66) {
+        wetlands.push({ name: "Snowmelt fen", acres: toAcres(40) })
+        wetlands.push({ name: "Ley-saturated bog", acres: toAcres(22) })
+      } else if (typeof centerY === "number" && centerY > 0.35) {
+        wetlands.push({ name: "Sidra riparian marsh", acres: toAcres(55) })
+        wetlands.push({ name: "Reedbed backwater", acres: toAcres(18) })
+      } else {
+        wetlands.push({ name: "Coastal brackish flats", acres: toAcres(60) })
+      }
+
+      // Cauldron-adjacent locations tend to have small, unusual pools.
+      if (typeof cauldronDistance === "number" && cauldronDistance < 0.25) {
+        wetlands.push({ name: "Resonant pool", acres: "0.8" })
+      }
+
+      return wetlands
+    })(),
   }
 }
