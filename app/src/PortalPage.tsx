@@ -2439,10 +2439,10 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
           {showApiKeyWarning ? (
             <div className="usa-alert usa-alert--warning usa-alert--slim" role="alert">
               <div className="usa-alert__body">
-                <h3 className="usa-alert__heading">No Copilot Cloud key detected.</h3>
+                <h3 className="usa-alert__heading">Copilot runtime is not configured.</h3>
                 <p className="usa-alert__text">
-                  Set <code>VITE_COPILOTKIT_PUBLIC_API_KEY</code> in a <code>.env</code> file to enable live Copilot
-                    responses. The form will continue to work without it.
+                  Set <code>VITE_COPILOTKIT_RUNTIME_URL</code> or <code>VITE_COPILOTKIT_PUBLIC_API_KEY</code> in
+                  <code> .env</code> to enable live Copilot responses. The form will continue to work without it.
                 </p>
               </div>
             </div>
@@ -2666,7 +2666,7 @@ function PortalPage() {
   const { runtimeMode } = useCopilotRuntimeSelection()
 
   const effectiveRuntimeUrl = runtimeMode === "custom" ? CUSTOM_ADK_PROXY_URL : defaultRuntimeUrl
-  const showApiKeyWarning = runtimeMode === "default" && !publicApiKey
+  const showApiKeyWarning = runtimeMode === "default" && !publicApiKey && !defaultRuntimeUrl
 
   return (
     <CopilotKit

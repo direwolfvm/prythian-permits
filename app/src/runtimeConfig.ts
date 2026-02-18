@@ -9,6 +9,9 @@ interface CopilotRuntimeConfig {
   reviewworksAnonKey?: string | null
 }
 
+const DEFAULT_COPILOT_RUNTIME_URL =
+  "https://copilotkit-runtime-650621702399.us-east4.run.app/copilotkit"
+
 declare global {
   interface Window {
     __COPILOTKIT_RUNTIME_CONFIG__?: CopilotRuntimeConfig
@@ -44,7 +47,8 @@ export function getPublicApiKey(): string | undefined {
 export function getRuntimeUrl(): string | undefined {
   return (
     normalize(envVars.VITE_COPILOTKIT_RUNTIME_URL) ??
-    normalize(readRuntimeConfigFromWindow()?.runtimeUrl ?? undefined)
+    normalize(readRuntimeConfigFromWindow()?.runtimeUrl ?? undefined) ??
+    DEFAULT_COPILOT_RUNTIME_URL
   )
 }
 
