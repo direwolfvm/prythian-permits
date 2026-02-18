@@ -225,7 +225,7 @@ CREATE TABLE IF NOT EXISTS public.decision_element (
   measure text,
   threshold double precision,
   spatial boolean,
-  intersect boolean,
+  "intersect" boolean,
   spatial_reference json,
   form_text text,
   form_response_desc text,
