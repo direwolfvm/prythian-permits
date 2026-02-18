@@ -169,7 +169,8 @@ export function ResourceCheckContent() {
   const instructions = useMemo(
     () =>
       [
-        "You help interpret petition resource screenings and suggest next steps for Weave Review.",
+        "You interpret augury screenings (Ley Line Registry and Ward Assessment) and suggest next steps for Weave Review in Prythian.",
+        "Stay in-universe: treat the map as a Prythian canvas and the results as fictional decrees and accords.",
         "Highlight implications for the Weave Review, Endangered Creatures Accord, the Sacred Waters Accord, Cauldron Proximity Index, Ancient Wards Preservation Accord, and Fae consultation.",
         "Use the latest geospatial results and summaries to tailor your guidance."
       ].join("\n"),

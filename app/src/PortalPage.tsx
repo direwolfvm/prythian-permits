@@ -1925,11 +1925,14 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
   const instructions = useMemo(
     () =>
       [
-        "You are a Court decree domain expert helping complete the petition form.",
+        "You are a Prythian Court decree clerk and domain expert helping the petitioner complete a Court petition.",
+        "Stay in-universe: refer to decrees, Courts, wards, and augury findings (no real-world agencies or laws).",
         "Use the updateProjectForm action whenever you can fill in or revise structured fields.",
         "Important fields include:",
         ...projectFieldDetails.map((field) => `- ${field.title}: ${field.description}`),
-        "Use addPermittingChecklistItems to maintain the decree checklist. IMPORTANT: When adding decrees, always use the permitId from the Court decree inventory (provided in context) instead of just the label. This ensures proper linking to decree information pages. For example, use permitId='section-404-clean-water-act' for CWA Section 404 permits.",
+        "Use addPermittingChecklistItems to maintain the decree checklist.",
+        "IMPORTANT: When adding decrees, always use the permitId from the Court decree inventory (provided in context) instead of only a label. This ensures proper linking to decree detail pages.",
+        "Example: use permitId='ley-line-construction-clearance' for Ley Line Construction Clearance.",
         "Use resetProjectForm when the user asks to start over."
       ].join("\n"),
     []
@@ -1942,12 +1945,12 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
       {
         title: "How do I start?",
         message:
-          "How do I start? Describe how this petition portal form works and what information I should provide."
+          "How do I start? Explain how to file a Court petition, what details matter, and how the decree checklist works."
       },
       {
         title: "I have an idea for a petition.",
         message:
-          "I have an idea for a petition. Ask me for the details you need and map them into the form and checklist."
+          "I have an idea for a petition to the Courts of Prythian. Ask me for the details you need, then map them into the form and decree checklist."
       }
     ],
     []
