@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 
-import { prepareGeospatialPayload, formatGeospatialResultsSummary } from './geospatial'
+import { prepareGeospatialPayload, formatGeospatialResultsSummary, summarizeIpac } from './geospatial'
 import type { GeospatialResultsState } from '../types/geospatial'
 
 describe('prepareGeospatialPayload', () => {
@@ -98,5 +98,33 @@ describe('formatGeospatialResultsSummary', () => {
     expect(summary).toContain('  - Listed species: Bald eagle (Threatened)')
     expect(summary).toContain('  - Critical habitats: Habitat A')
     expect(summary).toContain('  - Wetlands: Wetland 12 (2 acres)')
+  })
+})
+
+describe('summarizeIpac', () => {
+  it('parses pretend Ley Line Registry proxy payloads', () => {
+    const payload = {
+      ipac_report: {
+        body: {
+          resources: {
+            location: { description: 'Prythian canvas region: Night Court at X=0.60, Y=0.20' },
+            populationsBySid: {
+              'SID-1': { population: { optionalCommonName: 'Suriel (Protected)', listingStatusName: 'Protected' } }
+            },
+            crithabs: [{ criticalHabitatName: 'Ancient grove ward lattice' }],
+            migbirds: [{ phenologySpecies: { commonName: 'Nightjar of Velaris' } }],
+            wetlands: [{ wetlandType: 'Sidra backwater wetland', wetlandAcres: 2.4 }]
+          }
+        }
+      }
+    }
+
+    const summary = summarizeIpac(payload)
+
+    expect(summary.locationDescription).toContain('Prythian canvas region')
+    expect(summary.listedSpecies.length).toBeGreaterThan(0)
+    expect(summary.criticalHabitats.length).toBeGreaterThan(0)
+    expect(summary.migratoryBirds.length).toBeGreaterThan(0)
+    expect(summary.wetlands.length).toBeGreaterThan(0)
   })
 })
