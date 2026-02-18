@@ -508,9 +508,11 @@ export async function saveProjectSnapshot({
 
   const normalizedId = normalizeString(formData.id)
   const normalizedTitle = normalizeString(formData.title)
-  const numericId = normalizedId ? Number.parseInt(normalizedId, 10) : undefined
+  const parsedId = normalizedId ? Number.parseInt(normalizedId, 10) : undefined
+  const numericId =
+    typeof parsedId === "number" && Number.isFinite(parsedId) && parsedId > 0 ? parsedId : undefined
 
-  if (normalizedId && (Number.isNaN(numericId) || !Number.isFinite(numericId))) {
+  if (normalizedId && (typeof parsedId !== "number" || Number.isNaN(parsedId) || !Number.isFinite(parsedId))) {
     throw new ProjectPersistenceError("Project identifier must be numeric to save to Supabase.")
   }
 
