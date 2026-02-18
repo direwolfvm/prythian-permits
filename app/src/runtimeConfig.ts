@@ -10,7 +10,7 @@ interface CopilotRuntimeConfig {
 }
 
 const DEFAULT_COPILOT_RUNTIME_URL =
-  "https://copilotkit-runtime-650621702399.us-east4.run.app/copilotkit"
+  "/api/copilotkit"
 
 declare global {
   interface Window {
