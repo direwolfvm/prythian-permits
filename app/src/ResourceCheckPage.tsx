@@ -22,8 +22,7 @@ import {
   type ScreeningInput
 } from "./utils/fakeScreening"
 import { fromGeoJson, computeBBox, bboxCenter, polygonArea } from "./utils/mapGeometry"
-import { getPublicApiKey, getRuntimeUrl } from "./runtimeConfig"
-import { COPILOT_CLOUD_CHAT_URL } from "@copilotkit/shared"
+import { getRuntimeUrl } from "./runtimeConfig"
 
 function createInitialGeospatialResults(): GeospatialResultsState {
   return {
@@ -153,8 +152,7 @@ function formatImplicationsForCopilot(results: GeospatialResultsState) {
   ].join("\n")
 }
 
-const publicApiKey = getPublicApiKey()
-const defaultRuntimeUrl = getRuntimeUrl() || COPILOT_CLOUD_CHAT_URL
+const defaultRuntimeUrl = getRuntimeUrl()
 
 export function ResourceCheckContent() {
   const [geometry, setGeometry] = useState<string | undefined>(undefined)
@@ -185,7 +183,11 @@ export function ResourceCheckContent() {
     {
       description: "Latest augury screening results for Augury Check",
       value: geospatialResults,
-      convert: (_, value) => formatGeospatialResultsSummary(value)
+      convert: (arg1, arg2) => {
+        const resolvedValue =
+          (typeof arg1 === "string" ? arg2 : arg1) ?? createInitialGeospatialResults()
+        return formatGeospatialResultsSummary(resolvedValue as GeospatialResultsState)
+      }
     },
     [geospatialResults]
   )
@@ -194,7 +196,11 @@ export function ResourceCheckContent() {
     {
       description: "Resource implications derived from the current screening",
       value: geospatialResults,
-      convert: (_, value) => formatImplicationsForCopilot(value)
+      convert: (arg1, arg2) => {
+        const resolvedValue =
+          (typeof arg1 === "string" ? arg2 : arg1) ?? createInitialGeospatialResults()
+        return formatImplicationsForCopilot(resolvedValue as GeospatialResultsState)
+      }
     },
     [geospatialResults]
   )
@@ -203,7 +209,10 @@ export function ResourceCheckContent() {
     {
       description: "Field notes captured during the Augury Check session",
       value: locationNotes,
-      convert: (_, value) => value || "No notes provided."
+      convert: (arg1, arg2) => {
+        const resolvedValue = (typeof arg1 === "string" ? arg2 : arg1) ?? ""
+        return String(resolvedValue) || "No notes provided."
+      }
     },
     [locationNotes]
   )
@@ -530,7 +539,7 @@ export function ResourceCheckContent() {
 export default function ResourceCheckPage() {
   const effectiveRuntimeUrl = defaultRuntimeUrl
   return (
-    <CopilotKit publicApiKey={publicApiKey || undefined} runtimeUrl={effectiveRuntimeUrl || undefined}>
+    <CopilotKit runtimeUrl={effectiveRuntimeUrl || undefined} useSingleEndpoint>
       <ResourceCheckContent />
     </CopilotKit>
   )

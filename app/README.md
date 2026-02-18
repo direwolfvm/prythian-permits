@@ -14,14 +14,14 @@ the underlying JSON data through CopilotKit actions.
 
 ```bash
 npm install
-cp .env.example .env   # add your CopilotKit key and Supabase credentials
+cp .env.example .env   # add runtime and Supabase credentials
 npm run lint           # ensure the workspace installs cleanly
 npm run build          # confirm the type checker passes before starting dev mode
 npm run dev
 ```
 
 Open the URL printed in the console (defaults to `http://localhost:5173`). Without a CopilotKit
-public API key the application will still load, but the sidebar will display a warning instead of
+runtime endpoint the application will still load, but the sidebar will display a warning instead of
 producing AI responses. For remote containers or Codespaces run `npm run dev -- --host 0.0.0.0 \
   --port 4173 --clearScreen false` so the preview is reachable from your browser.
 
@@ -29,10 +29,10 @@ producing AI responses. For remote containers or Codespaces run `npm run dev -- 
 
 Create a `.env` file (there is a starter `.env.example`) with the following values:
 
-- `VITE_COPILOTKIT_PUBLIC_API_KEY` – required for hosted CopilotKit conversations. Obtain a key from
-  [Copilot Cloud](https://cloud.copilotkit.ai/).
-- `VITE_COPILOTKIT_RUNTIME_URL` – optional URL for a self-hosted Copilot Runtime. Leave unset to use
-  the default Copilot Cloud runtime.
+- `VITE_COPILOTKIT_RUNTIME_URL` – runtime URL used by the frontend. Default is the same-origin
+  proxy route `/api/copilotkit-runtime`.
+- `COPILOTKIT_RUNTIME_PROXY_BASE_URL` – upstream runtime URL used by the Express proxy, for example
+  `https://copilotkit-runtime-650621702399.us-east4.run.app/copilotkit`.
 - `VITE_SUPABASE_URL` – the URL of your Supabase project. Required to enable project persistence
   and checklist storage from the form.
 - `VITE_SUPABASE_ANON_KEY` – the anonymous public key for your Supabase project.
@@ -47,9 +47,8 @@ Restart `npm run dev` after editing environment variables.
 
 When the production server (defined in [`server.mjs`](server.mjs)) starts it exposes the resolved
 environment values through `/env.js`. This allows platforms such as Google Cloud Run or Cloud Run's
-Secret Manager integration to provide the Copilot API key at runtime without rebuilding the static
-bundle. The client automatically reads from that endpoint and falls back to the `.env` file when it
-is available.
+Secret Manager integration to provide runtime endpoint configuration without rebuilding the static
+bundle. The client reads `window.__COPILOTKIT_RUNTIME_CONFIG__` first and then build-time env vars.
 
 ### Troubleshooting local installs
 

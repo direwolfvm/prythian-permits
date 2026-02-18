@@ -14,8 +14,8 @@ const port = parseInt(process.env.PORT ?? "8080", 10);
 const customAdkBaseUrl =
   normalizeEnvValue(process.env.COPILOTKIT_CUSTOM_ADK_URL) ??
   "https://permitting-adk-650621702399.us-east4.run.app";
-const copilotkitRuntimeBaseUrl =
-  normalizeEnvValue(process.env.VITE_COPILOTKIT_RUNTIME_URL) ??
+const copilotkitRuntimeProxyBaseUrl =
+  normalizeEnvValue(process.env.COPILOTKIT_RUNTIME_PROXY_BASE_URL) ??
   normalizeEnvValue(process.env.COPILOTKIT_RUNTIME_URL) ??
   "https://copilotkit-runtime-650621702399.us-east4.run.app/copilotkit";
 
@@ -246,9 +246,9 @@ async function proxySupabaseRequest(req, res) {
 
 async function proxyCopilotkitRuntimeRequest(req, res) {
   const requestedPath = req.url ?? "/";
-  const normalizedBaseUrl = copilotkitRuntimeBaseUrl.endsWith("/")
-    ? copilotkitRuntimeBaseUrl
-    : `${copilotkitRuntimeBaseUrl}/`;
+  const normalizedBaseUrl = copilotkitRuntimeProxyBaseUrl.endsWith("/")
+    ? copilotkitRuntimeProxyBaseUrl
+    : `${copilotkitRuntimeProxyBaseUrl}/`;
   // Preserve the `/copilotkit` base path when proxying nested request paths.
   const relativePath =
     requestedPath === "/" ? "" : requestedPath.replace(/^\/+/, "");
@@ -768,19 +768,12 @@ function buildGraphqlResponseFromEvents(events, threadId, runId) {
 }
 
 app.use("/api/supabase", proxySupabaseRequest);
-app.use("/api/copilotkit", proxyCopilotkitRuntimeRequest);
+app.use("/api/copilotkit-runtime", proxyCopilotkitRuntimeRequest);
 
 app.use("/api/custom-adk", proxyCustomAdkRequest);
 
 app.get("/env.js", (req, res) => {
   const config = {};
-
-  const publicApiKey =
-    normalizeEnvValue(process.env.VITE_COPILOTKIT_PUBLIC_API_KEY) ??
-    normalizeEnvValue(process.env.COPILOTKIT_PUBLIC_API_KEY);
-  if (publicApiKey) {
-    config.publicApiKey = publicApiKey;
-  }
 
   const runtimeUrl =
     normalizeEnvValue(process.env.VITE_COPILOTKIT_RUNTIME_URL) ??

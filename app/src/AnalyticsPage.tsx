@@ -21,8 +21,7 @@ import "./copilot-overrides.css"
 import "./App.css"
 import "./AnalyticsPage.css"
 
-import { COPILOT_CLOUD_CHAT_URL } from "@copilotkit/shared"
-import { getPublicApiKey, getRuntimeUrl } from "./runtimeConfig"
+import { getRuntimeUrl } from "./runtimeConfig"
 import { useCopilotRuntimeSelection } from "./copilotRuntimeContext"
 import {
   loadProcessAnalytics,
@@ -32,8 +31,7 @@ import {
 import { loadBasicPermitAnalytics } from "./utils/permitflow"
 import { loadComplexReviewAnalytics } from "./utils/reviewworks"
 
-const publicApiKey = getPublicApiKey()
-const defaultRuntimeUrl = getRuntimeUrl() || COPILOT_CLOUD_CHAT_URL
+const defaultRuntimeUrl = getRuntimeUrl()
 const CUSTOM_ADK_PROXY_URL = "/api/custom-adk/agent"
 
 const ANALYTICS_INSTRUCTIONS = [
@@ -293,7 +291,10 @@ function AnalyticsContent() {
       description:
         "Daily counts of completed augury processes and the corresponding average completion time in days.",
       value: points,
-      convert: (_, value) => formatSummaryForCopilot(value, "augury")
+      convert: (arg1, arg2) => {
+        const resolvedValue = (typeof arg1 === "string" ? arg2 : arg1) ?? []
+        return formatSummaryForCopilot(resolvedValue as PreScreeningAnalyticsPoint[], "augury")
+      }
     },
     [points]
   )
@@ -303,7 +304,10 @@ function AnalyticsContent() {
       description:
         "Daily counts of completed Basic Decree processes and the corresponding average completion time in days.",
       value: basicPermitPoints,
-      convert: (_, value) => formatSummaryForCopilot(value, "Basic Decree")
+      convert: (arg1, arg2) => {
+        const resolvedValue = (typeof arg1 === "string" ? arg2 : arg1) ?? []
+        return formatSummaryForCopilot(resolvedValue as PreScreeningAnalyticsPoint[], "Basic Decree")
+      }
     },
     [basicPermitPoints]
   )
@@ -313,7 +317,10 @@ function AnalyticsContent() {
       description:
         "Daily counts of completed Weave Review processes and the corresponding average completion time in days.",
       value: complexReviewPoints,
-      convert: (_, value) => formatSummaryForCopilot(value, "Weave Review")
+      convert: (arg1, arg2) => {
+        const resolvedValue = (typeof arg1 === "string" ? arg2 : arg1) ?? []
+        return formatSummaryForCopilot(resolvedValue as PreScreeningAnalyticsPoint[], "Weave Review")
+      }
     },
     [complexReviewPoints]
   )
@@ -1003,8 +1010,8 @@ export default function AnalyticsPage() {
 
   return (
     <CopilotKit
-      publicApiKey={publicApiKey || undefined}
       runtimeUrl={effectiveRuntimeUrl || undefined}
+      useSingleEndpoint
     >
       <AnalyticsContent />
     </CopilotKit>

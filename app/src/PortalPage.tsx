@@ -8,7 +8,6 @@ import introJs from "intro.js"
 import "intro.js/introjs.css"
 import {
   CopilotKit,
-  type SuggestionItem,
   useCopilotAction,
   useCopilotReadable
 } from "@copilotkit/react-core"
@@ -17,7 +16,6 @@ import {
   RenderSuggestion,
   type RenderSuggestionsListProps
 } from "@copilotkit/react-ui"
-import { COPILOT_CLOUD_CHAT_URL } from "@copilotkit/shared"
 import "@copilotkit/react-ui/styles.css"
 import "./copilot-overrides.css"
 
@@ -38,7 +36,7 @@ import {
 import { ProcessInformationDetails } from "./components/ProcessInformationDetails"
 import { CollapsibleCard, type CollapsibleCardStatus } from "./components/CollapsibleCard"
 import "./App.css"
-import { getPublicApiKey, getRuntimeUrl } from "./runtimeConfig"
+import { getRuntimeUrl } from "./runtimeConfig"
 import { useCopilotRuntimeSelection } from "./copilotRuntimeContext"
 import { findPermitByLabel, getPermitInfoUrl, getPermitById, getPermitOptions } from "./utils/permitInventory"
 import {
@@ -1344,7 +1342,10 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
     {
       description: "Current petition form data as formatted JSON",
       value: formData,
-      convert: (_, value) => JSON.stringify(value, null, 2)
+      convert: (arg1, arg2) => {
+        const resolvedValue = (typeof arg1 === "string" ? arg2 : arg1) ?? {}
+        return JSON.stringify(resolvedValue, null, 2)
+      }
     },
     [formData]
   )
@@ -1361,7 +1362,11 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
     {
       description: "Latest augury screening results including Ward Assessment and Ley Line Registry findings",
       value: geospatialResults,
-      convert: (_, value) => formatGeospatialResultsSummary(value)
+      convert: (arg1, arg2) => {
+        const resolvedValue =
+          (typeof arg1 === "string" ? arg2 : arg1) ?? createInitialGeospatialResults()
+        return formatGeospatialResultsSummary(resolvedValue as GeospatialResultsState)
+      }
     },
     [geospatialResults]
   )
@@ -1370,7 +1375,10 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
     {
       description: "Reference list of major Court decrees and authorizations",
       value: MAJOR_PERMIT_SUMMARIES,
-      convert: (_, value) => value.join("\n")
+      convert: (arg1, arg2) => {
+        const resolvedValue = (typeof arg1 === "string" ? arg2 : arg1) ?? []
+        return (resolvedValue as string[]).join("\n")
+      }
     },
     []
   )
@@ -1381,8 +1389,8 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
     {
       description: "Court decree inventory with IDs. When adding checklist items, prefer using permitId from this list for accurate linking.",
       value: permitInventoryForCopilot,
-      convert: (_, value) =>
-        value
+      convert: (arg1, arg2) =>
+        (((typeof arg1 === "string" ? arg2 : arg1) ?? []) as Array<{ id: string; name: string; agency: string }>)
           .map((p: { id: string; name: string; agency: string }) => `- ${p.id}: ${p.name} (${p.agency})`)
           .join("\n")
     },
@@ -1393,15 +1401,17 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
     {
       description: "Current decree checklist items with completion status",
       value: permittingChecklist,
-      convert: (_, value) =>
-          value.length
-            ? value
+      convert: (arg1, arg2) => {
+          const resolvedValue = (((typeof arg1 === "string" ? arg2 : arg1) ?? []) as PermittingChecklistItem[])
+          return resolvedValue.length
+            ? resolvedValue
                 .map(
                   (item: PermittingChecklistItem) =>
                     `- [${item.completed ? "x" : " "}] ${item.label}${item.notes ? ` — ${item.notes}` : ""}`
                 )
               .join("\n")
           : "No decree checklist items yet."
+      }
     },
     [permittingChecklist]
   )
@@ -1940,7 +1950,7 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
 
   const [conversationStartersHidden, setConversationStartersHidden] = useState(false)
 
-  const conversationStarters: SuggestionItem[] = useMemo(
+  const conversationStarters = useMemo(
     () => [
       {
         title: "How do I start?",
@@ -2441,8 +2451,8 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
               <div className="usa-alert__body">
                 <h3 className="usa-alert__heading">Copilot runtime is not configured.</h3>
                 <p className="usa-alert__text">
-                  Set <code>VITE_COPILOTKIT_RUNTIME_URL</code> or <code>VITE_COPILOTKIT_PUBLIC_API_KEY</code> in
-                  <code> .env</code> to enable live Copilot responses. The form will continue to work without it.
+                  Set <code>VITE_COPILOTKIT_RUNTIME_URL</code> in <code>.env</code> to override the
+                  default runtime endpoint. The form will continue to work without Copilot responses.
                 </p>
               </div>
             </div>
@@ -2659,20 +2669,19 @@ function ProjectFormWithCopilot({ showApiKeyWarning }: ProjectFormWithCopilotPro
   )
 }
 
-const publicApiKey = getPublicApiKey()
-const defaultRuntimeUrl = getRuntimeUrl() || COPILOT_CLOUD_CHAT_URL
+const defaultRuntimeUrl = getRuntimeUrl()
 
 function PortalPage() {
   const { runtimeMode } = useCopilotRuntimeSelection()
 
   const effectiveRuntimeUrl = runtimeMode === "custom" ? CUSTOM_ADK_PROXY_URL : defaultRuntimeUrl
-  const showApiKeyWarning = runtimeMode === "default" && !publicApiKey && !defaultRuntimeUrl
+  const showApiKeyWarning = runtimeMode === "default" && !defaultRuntimeUrl
 
   return (
     <CopilotKit
       key={runtimeMode}
-      publicApiKey={publicApiKey || undefined}
       runtimeUrl={effectiveRuntimeUrl || undefined}
+      useSingleEndpoint
     >
       <ProjectFormWithCopilot showApiKeyWarning={showApiKeyWarning} />
     </CopilotKit>
