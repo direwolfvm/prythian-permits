@@ -113,6 +113,7 @@
   --color-text-muted: var(--muted-foreground);
   --color-heading: var(--foreground-strong);
   --color-text-inverse: var(--foreground-inverse);
+  --accent: var(--primary);
   --accent-dark: var(--primary-strong);
   --accent-contrast: var(--primary-foreground);
   --callout-bg: var(--info-subtle);
