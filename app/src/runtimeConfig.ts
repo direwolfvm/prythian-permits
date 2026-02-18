@@ -10,7 +10,7 @@ interface CopilotRuntimeConfig {
 }
 
 const DEFAULT_COPILOT_RUNTIME_URL =
-  "/api/custom-adk"
+  "/api/copilotkit"
 
 declare global {
   interface Window {
