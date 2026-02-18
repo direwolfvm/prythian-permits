@@ -20,7 +20,8 @@ type ImageMapCanvasProps = {
   mapImageUrl?: string
 }
 
-const DEFAULT_MAP_IMAGE = "/sample-maps/prythian-mainland.svg"
+// Full artwork includes an eastern continent we don't operate in; we crop/focus to the left half via object-position.
+const DEFAULT_MAP_IMAGE = "/sample-maps/prythian-map.jpg"
 
 const VERTEX_RADIUS = 6
 const VERTEX_HIT_RADIUS = 12
@@ -33,14 +34,20 @@ const containerStyle: React.CSSProperties = {
   position: "relative",
   userSelect: "none",
   lineHeight: 0,
+  width: "100%",
+  // Match the ArcGIS map height for consistent layout across map implementations.
+  height: "22rem",
+  overflow: "hidden",
+  borderRadius: "14px",
 }
 
 const imageStyle: React.CSSProperties = {
   display: "block",
   width: "100%",
-  height: "auto",
+  height: "100%",
   pointerEvents: "none",
-  borderRadius: "14px",
+  objectFit: "cover",
+  objectPosition: "left center",
 }
 
 const svgStyle: React.CSSProperties = {
@@ -203,8 +210,10 @@ export function ImageMapCanvas({
       }
       cx /= poly.length
       cy /= poly.length
-      const longitude = cx * 360 - 180
-      const latitude = 90 - cy * 180
+      // Prythian Permits uses a fake 0..1 map canvas, not real-world lat/lon.
+      // We store the normalized center so downstream "canvas" logic stays consistent.
+      const longitude = cx
+      const latitude = cy
 
       onGeometryChange({
         geoJson: geoJsonStr,
