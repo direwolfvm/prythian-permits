@@ -245,7 +245,14 @@ async function proxySupabaseRequest(req, res) {
 }
 
 async function proxyCopilotkitRuntimeRequest(req, res) {
-  const targetUrl = new URL(req.url ?? "/", copilotkitRuntimeBaseUrl);
+  const requestedPath = req.url ?? "/";
+  const normalizedBaseUrl = copilotkitRuntimeBaseUrl.endsWith("/")
+    ? copilotkitRuntimeBaseUrl
+    : `${copilotkitRuntimeBaseUrl}/`;
+  // Preserve the `/copilotkit` base path when proxying nested request paths.
+  const relativePath =
+    requestedPath === "/" ? "" : requestedPath.replace(/^\/+/, "");
+  const targetUrl = new URL(relativePath, normalizedBaseUrl);
 
   const headers = new Headers();
   for (const [key, value] of Object.entries(req.headers)) {
