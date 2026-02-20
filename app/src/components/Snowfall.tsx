@@ -1,43 +1,46 @@
 import { useMemo } from "react"
 
-type Snowflake = {
+type Star = {
   id: number
   left: number
   duration: number
   delay: number
   size: number
   opacity: number
+  drift: number
 }
 
-function createSnowflakes(count: number): Snowflake[] {
+function createStars(count: number): Star[] {
   return Array.from({ length: count }, (_, index) => ({
     id: index,
     left: Math.random() * 100,
-    duration: 8 + Math.random() * 8,
-    delay: Math.random() * 6,
-    size: 1 + Math.random() * 0.8,
-    opacity: 0.45 + Math.random() * 0.45
+    duration: 10 + Math.random() * 10,
+    delay: Math.random() * 8,
+    size: 0.5 + Math.random() * 0.7,
+    opacity: 0.4 + Math.random() * 0.5,
+    drift: (Math.random() - 0.5) * 40
   }))
 }
 
 export default function Snowfall() {
-  const snowflakes = useMemo(() => createSnowflakes(42), [])
+  const stars = useMemo(() => createStars(50), [])
 
   return (
     <div className="snowfall" aria-hidden="true">
-      {snowflakes.map((flake) => (
+      {stars.map((star) => (
         <span
-          key={flake.id}
+          key={star.id}
           className="snowfall__flake"
           style={{
-            left: `${flake.left}%`,
-            animationDuration: `${flake.duration}s`,
-            animationDelay: `${flake.delay}s`,
-            fontSize: `${flake.size}rem`,
-            opacity: flake.opacity
-          }}
+            left: `${star.left}%`,
+            animationDuration: `${star.duration}s`,
+            animationDelay: `${star.delay}s`,
+            fontSize: `${star.size}rem`,
+            opacity: star.opacity,
+            "--star-drift": `${star.drift}px`
+          } as React.CSSProperties}
         >
-          ❄️
+          ✦
         </span>
       ))}
     </div>

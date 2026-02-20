@@ -215,11 +215,6 @@ function Layout() {
           className={`site-nav${isNavOpen ? " site-nav--open" : ""}`}
           aria-label="Primary"
         >
-          {isChristmasThemeEnabled ? (
-            <span className="site-nav__holiday" aria-hidden="true" role="img">
-              ❄️ 🎄 🎅 🎁 ❄️
-            </span>
-          ) : null}
           <NavLink
             to="/about"
             data-tour="nav-link"

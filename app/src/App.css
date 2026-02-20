@@ -1967,19 +1967,30 @@
 .snowfall__flake {
   position: absolute;
   top: -10%;
-  animation-name: snowfall-fall;
-  animation-timing-function: linear;
+  animation-name: starfall-drift;
+  animation-timing-function: ease-in;
   animation-iteration-count: infinite;
-  filter: drop-shadow(0 2px 4px var(--alpha-deep-12));
+  filter: drop-shadow(0 0 3px currentColor);
+  color: var(--color-accent, #d4af37);
 }
 
-@keyframes snowfall-fall {
+@keyframes starfall-drift {
   0% {
-    transform: translateY(-12vh);
+    transform: translateY(-12vh) translateX(0) scale(1);
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  80% {
+    opacity: 0.8;
   }
 
   100% {
-    transform: translateY(110vh);
+    transform: translateY(110vh) translateX(var(--star-drift, 20px)) scale(0.6);
+    opacity: 0;
   }
 }
 
